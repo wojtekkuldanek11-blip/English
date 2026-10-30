@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+YPE html>
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
@@ -115,6 +115,10 @@ html.plain .spd,html.plain .hl,html.plain .hr,html.plain .fx,html.plain .ground{
 .cf{position:fixed;top:-50px;z-index:60;pointer-events:none;animation:cfall var(--d) ease-in forwards}@keyframes cfall{to{transform:translate(var(--x),112vh) rotate(540deg)}}
 .sbig{font-size:clamp(54px,15vw,100px);font-weight:800;line-height:1.1;background:linear-gradient(90deg,#ff8a1f,#ffd166,#b86bff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .dropOn{outline:3px dashed var(--purple);outline-offset:2px;background:var(--soft)}
+.fab{display:none;position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;font-size:15px;padding:12px 18px;border-radius:99px;box-shadow:0 6px 18px #0008}
+@media(max-width:900px){.fab{display:block}}
+.sheet{display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--card);border-top:3px solid var(--purple);border-radius:22px 22px 0 0;padding:12px 14px calc(16px + env(safe-area-inset-bottom,0px));max-height:55vh;overflow:auto;box-shadow:0 -10px 30px #000a}
+.sheet.on{display:block;animation:pop .3s}.sheeth{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .rv.me{outline:2px solid #ff8a1f;background:linear-gradient(90deg,#ff8a1f33,var(--soft))}
 .rv{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--soft);margin:6px 0;font-size:14px;font-weight:600;animation:pop .4s backwards}
 
@@ -166,13 +170,16 @@ function student(ex){if(ex.k==="q")return quiz(ex);
   <label style="margin-top:0">Twoje imię i nazwisko</label><input type="text" id="sname" placeholder="np. Anna Kowalska" style="max-width:320px;margin-bottom:14px">
   <div class="lay${(ex.im||[]).length?" has":""}"><div class="story">${parts.join("")}</div>${(ex.im||[]).length?`<div class="pics">${(ex.im||[]).map(u=>`<img src="${esc(u)}" alt="">`).join("")}</div>`:""}</div><div class="bar"><i id="bar"></i></div>
   <div class="row"><button class="btn p" id="chk">✅ Sprawdź (tylko raz)</button></div>
-  <div class="res" id="res"></div></section>`;
+  <div class="res" id="res"></div></section>${words.length?`<button class="btn p fab" id="fab" type="button">📚 Słowa</button><div class="sheet" id="sheet"><div class="sheeth"><b>📚 Bank słów</b><button class="btn" id="shx" type="button">✕ Zamknij</button></div><div class="bank" id="sbank"></div><div class="hint">Kliknij słowo, żeby wstawić je do luki. Skreślanie działa tak samo jak w banku.</div></div>`:''}`;
   const blanks=[...document.querySelectorAll(".blank")];let sel=null,lastIn=null;let saved=null;if(!ex.p){try{saved=JSON.parse(localStorage.getItem("luki_done_"+ex.i))}catch(e){}}
   const bank=$("#bank");let strike=false;const sb=$("#stk");if(sb)sb.onclick=()=>{strike=!strike;sb.textContent="✏️ Skreślanie słów: "+(strike?"włączone, klikaj słowa":"wyłączone");sb.style.background=strike?"var(--purple)":"";sb.style.color=strike?"#fff":""};
   const upd=()=>{const u=new Set(blanks.map(b=>norm(b.value)));document.querySelectorAll(".word").forEach(w=>w.classList.toggle("used",u.has(norm(w.textContent))))};
   words.forEach(w=>{const b=document.createElement("button");b.className="word";b.type="button";b.textContent=w;
     b.oncontextmenu=ev=>{ev.preventDefault();b.classList.toggle("x")};b.onclick=()=>{if(strike){b.classList.toggle("x");return}const t=document.activeElement.classList&&document.activeElement.classList.contains("blank")?document.activeElement:(lastIn&&!lastIn.value?lastIn:blanks.find(x=>!x.value));
       if(t){t.value=w;t.classList.remove("correct","wrong");t.focus();upd()}};bank.appendChild(b)});
+  const sbk=$("#sbank");if(sbk&&bank){[...bank.children].forEach(wb=>{const c=document.createElement("button");c.type="button";c.className="word";c.textContent=wb.textContent;c.onclick=()=>{wb.click();syncS()};sbk.appendChild(c)});
+    const syncS=()=>[...bank.children].forEach((wb,i)=>{if(sbk.children[i])sbk.children[i].className=wb.className});new MutationObserver(syncS).observe(bank,{subtree:true,attributes:true,attributeFilter:["class"]});
+    $("#fab").onclick=()=>$("#sheet").classList.toggle("on");$("#shx").onclick=()=>$("#sheet").classList.remove("on")}
   blanks.forEach(b=>{b.addEventListener("focus",()=>lastIn=b);b.addEventListener("input",()=>{b.classList.remove("correct","wrong");upd()});
     b.addEventListener("click",()=>{if(sel&&!b.value){}})});
   $("#chk").onclick=()=>{
@@ -196,13 +203,21 @@ function student(ex){if(ex.k==="q")return quiz(ex);
 }
 
 /* ---------- TEACHER ---------- */
+let pcode="";try{pcode=localStorage.getItem("luki_pcode")||""}catch(e){}
+let cloudErr="",panelOn=false;
 let S={folders:[],ex:[],res:[]},curF="all",curE=null,tab="edit",dbDoc=null,note="",openD={};
+const normS=d=>{const o=Object.assign({folders:[],ex:[],res:[],del:[]},d);["folders","ex","res","del"].forEach(k=>{o[k]=o[k]?(Array.isArray(o[k])?o[k]:Object.values(o[k])):[]});
+  o.ex.forEach(x=>{if(x.qs){x.qs=Array.isArray(x.qs)?x.qs:Object.values(x.qs);x.qs.forEach(q=>{if(q.o)q.o=Array.isArray(q.o)?q.o:Object.values(q.o)})}if(x.images&&!Array.isArray(x.images))x.images=Object.values(x.images)});return o};
+async function pkey(){const t=fbHost(S.fb)+"|"+pcode;try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){return btoa(unescape(encodeURIComponent(t))).replace(/\W/g,"")}}
+async function cloudPush(){const h=fbHost(S.fb);if(!h||!pcode)return;try{await fbReq(h,"/panel/"+await pkey(),"PUT",S);cloudErr=""}catch(e){cloudErr=String((e&&e.message)||e)}}
+async function cloudPull(force){const h=fbHost(S.fb);if(!h||!pcode)return false;
+  try{const d=await fbReq(h,"/panel/"+await pkey(),"GET");cloudErr="";if(d&&(force||(d.upd||0)>(S.upd||0))){const keep=S.fb;S=normS(d);S.fb=S.fb||keep;try{localStorage.setItem("luki_state",JSON.stringify(S))}catch(e){}return true}}catch(e){cloudErr=String((e&&e.message)||e)}return false}
 async function load(){
   try{const u=await cap("db");if(u)dbDoc=u.doc("app/state")}catch(e){}
   try{if(dbDoc){const s=await dbDoc.get();if(s.exists){S=Object.assign(S,s.data());return}}}catch(e){}
   try{const l=localStorage.getItem("luki_state");if(l)S=Object.assign(S,JSON.parse(l))}catch(e){}
 }
-let tmr;function save(){clearTimeout(tmr);tmr=setTimeout(async()=>{
+let tmr,ctm;function save(){S.upd=Date.now();clearTimeout(ctm);ctm=setTimeout(cloudPush,1800);clearTimeout(tmr);tmr=setTimeout(async()=>{
   try{if(dbDoc)await dbDoc.set(JSON.parse(JSON.stringify(S)))}catch(e){}
   try{localStorage.setItem("luki_state",JSON.stringify(S))}catch(e){}},400)}
 const b64u=u=>{let s="";u.forEach(b=>s+=String.fromCharCode(b));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")};
@@ -214,14 +229,14 @@ const small=u=>new Promise(r=>{if(!u.startsWith("data:")||u.length<9000)return r
 let fbErr="";
 const fbHost=h=>String(h||"").trim().replace(/^https?:\/\//,"").replace(/\/.*$/,"");
 async function fbReq(host,path,method,body){const ac=new AbortController();const to=setTimeout(()=>ac.abort(),9000);try{const r=await fetch("https://"+host+path+".json",{method,headers:body?{"Content-Type":"application/json"}:undefined,body:body?JSON.stringify(body):undefined,signal:ac.signal});if(!r.ok)throw new Error("błąd "+r.status);return await r.json()}finally{clearTimeout(to)}}
-async function link(e,mode){const base=location.href.split("#")[0];const mk=im=>{if(e.kind==="quiz")return qObj(e);const o={i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank};if(e.bw!=null)o.bw=e.bw;else if(e.extra)o.e=e.extra;if(im.length)o.im=im;return o};
-  const inl=base+"#u="+await encz(mk(await Promise.all((e.images||[]).map(small))));
+async function link(e,mode){const base=location.href.split("#")[0];const mk=(im,inl)=>{if(e.kind==="quiz")return qObj(e,inl);const o={i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank};if(e.bw!=null)o.bw=e.bw;else if(e.extra)o.e=e.extra;if(im.length)o.im=im;return o};
+  const inl=base+"#u="+await encz(mk(await Promise.all((e.images||[]).map(small)),true));
   fbErr="";const h=fbHost(S.fb);if(!h)return inl;
   try{const id=(mode!=="new"&&e.lh===h&&e.lid)?e.lid:uid()+uid();await fbReq(h,"/ex/"+id,"PUT",mk(e.images||[]));e.lid=id;e.lh=h;save();return base+"#k="+h+"/"+id}catch(x){fbErr=String((x&&x.message)||x)}
   return inl}
 function gaps(text){text=text||"";const a=[];text.replace(GAP,(m,x)=>{a.push(x);return m});return a}
 
-function teacher(){
+function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}
   const fl=S.ex.filter(e=>curF==="all"||e.folder===curF);
   const e=S.ex.find(x=>x.id===curE);
   app.innerHTML=hdr("Panel nauczyciela","Twórz ćwiczenia z lukami, generuj linki i sprawdzaj wyniki")+`
@@ -232,7 +247,7 @@ function teacher(){
     <h2 style="margin-top:18px">📝 Teksty</h2>
     ${fl.map(x=>`<div class="item ${curE===x.id?"on":""}" data-e="${x.id}">${x.kind==="quiz"?"🎃 ":""}${esc(x.title||"Bez tytułu")}</div>`).join("")||'<div class="empty">Brak tekstów</div>'}
     <div class="row"><button class="btn p" id="addE">+ Dodaj tekst</button><button class="btn g" id="addQ">🎃 Dodaj quiz</button></div>
-    <details class="dt" data-k="fb"><summary>⚙️ Baza online</summary><div class="hint">Daje krótkie linki i automatyczne wyniki uczniów. Wklej adres swojej bazy Firebase.</div><input type="text" id="fbu" placeholder="mojprojekt-default-rtdb.firebaseio.com" value="${esc(S.fb||"")}" style="margin-top:8px"><div class="row"><button class="btn p" id="fbs">Zapisz i sprawdź</button></div><div class="msg" id="fbm" style="display:block;margin:6px 0 0"></div></details></div></div>
+    <details class="dt" data-k="fb"><summary>⚙️ Baza online</summary><div class="hint">Daje krótkie linki i automatyczne wyniki uczniów. Wklej adres swojej bazy Firebase.</div><input type="text" id="fbu" placeholder="mojprojekt-default-rtdb.firebaseio.com" value="${esc(S.fb||"")}" style="margin-top:8px"><input type="text" id="fbc" placeholder="Kod panelu (hasło), min. 6 znaków" value="${esc(pcode)}" style="margin-top:8px"><div class="hint">Ten sam adres bazy i ten sam kod wpisz na drugim urządzeniu (telefon, komputer), a zobaczysz tam ten sam panel.${cloudErr?` <span style="color:var(--bad)">Synchronizacja: ${esc(cloudErr)}</span>`:""}</div><div class="row"><button class="btn p" id="fbs">Zapisz i połącz</button><button class="btn" id="fbp">↻ Pobierz z chmury</button></div><div class="msg" id="fbm" style="display:block;margin:6px 0 0"></div></details></div></div>
   <div class="main">${e?editor(e):`<div class="card"><div class="empty">Wybierz tekst z listy lub kliknij „Dodaj tekst”.</div></div>`}</div></div>`;
   document.querySelectorAll("[data-f]").forEach(el=>el.onclick=()=>{curF=el.dataset.f;teacher()});
   document.querySelectorAll("[data-e]").forEach(el=>el.onclick=()=>{curE=el.dataset.e;tab="edit";note="";teacher()});
@@ -240,8 +255,23 @@ function teacher(){
   const df=$("#delF");if(df)df.onclick=()=>{if(confirm("Usunąć folder? Teksty zostaną przeniesione do „Wszystkie”.")){S.ex.forEach(x=>{if(x.folder===curF)x.folder=""});S.folders=S.folders.filter(f=>f.id!==curF);curF="all";save();teacher()}};
   $("#addE").onclick=()=>{const x={id:uid(),folder:curF==="all"?"":curF,title:"Nowe ćwiczenie",inst:"Uzupełnij luki poprawną formą czasownika.",text:"",bank:true,extra:"",created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
   $("#addQ").onclick=()=>{const x={id:uid(),kind:"quiz",folder:curF==="all"?"":curF,title:"Nowy quiz",inst:"Wybierz poprawną odpowiedź, zanim minie czas!",qs:[],dT:20,dP:100,dB:50,created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
-  $("#fbs").onclick=async()=>{const h=fbHost($("#fbu").value);const m=$("#fbm");if(!h){S.fb="";save();m.style.color="var(--mut)";m.textContent="Wyłączono. Linki będą długie.";return}m.style.color="var(--mut)";m.textContent="Sprawdzam…";
-    try{await fbReq(h,"/test","PUT",{ok:Date.now()});S.fb=h;save();m.style.color="var(--green)";m.textContent="Działa! Linki będą krótkie, a wyniki przyjdą same."}catch(x){m.style.color="var(--bad)";m.textContent="Nie działa ("+((x&&x.message)||x)+"). Sprawdź adres i reguły bazy."}};
+  const fbm=(t,c)=>{const m=$("#fbm");if(m){m.style.color=c||"var(--mut)";m.textContent=t}};
+  $("#fbs").onclick=async()=>{const h=fbHost($("#fbu").value);const code=$("#fbc").value.trim();
+    if(!h){S.fb="";save();fbm("Wyłączono. Linki będą długie.");return}
+    fbm("Sprawdzam…");
+    try{await fbReq(h,"/ex/_test","PUT",{ok:Date.now()})}catch(x){fbm("Nie działa ("+((x&&x.message)||x)+"). Sprawdź adres i reguły bazy.","var(--bad)");return}
+    S.fb=h;
+    if(!code){save();fbm("Działa! Linki będą krótkie, a wyniki przyjdą same. Wpisz jeszcze kod panelu, żeby mieć ten sam panel na telefonie i komputerze.","var(--green)");return}
+    if(code.length<6){fbm("Kod panelu musi mieć co najmniej 6 znaków.","var(--bad)");return}
+    pcode=code;try{localStorage.setItem("luki_pcode",code)}catch(e){}
+    try{const d=await fbReq(h,"/panel/"+await pkey(),"GET");
+      if(d){const hasLocal=S.ex.length||S.folders.length;
+        if(!hasLocal||confirm("W chmurze są już dane tego panelu. OK = pobierz je na to urządzenie (zastąpią to, co tu masz). Anuluj = wyślij dane z tego urządzenia do chmury.")){S=normS(d);S.fb=h;try{localStorage.setItem("luki_state",JSON.stringify(S))}catch(e){}curE=null;teacher();fbm("Połączono. Panel pobrany z chmury.","var(--green)");return}}
+      save();await cloudPush();fbm(cloudErr?"Nie udało się zapisać panelu w chmurze ("+cloudErr+").":"Połączono. Panel zapisany w chmurze, na drugim urządzeniu wpisz ten sam adres i kod.",cloudErr?"var(--bad)":"var(--green)")}
+    catch(x){fbm("Nie udało się połączyć panelu ("+((x&&x.message)||x)+").","var(--bad)")}};
+  $("#fbp").onclick=async()=>{const h=fbHost($("#fbu").value),code=$("#fbc").value.trim();if(!h||code.length<6){fbm("Wpisz adres bazy i kod panelu (min. 6 znaków).","var(--bad)");return}
+    S.fb=h;pcode=code;try{localStorage.setItem("luki_pcode",code)}catch(e){}fbm("Pobieram…");const ch=await cloudPull(true);if(ch){curE=null;teacher();fbm("Pobrano panel z chmury.","var(--green)")}else fbm(cloudErr?"Nie udało się pobrać ("+cloudErr+").":"W chmurze nie ma jeszcze panelu z tym kodem.",cloudErr?"var(--bad)":"var(--mut)")};
+
   document.querySelectorAll("details.dt").forEach(d=>{d.open=!!openD[d.dataset.k];d.ontoggle=()=>{openD[d.dataset.k]=d.open}});
   if(e)bindEditor(e);
 }
@@ -336,7 +366,22 @@ const EMRE=/(\p{Regional_Indicator}{2}|\p{Extended_Pictographic}(?:\uFE0F|\u200D
 const big=s=>s.replace(EMRE,'<span class="em">$1</span>');
 const pickImg=()=>new Promise(res=>{const i=document.createElement('input');i.type='file';i.accept='image/*';i.style.display='none';document.body.appendChild(i);i.onchange=()=>{res(i.files[0]);i.remove()};i.click()});
 async function imgUp(f){const s=await shrink(f,1000,0.85);const as=await cap('assets').catch(()=>null);if(as){try{const r=await as.upload(await s.blob());return r.url}catch(e){}}return (await shrink(f,560,0.5)).url()}
-const qObj=e=>({i:e.id,t:e.title,n:e.inst,k:'q',qs:e.qs.map(q=>({q:q.q,im:q.im||'',ty:q.ty,o:q.ty==='o'?[]:q.o,a:q.a||'',tm:q.tm,pt:q.pt,bn:q.bn,pm:q.pm||'all'}))});
+const pickFile=acc=>new Promise(res=>{const i=document.createElement('input');i.type='file';i.accept=acc;i.style.display='none';document.body.appendChild(i);i.onchange=()=>{res(i.files[0]);i.remove()};i.click()});
+const MUS={
+ spooky:{n:'🎃 Upiorna',bpm:84,root:110,lt:'triangle',bt:'sine',l:[12,null,15,null,19,null,15,null,12,null,10,null,15,null,null,null],b:[0,null,null,null,-5,null,null,null,-2,null,null,null,-7,null,null,null]},
+ bats:{n:'🦇 Nietoperze',bpm:132,root:130.8,lt:'square',bt:'triangle',lv:0.07,l:[12,15,19,24,19,15,12,15,10,14,17,22,17,14,10,14],b:[0,null,0,null,0,null,0,null,-2,null,-2,null,-2,null,-2,null]},
+ candle:{n:'🕯️ Spokojna',bpm:66,root:130.8,lt:'sine',bt:'sine',l:[12,null,null,null,10,null,null,null,7,null,null,null,10,null,null,null],b:[0,null,null,null,null,null,null,null,-5,null,null,null,null,null,null,null]},
+ tense:{n:'⚡ Napięcie',bpm:120,root:110,lt:'sawtooth',bt:'square',lv:0.05,l:[12,13,12,13,12,13,12,13,15,16,15,16,15,16,15,16],b:[0,null,0,null,0,null,0,null,-1,null,-1,null,-1,null,-1,null]},
+ party:{n:'🎉 Wesoła',bpm:112,root:196,lt:'triangle',bt:'triangle',l:[12,16,19,16,21,19,16,19,14,17,21,17,19,16,12,null],b:[0,null,7,null,5,null,7,null,0,null,7,null,5,null,7,null]}};
+function musicPlayer(m){let ctx=null,gain=null,timer=null,audio=null,muted=false;
+  return{play(){try{if(!m)return;if(m.k==='f'){audio=new Audio(m.u);audio.loop=true;audio.volume=muted?0:0.4;audio.play().catch(()=>{});return}
+    const P=MUS[m.id];if(!P)return;const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctx=new AC();gain=ctx.createGain();gain.gain.value=muted?0:0.5;gain.connect(ctx.destination);
+    const sd=60/P.bpm/2;let next=ctx.currentTime+0.1,step=0;
+    const note=(f,t,d,ty,v)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(v,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(gain);o.start(t);o.stop(t+d+0.05)};
+    timer=setInterval(()=>{if(!ctx)return;while(next<ctx.currentTime+0.3){const i=step%16,l=P.l[i],b=P.b[i];if(l!=null)note(P.root*Math.pow(2,l/12),next,sd*1.8,P.lt,P.lv||0.1);if(b!=null)note(P.root*Math.pow(2,b/12)/2,next,sd*3.5,P.bt,0.14);next+=sd;step++}},80)}catch(e){}},
+   stop(){clearInterval(timer);timer=null;if(audio){audio.pause();audio=null}if(ctx){try{ctx.close()}catch(e){}ctx=null}},
+   mute(b){muted=b;if(audio)audio.volume=b?0:0.4;if(gain)gain.gain.value=b?0:0.5}}}
+const qObj=(e,inl)=>({i:e.id,t:e.title,n:e.inst,k:'q',mu:e.mus?(e.mus.k==='f'?(inl?undefined:{k:'f',n:e.mus.n,u:e.mus.u}):e.mus):undefined,qs:e.qs.map(q=>({q:q.q,im:q.im||'',ty:q.ty,o:q.ty==='o'?[]:q.o,a:q.a||'',tm:q.tm,pt:q.pt,bn:q.bn,pm:q.pm||'all'}))});
 const cnt=(e,r)=>{if(e.kind==='quiz'&&r.a){const g=Object.values(r.a).filter(x=>x&&x[2]==1).length;return [g,e.qs.length-g]}return [r.c,r.t-r.c]};
 const rankHTML=rs=>{const best={};rs.forEach(r=>{const k=norm(r.n);if(!best[k]||r.c>best[k].c)best[k]=r});const L=Object.values(best).sort((a,b)=>b.c-a.c||String(a.d).localeCompare(String(b.d)));
   return L.length?'<h3>🏆 Ranking (najlepszy wynik każdego ucznia)</h3>'+L.map((v,i)=>`<div class="rv"><span style="font-size:20px;min-width:30px">${['🥇','🥈','🥉'][i]||(i+1)+'.'}</span><span style="flex:1">${esc(v.n)}</span><b>${v.c} / ${v.t} pkt</b></div>`).join('')+'<h3>Wszystkie podejścia</h3>':''};
@@ -363,6 +408,9 @@ function qEdit(e){e.qs=e.qs||[];
   <label>Polecenie (widać na starcie)</label><input type="text" id="n" value="${esc(e.inst)}">
   <label>Folder</label><select id="fo" style="padding:9px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:500 14px Poppins"><option value="">— brak —</option>${S.folders.map(f=>`<option value="${f.id}" ${e.folder===f.id?'selected':''}>${esc(f.name)}</option>`).join('')}</select>
   <div class="dt" style="margin-top:14px"><b>⚙️ Wartości dla nowych pytań</b><div class="row">${d('dT','Czas (s)',e.dT||20)}${d('dP','Punkty',e.dP||100)}${d('dB','Bonus za szybkość (max)',e.dB||50)}</div><div class="hint">Bonus: uczeń dostaje go proporcjonalnie do pozostałego czasu (odpowiedź w pierwszej sekundzie daje prawie cały bonus). Każde pytanie możesz potem zmienić osobno.</div></div>
+  <div class="dt" style="margin-top:14px"><b>🎵 Muzyka w quizie</b><div class="row">${Object.entries(MUS).map(([k,v])=>`<button class="btn ${e.mus&&e.mus.k==='p'&&e.mus.id===k?'p':''}" data-mus="${k}">${v.n}</button>`).join('')}<button class="btn ${!e.mus?'p':''}" data-mus="none">🔇 Brak</button></div>
+  <div class="dz" id="mdz">Przeciągnij tu własną muzykę (MP3, do 1,5 MB)<br><button class="btn" id="mfile" style="margin-top:8px">🎵 Wybierz plik</button><br><span class="msg" id="mm">${e.mus&&e.mus.k==='f'?'Wybrano: '+esc(e.mus.n):''}</span></div>
+  <div class="row"><button class="btn g" id="mpv">▶ Posłuchaj</button><button class="btn" id="mst">⏹ Stop</button></div><div class="hint">Muzyka gra tylko w quizie, cicho w tle, a uczeń może ją wyłączyć przyciskiem 🔊. Własny plik wymaga bazy online, żeby trafić do ucznia.</div></div>
   ${e.qs.map(qCard).join('')}
   <div class="row"><button class="btn p" id="aq">+ Dodaj pytanie</button></div>
   <div class="row">${genBtns(e)}<button class="btn" id="dup">📄 Kopiuj ćwiczenie</button><button class="btn" id="pv">👁 Podgląd</button><button class="btn d" id="del">Usuń quiz</button></div><div id="lk"></div>`}
@@ -370,7 +418,7 @@ const genBtns=e=>`<button class="btn g" id="gen">${e.lid?'🔄 Zaktualizuj link'
 function dup(e){const c=JSON.parse(JSON.stringify(e));c.id=uid();c.title=(e.title||'Bez tytułu')+' (kopia)';delete c.lid;delete c.lh;c.created=new Date().toISOString();if(c.qs)c.qs.forEach(q=>q.id=uid());S.ex.unshift(c);curE=c.id;tab='edit';save();teacher()}
 function bindLinkBtns(e,check){const go=m=>()=>{const er=check();if(er){alert(er);return}showLink(e,m)};$('#gen').onclick=go('upd');$('#newl').onclick=go('new');$('#dup').onclick=()=>{if(confirm('Utworzyć kopię tego ćwiczenia? Kopia dostanie własny link i nie przejmie wyników.'))dup(e)}}
 async function showLink(e,mode){const lk=$('#lk');lk.innerHTML='<div class="hint">Zapisuję…</div>';const had=!!e.lid;const l=await link(e,mode);const h=fbHost(S.fb);
-  const note=!h?'Bez bazy online link zawiera całe ćwiczenie, więc po każdej zmianie trzeba wygenerować nowy. Włącz „⚙️ Baza online”, a wtedy ten sam link da się aktualizować.'
+  const note=!h?'Bez bazy online link zawiera całe ćwiczenie, więc po każdej zmianie trzeba wygenerować nowy. Włącz „⚙️ Baza online”, a wtedy ten sam link da się aktualizować.'+(e.mus&&e.mus.k==='f'?' Własnej muzyki nie ma w tym linku (potrzebna baza online), podkłady z listy działają.':'')
     :fbErr?`Baza online nie odpowiedziała (${esc(fbErr)}), więc link jest długi i nie da się go aktualizować.`
     :(mode==='new'||!had)?'✔ Link gotowy. Kiedy zmienisz ćwiczenie (czas, punkty, pytania), kliknij „Zaktualizuj link”, a ten sam link pokaże nowe dane.'
     :'✔ Link zaktualizowany. Uczniowie z tym samym linkiem zobaczą nowe ustawienia (kto już skończył, nie zrobi drugi raz).';
@@ -402,6 +450,13 @@ function qBind(e){const main=document.querySelector('.main');
       else if(a==='dn'&&i<e.qs.length-1)[e.qs[i+1],e.qs[i]]=[e.qs[i],e.qs[i+1]];
       else return;
       save();teacher()}catch(z){alert('Nie udało się wgrać zdjęcia: '+((z&&z.message)||z));teacher()}};
+  main.querySelectorAll('[data-mus]').forEach(b=>b.onclick=()=>{const v=b.dataset.mus;e.mus=v==='none'?null:{k:'p',id:v};save();teacher()});
+  const setMus=f=>{if(!f)return;if(!f.type.startsWith('audio/')){alert('To nie jest plik z muzyką (np. MP3).');return}if(f.size>1500000){alert('Plik jest za duży ('+(f.size/1e6).toFixed(1)+' MB). Maksymalnie 1,5 MB, czyli około 1,5 minuty MP3. Wytnij krótszy fragment, bo muzyka gra w pętli.');return}
+    const fr=new FileReader();fr.onload=()=>{e.mus={k:'f',n:f.name,u:fr.result};save();teacher()};fr.readAsDataURL(f)};
+  $('#mfile').onclick=async()=>setMus(await pickFile('audio/*'));
+  const mdz=$('#mdz');mdz.ondragover=ev=>{ev.preventDefault();ev.stopPropagation();mdz.classList.add('on')};mdz.ondragleave=()=>mdz.classList.remove('on');mdz.ondrop=ev=>{ev.preventDefault();ev.stopPropagation();mdz.classList.remove('on');setMus([...ev.dataTransfer.files][0])};
+  $('#mpv').onclick=()=>{if(!e.mus){alert('Najpierw wybierz muzykę.');return}if(window.__mp)window.__mp.stop();window.__mp=musicPlayer(e.mus);window.__mp.play()};
+  $('#mst').onclick=()=>{if(window.__mp){window.__mp.stop();window.__mp=null}};
   const setImg=async(i,j,f)=>{const q=e.qs[i];if(!q||!f||!f.type.startsWith('image/'))return;try{const u=await imgUp(f);if(j>=0&&q.o[j])q.o[j][1]=u;else q.im=u;save();teacher()}catch(z){alert('Nie udało się wgrać zdjęcia: '+((z&&z.message)||z))}};
   const hasF=ev=>ev.dataTransfer&&[...ev.dataTransfer.types].includes('Files');
   main.ondragover=ev=>{if(hasF(ev)){ev.preventDefault();const t=ev.target.closest('.gaprow,details.dt');main.querySelectorAll('.dropOn').forEach(x=>x!==t&&x.classList.remove('dropOn'));if(t)t.classList.add('dropOn')}};
@@ -418,7 +473,7 @@ function qBind(e){const main=document.querySelector('.main');
 function quiz(ex){
   const Q=ex.qs||[];let saved=null;if(!ex.p){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
   const max=Q.reduce((s,q)=>s+(+q.pt||0)+(+q.bn||0),0);
-  let idx=0,score=0,log=[],name='',mute=false,tm=null,t0=0,tot=20,locked=false,AC=null;
+  let mp=null,idx=0,score=0,log=[],name='',mute=false,tm=null,t0=0,tot=20,locked=false,AC=null;
   const sfx=n=>{if(mute)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const c=AC;if(c.state==='suspended')c.resume();
     const T=(f,s,d,ty,v,f2)=>{const o=c.createOscillator(),g=c.createGain(),n0=c.currentTime+s;o.type=ty||'sine';o.frequency.setValueAtTime(f,n0);if(f2)o.frequency.exponentialRampToValueAtTime(f2,n0+d);g.gain.setValueAtTime(0.0001,n0);g.gain.linearRampToValueAtTime(v||0.15,n0+0.02);g.gain.exponentialRampToValueAtTime(0.0001,n0+d);o.connect(g);g.connect(c.destination);o.start(n0);o.stop(n0+d+0.05)};
     if(n==='ok')[523,659,784,1047].forEach((f,i)=>T(f,i*0.08,0.3,'triangle'));
@@ -432,7 +487,7 @@ function quiz(ex){
   const cnt_=(el,from,to)=>{const st=performance.now();const an=n=>{const p=Math.min(1,(n-st)/800);el.textContent=Math.round(from+(to-from)*p);if(p<1)requestAnimationFrame(an)};requestAnimationFrame(an)};
   app.innerHTML=hdr(esc(ex.t||'Quiz'),'🎃 Quiz Halloween: szybko i bez ściągania!')+'<div id="qa"></div>';
   const qa=$('#qa');
-  const mu=()=>{const b=$('#mu');if(b){b.textContent=mute?'🔇':'🔊';b.onclick=()=>{mute=!mute;mu()}}};
+  const mu=()=>{const b=$('#mu');if(b){b.textContent=mute?'🔇':'🔊';b.onclick=()=>{mute=!mute;if(mp)mp.mute(mute);mu()}}};
   function intro(){qa.innerHTML=`${ex.n?`<section class="card big"><div class="pol">📌 Polecenie</div><div class="polt">${esc(ex.n)}</div></section>`:''}
     <section class="card"><div class="row" style="margin:0"><span class="chip2">❓ ${Q.length} pytań</span><span class="chip2">⭐ do ${max} pkt</span><button class="btn" id="mu"></button></div>
     <label>Twoje imię i nazwisko</label><input type="text" id="qn" placeholder="np. Anna Kowalska" style="max-width:340px">
@@ -442,6 +497,7 @@ function quiz(ex){
       if(ex.fb&&!ex.p){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';
         try{const d=await fbReq(ex.fb,'/res/'+ex.i,'GET');const mine=Object.values(d||{}).find(r=>r&&r.n&&norm(r.n)===norm(v));
           if(mine){end(mine.n,+mine.c||0,mine.a?Object.values(mine.a):[],'','Ten uczeń już rozwiązał ten quiz. To wynik z pierwszej próby, drugiej nie ma.');return}}catch(e){}}
+      if(ex.mu){mp=musicPlayer(ex.mu);window.__mp=mp;mp.mute(mute);mp.play()}
       sfx('start');ask(0)}}
   function ask(i){idx=i;const q=Q[i];tot=+q.tm||20;locked=false;const multi=q.ty!=='o'&&q.o.filter(o=>o[2]).length>1;
     qa.innerHTML=`<div class="qh"><span class="chip2">Pytanie ${i+1}/${Q.length}</span><span class="chip2">⭐ <b id="sc">${score}</b></span><button class="btn" id="mu"></button></div>
@@ -477,7 +533,7 @@ function quiz(ex){
       if(!best[norm(me)])best[norm(me)]=mine;
       draw(Object.values(best).sort((a,b)=>b.c-a.c||String(a.d).localeCompare(String(b.d))),'Ranking odświeża się sam co 20 sekund.')}
     catch(e){draw([mine],'Nie udało się wczytać rankingu klasy ('+esc((e&&e.message)||e)+'). Naciśnij „Odśwież ranking”.')}}
-  function end(nm,sc,lg,code,msg){const pc=max?Math.round(sc/max*100):0;const em=pc>=90?'🏆':pc>=60?'🎃':pc>=30?'🦇':'💀';
+  function end(nm,sc,lg,code,msg){if(mp){mp.stop();mp=null}const pc=max?Math.round(sc/max*100):0;const em=pc>=90?'🏆':pc>=60?'🎃':pc>=30?'🦇':'💀';
     qa.innerHTML=`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">${em}</div><div class="sbig" id="fs">0</div>
     <div style="font-weight:800;font-size:18px">${esc(nm)}, zdobyłeś/aś ${sc} z ${max} pkt (${pc}%)</div><div class="msg" id="sent" style="display:block;margin-top:10px">${msg||''}</div></section>
     <section class="card"><h2>Twoje odpowiedzi</h2>${Q.map((q,i)=>{const a=lg[i]||['',0,0];return `<div class="rv" style="animation-delay:${i*0.06}s"><span>${a[2]==1?'✔':a[2]==2?'◐':'✘'}</span><span style="flex:1">${esc(q.q.slice(0,90))}</span><b>${a[1]} pkt</b></div>`}).join('')}</section>
@@ -502,8 +558,10 @@ async function init(){
   let owner=true;
   try{const u=await cap("user");if(u)owner=await u.isOwner()}catch(e){}
   if(!owner){app.innerHTML=hdr("Ćwiczenia z lukami","Otwórz link otrzymany od nauczyciela")+`<div class="card">Ta strona to panel nauczyciela. Uczeń otwiera ćwiczenie przez swój link.</div>`;return}
-  await load();teacher();
+  await load();if(!S.fb&&openD.fb===undefined)openD.fb=true;teacher();panelOn=true;
+  cloudPull(false).then(ch=>{if(ch)teacher()});
 }
+document.addEventListener("visibilitychange",()=>{if(document.hidden||!panelOn||!S.fb||!pcode)return;const a=document.activeElement;if(a&&a.matches&&a.matches("input,textarea,select"))return;cloudPull(false).then(ch=>{if(ch)teacher()})});
 window.addEventListener("hashchange",()=>location.reload());
 (function(){const R=document.documentElement;try{if(localStorage.getItem("luki_plain")==="1")R.classList.add("plain")}catch(e){}
   $("#tg").onclick=()=>{R.classList.toggle("plain");try{localStorage.setItem("luki_plain",R.classList.contains("plain")?"1":"0")}catch(e){}};
