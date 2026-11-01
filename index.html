@@ -1,4 +1,4 @@
-YPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
@@ -119,6 +119,7 @@ html.plain .spd,html.plain .hl,html.plain .hr,html.plain .fx,html.plain .ground{
 @media(max-width:900px){.fab{display:block}}
 .sheet{display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--card);border-top:3px solid var(--purple);border-radius:22px 22px 0 0;padding:12px 14px calc(16px + env(safe-area-inset-bottom,0px));max-height:55vh;overflow:auto;box-shadow:0 -10px 30px #000a}
 .sheet.on{display:block;animation:pop .3s}.sheeth{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:70;background:linear-gradient(100deg,#ff7a00,#b86bff);color:#fff;font-weight:700;padding:12px 20px;border-radius:99px;box-shadow:0 8px 24px #000a;animation:pop .4s;max-width:90vw}
 .rv.me{outline:2px solid #ff8a1f;background:linear-gradient(90deg,#ff8a1f33,var(--soft))}
 .rv{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--soft);margin:6px 0;font-size:14px;font-weight:600;animation:pop .4s backwards}
 
@@ -189,6 +190,7 @@ function student(ex){if(ex.k==="q")return quiz(ex);
     let ok=0;const det=[];blanks.forEach(b=>{const good=b.dataset.a.split("|").map(norm).includes(norm(b.value));b.classList.remove("correct","wrong");b.classList.add(good?"correct":"wrong");det.push([b.value,good?1:0]);if(good)ok++});
     const t=blanks.length;$("#bar").style.width=(t?ok/t*100:0)+"%";
     const code=saved?saved.code:enc({i:ex.i,n:name,c:ok,t:t,d:new Date().toISOString(),a:det});
+    if(!saved&&!ex.p)notifyT(ex,name,ok,t);
     if(ex.fb&&!saved&&!ex.p){fbReq(ex.fb,"/res/"+ex.i,"POST",{n:name,c:ok,t:t,d:new Date().toISOString(),a:det}).then(()=>{const s=$("#sent");if(s)s.textContent="✔ Wynik został wysłany do nauczyciela automatycznie."},()=>{const s=$("#sent");if(s){s.style.color="var(--bad)";s.textContent="Nie udało się wysłać wyniku automatycznie. Skopiuj kod poniżej i wyślij go nauczycielowi."}})}
     if(!ex.p){blanks.forEach(b=>b.readOnly=true);document.querySelectorAll(".word").forEach(w=>w.disabled=true);$("#sname").readOnly=true;$("#chk").style.display="none";
       try{localStorage.setItem("luki_done_"+ex.i,JSON.stringify({code:code,ans:blanks.map(b=>b.value),name:name}))}catch(e){}}
@@ -209,6 +211,14 @@ let S={folders:[],ex:[],res:[]},curF="all",curE=null,tab="edit",dbDoc=null,note=
 const normS=d=>{const o=Object.assign({folders:[],ex:[],res:[],del:[]},d);["folders","ex","res","del"].forEach(k=>{o[k]=o[k]?(Array.isArray(o[k])?o[k]:Object.values(o[k])):[]});
   o.ex.forEach(x=>{if(x.qs){x.qs=Array.isArray(x.qs)?x.qs:Object.values(x.qs);x.qs.forEach(q=>{if(q.o)q.o=Array.isArray(q.o)?q.o:Object.values(q.o)})}if(x.images&&!Array.isArray(x.images))x.images=Object.values(x.images)});return o};
 async function pkey(){const t=fbHost(S.fb)+"|"+pcode;try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){return btoa(unescape(encodeURIComponent(t))).replace(/\W/g,"")}}
+function notifyT(ex,name,c,t){if(!ex.nt||ex.p)return;try{const h={Title:'Luki - nowy wynik',Tags:'tada'};if(ex.ne&&/^[\x21-\x7e]+$/.test(ex.ne))h.Email=ex.ne;
+  fetch('https://ntfy.sh/'+encodeURIComponent(ex.nt),{method:'POST',headers:h,body:name+' skończył(a): '+(ex.t||'ćwiczenie')+'\nWynik: '+c+'/'+t+' ('+(t?Math.round(c/t*100):0)+'%)'}).catch(()=>{})}catch(e){}}
+const toast=m=>{const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),7000)};
+async function pollRes(){const h=fbHost(S.fb);if(!h||!panelOn||document.hidden)return;let add=0;const names=[];
+  for(const e of S.ex.slice(0,20)){try{const d=await fbReq(h,'/res/'+e.id,'GET');if(d)Object.entries(d).forEach(([k,v])=>{const id='fb'+k;if(v&&v.n&&!S.res.some(r=>r.id===id)&&!(S.del||[]).includes(id)){S.res.push({id,ex:e.id,n:String(v.n),c:+v.c||0,t:+v.t||0,d:v.d||new Date().toISOString(),a:v.a});add++;names.push(v.n)}})}catch(x){}}
+  if(add){save();toast('🔔 Nowe wyniki: '+names.slice(0,3).join(', ')+(names.length>3?'…':''));try{if(window.Notification&&Notification.permission==='granted')new Notification('Nowy wynik ucznia',{body:names.join(', ')})}catch(x){}
+    document.title='('+add+') Ćwiczenia z lukami';const a=document.activeElement;if(!(a&&a.matches&&a.matches('input,textarea,select')))teacher()}}
+window.__poll=pollRes;
 async function cloudPush(){const h=fbHost(S.fb);if(!h||!pcode)return;try{await fbReq(h,"/panel/"+await pkey(),"PUT",S);cloudErr=""}catch(e){cloudErr=String((e&&e.message)||e)}}
 async function cloudPull(force){const h=fbHost(S.fb);if(!h||!pcode)return false;
   try{const d=await fbReq(h,"/panel/"+await pkey(),"GET");cloudErr="";if(d&&(force||(d.upd||0)>(S.upd||0))){const keep=S.fb;S=normS(d);S.fb=S.fb||keep;try{localStorage.setItem("luki_state",JSON.stringify(S))}catch(e){}return true}}catch(e){cloudErr=String((e&&e.message)||e)}return false}
@@ -229,7 +239,7 @@ const small=u=>new Promise(r=>{if(!u.startsWith("data:")||u.length<9000)return r
 let fbErr="";
 const fbHost=h=>String(h||"").trim().replace(/^https?:\/\//,"").replace(/\/.*$/,"");
 async function fbReq(host,path,method,body){const ac=new AbortController();const to=setTimeout(()=>ac.abort(),9000);try{const r=await fetch("https://"+host+path+".json",{method,headers:body?{"Content-Type":"application/json"}:undefined,body:body?JSON.stringify(body):undefined,signal:ac.signal});if(!r.ok)throw new Error("błąd "+r.status);return await r.json()}finally{clearTimeout(to)}}
-async function link(e,mode){const base=location.href.split("#")[0];const mk=(im,inl)=>{if(e.kind==="quiz")return qObj(e,inl);const o={i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank};if(e.bw!=null)o.bw=e.bw;else if(e.extra)o.e=e.extra;if(im.length)o.im=im;return o};
+async function link(e,mode){const base=location.href.split("#")[0];const mk=(im,inl)=>{const o=mk1(im,inl);if(S.nt){o.nt=S.nt;if(S.ne)o.ne=S.ne}return o};const mk1=(im,inl)=>{if(e.kind==="quiz")return qObj(e,inl);const o={i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank};if(e.bw!=null)o.bw=e.bw;else if(e.extra)o.e=e.extra;if(im.length)o.im=im;return o};
   const inl=base+"#u="+await encz(mk(await Promise.all((e.images||[]).map(small)),true));
   fbErr="";const h=fbHost(S.fb);if(!h)return inl;
   try{const id=(mode!=="new"&&e.lh===h&&e.lid)?e.lid:uid()+uid();await fbReq(h,"/ex/"+id,"PUT",mk(e.images||[]));e.lid=id;e.lh=h;save();return base+"#k="+h+"/"+id}catch(x){fbErr=String((x&&x.message)||x)}
@@ -247,7 +257,8 @@ function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}
     <h2 style="margin-top:18px">📝 Teksty</h2>
     ${fl.map(x=>`<div class="item ${curE===x.id?"on":""}" data-e="${x.id}">${x.kind==="quiz"?"🎃 ":""}${esc(x.title||"Bez tytułu")}</div>`).join("")||'<div class="empty">Brak tekstów</div>'}
     <div class="row"><button class="btn p" id="addE">+ Dodaj tekst</button><button class="btn g" id="addQ">🎃 Dodaj quiz</button></div>
-    <details class="dt" data-k="fb"><summary>⚙️ Baza online</summary><div class="hint">Daje krótkie linki i automatyczne wyniki uczniów. Wklej adres swojej bazy Firebase.</div><input type="text" id="fbu" placeholder="mojprojekt-default-rtdb.firebaseio.com" value="${esc(S.fb||"")}" style="margin-top:8px"><input type="text" id="fbc" placeholder="Kod panelu (hasło), min. 6 znaków" value="${esc(pcode)}" style="margin-top:8px"><div class="hint">Ten sam adres bazy i ten sam kod wpisz na drugim urządzeniu (telefon, komputer), a zobaczysz tam ten sam panel.${cloudErr?` <span style="color:var(--bad)">Synchronizacja: ${esc(cloudErr)}</span>`:""}</div><div class="row"><button class="btn p" id="fbs">Zapisz i połącz</button><button class="btn" id="fbp">↻ Pobierz z chmury</button></div><div class="msg" id="fbm" style="display:block;margin:6px 0 0"></div></details></div></div>
+    <details class="dt" data-k="fb"><summary>⚙️ Baza online</summary><div class="hint">Daje krótkie linki i automatyczne wyniki uczniów. Wklej adres swojej bazy Firebase.</div><input type="text" id="fbu" placeholder="mojprojekt-default-rtdb.firebaseio.com" value="${esc(S.fb||"")}" style="margin-top:8px"><input type="text" id="fbc" placeholder="Kod panelu (hasło), min. 6 znaków" value="${esc(pcode)}" style="margin-top:8px"><div class="hint">Ten sam adres bazy i ten sam kod wpisz na drugim urządzeniu (telefon, komputer), a zobaczysz tam ten sam panel.${cloudErr?` <span style="color:var(--bad)">Synchronizacja: ${esc(cloudErr)}</span>`:""}</div><div class="row"><button class="btn p" id="fbs">Zapisz i połącz</button><button class="btn" id="fbp">↻ Pobierz z chmury</button></div><div class="msg" id="fbm" style="display:block;margin:6px 0 0"></div></details>
+    <details class="dt" data-k="nt"><summary>🔔 Powiadomienia</summary><div class="hint">Gdy uczeń skończy ćwiczenie, dostaniesz powiadomienie na telefon lub komputer (darmowa usługa ntfy.sh), a opcjonalnie także e-mail.</div><input type="text" id="ntt" placeholder="Temat powiadomień (jak hasło)" value="${esc(S.nt||"")}" style="margin-top:8px"><input type="text" id="nte" placeholder="E-mail (opcjonalnie)" value="${esc(S.ne||"")}" style="margin-top:8px"><div class="row"><button class="btn p" id="nts">Zapisz</button><button class="btn" id="ntg">🎲 Losowy temat</button><button class="btn" id="ntx">📨 Wyślij próbne</button><button class="btn" id="ntb">🔔 W przeglądarce</button></div><div class="msg" id="ntm" style="display:block;margin:6px 0 0"></div><div class="hint">Odbiór: zainstaluj aplikację ntfy (Android lub iPhone) i dodaj ten temat albo otwórz https://ntfy.sh/TWÓJ_TEMAT w przeglądarce. Po zapisaniu użyj „Zaktualizuj link” przy ćwiczeniach, bo temat trafia do linku (używaj długiego, losowego tematu). „W przeglądarce” pokazuje też powiadomienie, gdy masz otwarty panel.</div></details></div></div>
   <div class="main">${e?editor(e):`<div class="card"><div class="empty">Wybierz tekst z listy lub kliknij „Dodaj tekst”.</div></div>`}</div></div>`;
   document.querySelectorAll("[data-f]").forEach(el=>el.onclick=()=>{curF=el.dataset.f;teacher()});
   document.querySelectorAll("[data-e]").forEach(el=>el.onclick=()=>{curE=el.dataset.e;tab="edit";note="";teacher()});
@@ -255,6 +266,14 @@ function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}
   const df=$("#delF");if(df)df.onclick=()=>{if(confirm("Usunąć folder? Teksty zostaną przeniesione do „Wszystkie”.")){S.ex.forEach(x=>{if(x.folder===curF)x.folder=""});S.folders=S.folders.filter(f=>f.id!==curF);curF="all";save();teacher()}};
   $("#addE").onclick=()=>{const x={id:uid(),folder:curF==="all"?"":curF,title:"Nowe ćwiczenie",inst:"Uzupełnij luki poprawną formą czasownika.",text:"",bank:true,extra:"",created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
   $("#addQ").onclick=()=>{const x={id:uid(),kind:"quiz",folder:curF==="all"?"":curF,title:"Nowy quiz",inst:"Wybierz poprawną odpowiedź, zanim minie czas!",qs:[],dT:20,dP:100,dB:50,created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
+  const ntm=(t,c)=>{const m=$("#ntm");if(m){m.style.color=c||"var(--mut)";m.textContent=t}};
+  $("#nts").onclick=()=>{const t=$("#ntt").value.trim(),em=$("#nte").value.trim();if(t&&t.length<8){ntm("Temat powinien mieć co najmniej 8 znaków (to jak hasło).","var(--bad)");return}
+    if(em&&!/^[\x21-\x7e]+@[\x21-\x7e]+\.[\x21-\x7e]+$/.test(em)){ntm("Nieprawidłowy e-mail (tylko litery bez polskich znaków).","var(--bad)");return}
+    S.nt=t;S.ne=em;save();ntm(t?"Zapisano. Użyj „Zaktualizuj link” przy ćwiczeniach, żeby powiadomienia zaczęły działać.":"Powiadomienia wyłączone.","var(--green)")};
+  $("#ntg").onclick=()=>{$("#ntt").value="luki-"+Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,8)};
+  $("#ntx").onclick=async()=>{const t=$("#ntt").value.trim(),em=$("#nte").value.trim();if(!t){ntm("Najpierw wpisz temat.","var(--bad)");return}ntm("Wysyłam…");
+    try{const h={Title:"Luki - proba"};if(em&&/^[\x21-\x7e]+$/.test(em))h.Email=em;const r=await fetch("https://ntfy.sh/"+encodeURIComponent(t),{method:"POST",headers:h,body:"To jest próbne powiadomienie z panelu nauczyciela."});if(!r.ok)throw new Error("błąd "+r.status);ntm("Wysłano. Sprawdź telefon (ntfy) albo e-mail.","var(--green)")}catch(x){ntm("Nie udało się wysłać ("+((x&&x.message)||x)+").","var(--bad)")}};
+  $("#ntb").onclick=async()=>{if(!window.Notification){ntm("Ta przeglądarka nie obsługuje powiadomień.","var(--bad)");return}const pm=await Notification.requestPermission();ntm(pm==="granted"?"Włączono. Gdy panel jest otwarty, pokaże powiadomienie o nowym wyniku.":"Zablokowano w ustawieniach przeglądarki.",pm==="granted"?"var(--green)":"var(--bad)")};
   const fbm=(t,c)=>{const m=$("#fbm");if(m){m.style.color=c||"var(--mut)";m.textContent=t}};
   $("#fbs").onclick=async()=>{const h=fbHost($("#fbu").value);const code=$("#fbc").value.trim();
     if(!h){S.fb="";save();fbm("Wyłączono. Linki będą długie.");return}
@@ -401,7 +420,7 @@ function qCard(q,i){const num=(f,l,v)=>`<label style="margin:0">${l}</label><inp
   ${q.ty==='o'?`<label>Poprawne odpowiedzi (kilka oddziel znakiem |)</label><input type="text" data-fld="a" data-i="${i}" value="${esc(q.a||'')}">`
   :`<label>Odpowiedzi. Zaznacz ✓ przy poprawnych</label>${q.o.map((o,j)=>`<div class="gaprow" data-oj="${j}"><input type="checkbox" data-fld="ok" data-i="${i}" data-j="${j}" ${o[2]?'checked':''} title="poprawna" style="width:22px;height:22px"><input type="text" data-fld="ot" data-i="${i}" data-j="${j}" value="${esc(o[0])}" placeholder="Odpowiedź ${j+1}"><button class="btn" data-a="imo" data-i="${i}" data-j="${j}" title="${o[1]?'Usuń zdjęcie':'Dodaj zdjęcie do odpowiedzi'}">${o[1]?'🖼✓':'🖼'}</button><button class="btn d" data-a="rmo" data-i="${i}" data-j="${j}">✕</button></div>`).join('')}<button class="btn" data-a="ao" data-i="${i}">+ Dodaj odpowiedź</button>`}
   ${q.ty!=='o'&&q.o.filter(o=>o[2]).length>1?`<label>Punkty, gdy uczeń zaznaczy tylko część poprawnych odpowiedzi</label><select data-fld="pm" data-i="${i}" style="padding:9px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:500 14px Poppins"><option value="all" ${(q.pm||'all')==='all'?'selected':''}>Brak punktów (trzeba zaznaczyć wszystkie)</option><option value="part" ${q.pm==='part'?'selected':''}>Proporcjonalnie (np. 1 z 3 poprawnych = 1/3 punktów)</option><option value="any" ${q.pm==='any'?'selected':''}>Pełne punkty za dowolną poprawną</option></select><div class="hint">Zaznaczenie choć jednej błędnej odpowiedzi zawsze daje 0 punktów.</div>`:''}<div class="row">${num('tm','Czas (s)',q.tm)}${num('pt','Punkty',q.pt)}${num('bn','Bonus za szybkość',q.bn)}</div>
-  <div class="row"><button class="btn" data-a="up" data-i="${i}">↑</button><button class="btn" data-a="dn" data-i="${i}">↓</button><button class="btn d" data-a="dq" data-i="${i}">Usuń pytanie</button></div></details>`}
+  <div class="row"><button class="btn g" data-a="pvq" data-i="${i}">👁 Podgląd pytania</button><button class="btn" data-a="up" data-i="${i}">↑</button><button class="btn" data-a="dn" data-i="${i}">↓</button><button class="btn d" data-a="dq" data-i="${i}">Usuń pytanie</button></div></details>`}
 function qEdit(e){e.qs=e.qs||[];
   const d=(k,l,v)=>`<label style="margin:0">${l}</label><input type="text" inputmode="numeric" data-d="${k}" value="${v}" style="width:80px">`;
   return `<label style="margin-top:0">Tytuł quizu</label><input type="text" id="t" value="${esc(e.title)}">
@@ -445,6 +464,7 @@ function qBind(e){const main=document.querySelector('.main');
       else if(a==='imo'){if(q.o[j][1])q.o[j][1]='';else{const f=await pickImg();if(!f)return;b.textContent='…';q.o[j][1]=await imgUp(f)}}
       else if(a==='ao')q.o.push(['','',false]);
       else if(a==='rmo')q.o.splice(j,1);
+      else if(a==='pvq'){const o=qObj(e);o.qs=[o.qs[i]];o.p=1;o.sk=1;o.mu=undefined;quiz(o);app.insertAdjacentHTML('afterbegin','<div class="row" style="margin:0 0 12px"><button class="btn p" id="bkp">← Wróć do edycji</button></div>');$('#bkp').onclick=teacher;return}
       else if(a==='dq'){if(!confirm('Usunąć to pytanie?'))return;e.qs.splice(i,1)}
       else if(a==='up'&&i>0)[e.qs[i-1],e.qs[i]]=[e.qs[i],e.qs[i-1]];
       else if(a==='dn'&&i<e.qs.length-1)[e.qs[i+1],e.qs[i]]=[e.qs[i],e.qs[i+1]];
@@ -508,7 +528,7 @@ function quiz(ex){
     :`<div class="qopts">${q.o.map((o,j)=>`<button class="opt" data-j="${j}"><span class="ol">${['🎃','👻','🦇','🕷️','💀','🧙'][j%6]}</span><span>${big(esc(o[0]||''))}${o[1]?`<br><img src="${esc(o[1])}" alt="">`:''}</span></button>`).join('')}</div>${multi?`<div class="row" style="justify-content:center"><button class="btn p" id="ob">Zatwierdź ✔</button></div><div class="hint" style="text-align:center">Poprawnych odpowiedzi jest kilka</div>`:''}`}
     <div id="qfb"></div></div>`;mu();
     t0=performance.now();let last=-1;clearInterval(tm);const tp=$('#tp');
-    tm=setInterval(()=>{const rem=Math.max(0,tot-(performance.now()-t0)/1000);tp.style.strokeDashoffset=119.4*(1-rem/tot);const s=Math.ceil(rem);$('#tt').textContent=s;
+    tm=setInterval(()=>{if(!document.getElementById('tt')){clearInterval(tm);return}const rem=Math.max(0,tot-(performance.now()-t0)/1000);tp.style.strokeDashoffset=119.4*(1-rem/tot);const s=Math.ceil(rem);$('#tt').textContent=s;
       if(rem<=5&&rem>0&&s!==last){last=s;$('#qt').classList.add('low');sfx('tick')}if(rem<=0)done(null)},100);
     if(q.ty==='o'){const oa=$('#oa');oa.focus();const go=()=>{const v=oa.value.trim();if(v)done(v)};$('#ob').onclick=go;oa.onkeydown=ev=>{if(ev.key==='Enter')go()}}
     else{document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(locked)return;if(multi){b.classList.toggle('sel');sfx('pick')}else done([+b.dataset.j])});
@@ -540,11 +560,12 @@ function quiz(ex){
     ${!ex.p?'<section class="card"><h2>🏆 Ranking</h2><div id="lbx"></div><div class="row"><button class="btn" id="lbr">↻ Odśwież ranking</button></div></section>':''}${code?`<section class="card"><div class="hint" style="margin:0">Kod wyniku (zapasowy, gdyby wynik nie dotarł sam):</div><textarea class="code" readonly onclick="this.select()">${code}</textarea></section>`:''}${ex.p?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
     cnt_($('#fs'),0,sc);if(!ex.p){$('#lbr').onclick=()=>lb(nm,sc);lb(nm,sc);if(ex.fb){clearInterval(window.__lbt);window.__lbt=setInterval(()=>{if($('#lbx'))lb(nm,sc);else clearInterval(window.__lbt)},20000)}}sfx('end');boom(['🎃','👻','🦇','⭐','🕷️','💀'],pc>=50?46:16);const ag=$('#again');if(ag)ag.onclick=()=>{score=0;log=[];intro()}}
   function finish(){const code=enc({i:ex.i,n:name,c:score,t:max,d:new Date().toISOString(),a:log});let msg='';
+    if(!ex.p)notifyT(ex,name,score,max);
     if(!ex.p){try{localStorage.setItem('luki_done_'+ex.i,JSON.stringify({q:1,name:name,score:score,log:log,code:code}))}catch(e){}
       if(ex.fb){msg='Wysyłam wynik do nauczyciela…';const mark=(t,bad)=>{const s=$('#sent');if(s){s.textContent=t;if(bad)s.style.color='var(--bad)'}};
         fbReq(ex.fb,'/res/'+ex.i,'POST',{n:name,c:score,t:max,d:new Date().toISOString(),a:log}).then(()=>{mark('✔ Wynik został wysłany do nauczyciela.');lb(name,score)},()=>mark('Nie udało się wysłać wyniku automatycznie. Skopiuj kod poniżej i wyślij go nauczycielowi.',1))}}
     end(name,score,log,code,msg)}
-  if(saved&&saved.q)end(saved.name,saved.score,saved.log||[],saved.code,'Ten quiz został już rozwiązany. Oto twój wynik.');else intro();
+  if(saved&&saved.q)end(saved.name,saved.score,saved.log||[],saved.code,'Ten quiz został już rozwiązany. Oto twój wynik.');else if(ex.sk){name='Podgląd';ask(0)}else intro();
 }
 
 /* ---------- START ---------- */
@@ -560,7 +581,9 @@ async function init(){
   if(!owner){app.innerHTML=hdr("Ćwiczenia z lukami","Otwórz link otrzymany od nauczyciela")+`<div class="card">Ta strona to panel nauczyciela. Uczeń otwiera ćwiczenie przez swój link.</div>`;return}
   await load();if(!S.fb&&openD.fb===undefined)openD.fb=true;teacher();panelOn=true;
   cloudPull(false).then(ch=>{if(ch)teacher()});
+  setInterval(pollRes,60000);
 }
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)document.title='Ćwiczenia z lukami'});
 document.addEventListener("visibilitychange",()=>{if(document.hidden||!panelOn||!S.fb||!pcode)return;const a=document.activeElement;if(a&&a.matches&&a.matches("input,textarea,select"))return;cloudPull(false).then(ch=>{if(ch)teacher()})});
 window.addEventListener("hashchange",()=>location.reload());
 (function(){const R=document.documentElement;try{if(localStorage.getItem("luki_plain")==="1")R.classList.add("plain")}catch(e){}
