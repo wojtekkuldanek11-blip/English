@@ -120,6 +120,8 @@ html.plain .spd,html.plain .hl,html.plain .hr,html.plain .fx,html.plain .ground{
 .sheet{display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--card);border-top:3px solid var(--purple);border-radius:22px 22px 0 0;padding:12px 14px calc(16px + env(safe-area-inset-bottom,0px));max-height:55vh;overflow:auto;box-shadow:0 -10px 30px #000a}
 .sheet.on{display:block;animation:pop .3s}.sheeth{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:70;background:linear-gradient(100deg,#ff7a00,#b86bff);color:#fff;font-weight:700;padding:12px 20px;border-radius:99px;box-shadow:0 8px 24px #000a;animation:pop .4s;max-width:90vw}
+.cw{position:fixed;right:12px;bottom:calc(66px + env(safe-area-inset-bottom,0px));z-index:30}.cwb{opacity:.55;font-size:16px;padding:8px 12px;border-radius:99px}.cw.on .cwb{opacity:1}
+.cwp{display:none;position:absolute;right:0;bottom:46px;width:min(320px,86vw);background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 10px 30px #000a}.cw.on .cwp{display:block;animation:pop .25s}
 .rv.me{outline:2px solid #ff8a1f;background:linear-gradient(90deg,#ff8a1f33,var(--soft))}
 .rv{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--soft);margin:6px 0;font-size:14px;font-weight:600;animation:pop .4s backwards}
 
@@ -191,15 +193,14 @@ function student(ex){if(ex.k==="q")return quiz(ex);
     const t=blanks.length;$("#bar").style.width=(t?ok/t*100:0)+"%";
     const code=saved?saved.code:enc({i:ex.i,n:name,c:ok,t:t,d:new Date().toISOString(),a:det});
     if(!saved&&!ex.p)notifyT(ex,name,ok,t);
-    if(ex.fb&&!saved&&!ex.p){fbReq(ex.fb,"/res/"+ex.i,"POST",{n:name,c:ok,t:t,d:new Date().toISOString(),a:det}).then(()=>{const s=$("#sent");if(s)s.textContent="✔ Wynik został wysłany do nauczyciela automatycznie."},()=>{const s=$("#sent");if(s){s.style.color="var(--bad)";s.textContent="Nie udało się wysłać wyniku automatycznie. Skopiuj kod poniżej i wyślij go nauczycielowi."}})}
+    if(ex.fb&&!saved&&!ex.p){fbReq(ex.fb,"/res/"+ex.i,"POST",{n:name,c:ok,t:t,d:new Date().toISOString(),a:det}).then(()=>{const s=$("#sent");if(s)s.textContent="✔ Wynik został wysłany do nauczyciela automatycznie."},()=>{const s=$("#sent");if(s){s.style.color="var(--bad)";s.textContent="Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi."}cwOpen()})}
     if(!ex.p){blanks.forEach(b=>b.readOnly=true);document.querySelectorAll(".word").forEach(w=>w.disabled=true);$("#sname").readOnly=true;$("#chk").style.display="none";
       try{localStorage.setItem("luki_done_"+ex.i,JSON.stringify({code:code,ans:blanks.map(b=>b.value),name:name}))}catch(e){}}
     const r=$("#res");r.style.display="block";
     r.innerHTML=`${ok===t?"🏆 Perfekcyjnie!":"⭐ Twój wynik:"} <span style="color:var(--ok)">✔ ${ok} dobrze</span> · <span style="color:var(--bad)">✘ ${t-ok} źle</span> (${ok}/${t})
-    <div class="hint">Zielone luki są poprawne, czerwone błędne. To była jedyna próba. Skopiuj kod wyniku i wyślij go nauczycielowi:</div>
-    <div id="sent" class="msg" style="display:block;margin:8px 0 0">${ex.fb&&!ex.p?"Wysyłam wynik do nauczyciela…":""}</div><textarea class="code" readonly onclick="this.select()">${code}</textarea>
-    <div class="row"><button class="btn g" id="cp">📋 Kopiuj kod wyniku</button><span class="msg" id="cm"></span></div>`;
-    $("#cp").onclick=()=>{const ta=r.querySelector("textarea");ta.select();try{navigator.clipboard.writeText(ta.value)}catch(e){document.execCommand("copy")}$("#cm").textContent="Skopiowano!"};
+    <div class="hint">Zielone luki są poprawne, czerwone błędne. To była jedyna próba.</div>
+    <div id="sent" class="msg" style="display:block;margin:8px 0 0">${ex.p?"":ex.fb?"Wysyłam wynik do nauczyciela…":"Wyślij nauczycielowi kod wyniku: kliknij 🔑 w prawym dolnym rogu."}</div>`;
+    cwShow(code,!ex.fb&&!ex.p);
   };
   if(saved){$("#sname").value=saved.name;blanks.forEach((b,i)=>b.value=saved.ans[i]||"");upd();$("#chk").onclick()}
 }
@@ -211,6 +212,10 @@ let S={folders:[],ex:[],res:[]},curF="all",curE=null,tab="edit",dbDoc=null,note=
 const normS=d=>{const o=Object.assign({folders:[],ex:[],res:[],del:[]},d);["folders","ex","res","del"].forEach(k=>{o[k]=o[k]?(Array.isArray(o[k])?o[k]:Object.values(o[k])):[]});
   o.ex.forEach(x=>{if(x.qs){x.qs=Array.isArray(x.qs)?x.qs:Object.values(x.qs);x.qs.forEach(q=>{if(q.o)q.o=Array.isArray(q.o)?q.o:Object.values(q.o)})}if(x.images&&!Array.isArray(x.images))x.images=Object.values(x.images)});return o};
 async function pkey(){const t=fbHost(S.fb)+"|"+pcode;try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){return btoa(unescape(encodeURIComponent(t))).replace(/\W/g,"")}}
+const cwHTML=code=>`<div class="cw" id="cw"><button class="btn cwb" id="cwb" type="button" title="Kod wyniku (zapasowy)">🔑</button><div class="cwp"><div class="hint" style="margin:0 0 6px">Kod wyniku (zapasowy). Zwykle niepotrzebny, bo wynik wysyła się sam.</div><textarea class="code" readonly onclick="this.select()">${code}</textarea><div class="row"><button class="btn g" id="cp" type="button">📋 Kopiuj kod</button><span class="msg" id="cm"></span></div></div></div>`;
+const cwShow=(code,open)=>{const o=document.getElementById('cw');if(o)o.remove();document.body.insertAdjacentHTML('beforeend',cwHTML(code));const c=$('#cw');if(open)c.classList.add('on');$('#cwb').onclick=()=>c.classList.toggle('on');
+  $('#cp').onclick=()=>{const ta=c.querySelector('textarea');ta.select();try{navigator.clipboard.writeText(ta.value)}catch(e){document.execCommand('copy')}$('#cm').textContent='Skopiowano!'}};
+const cwOpen=()=>{const c=document.getElementById('cw');if(c)c.classList.add('on')};
 const ntfyUrl=(t,title,em)=>'https://ntfy.sh/'+encodeURIComponent(t)+'?title='+encodeURIComponent(title)+'&tags=tada'+(em?'&email='+encodeURIComponent(em):'');
 const w3Send=(key,subject,message)=>fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:key,subject:subject,from_name:'Ćwiczenia z lukami',message:message})});
 function notifyT(ex,name,c,t){if(ex.p)return;const body=name+' skończył(a): '+(ex.t||'ćwiczenie')+'\nWynik: '+c+'/'+t+' ('+(t?Math.round(c/t*100):0)+'%)';
@@ -249,7 +254,7 @@ async function link(e,mode){const base=location.href.split("#")[0];const mk=(im,
   return inl}
 function gaps(text){text=text||"";const a=[];text.replace(GAP,(m,x)=>{a.push(x);return m});return a}
 
-function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}
+function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}const cwx=document.getElementById('cw');if(cwx)cwx.remove();
   const fl=S.ex.filter(e=>curF==="all"||e.folder===curF);
   const e=S.ex.find(x=>x.id===curE);
   app.innerHTML=hdr("Panel nauczyciela","Twórz ćwiczenia z lukami, generuj linki i sprawdzaj wyniki")+`
@@ -563,13 +568,14 @@ function quiz(ex){
     qa.innerHTML=`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">${em}</div><div class="sbig" id="fs">0</div>
     <div style="font-weight:800;font-size:18px">${esc(nm)}, zdobyłeś/aś ${sc} z ${max} pkt (${pc}%)</div><div class="msg" id="sent" style="display:block;margin-top:10px">${msg||''}</div></section>
     <section class="card"><h2>Twoje odpowiedzi</h2>${Q.map((q,i)=>{const a=lg[i]||['',0,0];return `<div class="rv" style="animation-delay:${i*0.06}s"><span>${a[2]==1?'✔':a[2]==2?'◐':'✘'}</span><span style="flex:1">${esc(q.q.slice(0,90))}</span><b>${a[1]} pkt</b></div>`}).join('')}</section>
-    ${!ex.p?'<section class="card"><h2>🏆 Ranking</h2><div id="lbx"></div><div class="row"><button class="btn" id="lbr">↻ Odśwież ranking</button></div></section>':''}${code?`<section class="card"><div class="hint" style="margin:0">Kod wyniku (zapasowy, gdyby wynik nie dotarł sam):</div><textarea class="code" readonly onclick="this.select()">${code}</textarea></section>`:''}${ex.p?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
+    ${!ex.p?'<section class="card"><h2>🏆 Ranking</h2><div id="lbx"></div><div class="row"><button class="btn" id="lbr">↻ Odśwież ranking</button></div></section>':''}${ex.p?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
+    if(code)cwShow(code,!ex.fb&&!ex.p);
     cnt_($('#fs'),0,sc);if(!ex.p){$('#lbr').onclick=()=>lb(nm,sc);lb(nm,sc);if(ex.fb){clearInterval(window.__lbt);window.__lbt=setInterval(()=>{if($('#lbx'))lb(nm,sc);else clearInterval(window.__lbt)},20000)}}sfx('end');boom(['🎃','👻','🦇','⭐','🕷️','💀'],pc>=50?46:16);const ag=$('#again');if(ag)ag.onclick=()=>{score=0;log=[];intro()}}
   function finish(){const code=enc({i:ex.i,n:name,c:score,t:max,d:new Date().toISOString(),a:log});let msg='';
     if(!ex.p)notifyT(ex,name,score,max);
     if(!ex.p){try{localStorage.setItem('luki_done_'+ex.i,JSON.stringify({q:1,name:name,score:score,log:log,code:code}))}catch(e){}
-      if(ex.fb){msg='Wysyłam wynik do nauczyciela…';const mark=(t,bad)=>{const s=$('#sent');if(s){s.textContent=t;if(bad)s.style.color='var(--bad)'}};
-        fbReq(ex.fb,'/res/'+ex.i,'POST',{n:name,c:score,t:max,d:new Date().toISOString(),a:log}).then(()=>{mark('✔ Wynik został wysłany do nauczyciela.');lb(name,score)},()=>mark('Nie udało się wysłać wyniku automatycznie. Skopiuj kod poniżej i wyślij go nauczycielowi.',1))}}
+      if(ex.fb){msg='Wysyłam wynik do nauczyciela…';const mark=(t,bad)=>{const s=$('#sent');if(s){s.textContent=t;if(bad)s.style.color='var(--bad)'}if(bad)cwOpen()};
+        fbReq(ex.fb,'/res/'+ex.i,'POST',{n:name,c:score,t:max,d:new Date().toISOString(),a:log}).then(()=>{mark('✔ Wynik został wysłany do nauczyciela.');lb(name,score)},()=>mark('Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi.',1))}else msg='Wyślij nauczycielowi kod wyniku: kliknij 🔑 w prawym dolnym rogu.'}
     end(name,score,log,code,msg)}
   if(saved&&saved.q)end(saved.name,saved.score,saved.log||[],saved.code,'Ten quiz został już rozwiązany. Oto twój wynik.');else if(ex.sk){name='Podgląd';ask(0)}else intro();
 }
