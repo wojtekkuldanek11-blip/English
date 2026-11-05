@@ -135,6 +135,22 @@ html.plain .spd,html.plain .hl,html.plain .hr,html.plain .fx,html.plain .ground{
 .mchip .mb{opacity:0}.mchip.used{border-color:var(--c)}.mchip.used .mb{opacity:1}.mchip.sel{border-color:#fff;transform:scale(1.03)}
 .mrow.good{border-color:#22c55e;background:var(--ok-bg)}.mrow.bad{border-color:#ef4444;background:var(--bad-bg);animation:shake .5s}
 .shk{animation:shake .4s}
+.dlg{display:flex;flex-direction:column;gap:12px;margin:12px 0;line-height:1.6}
+.dn{text-align:center;color:var(--mut);font-size:13px;font-style:italic}
+.db{display:flex;gap:10px;align-items:flex-end;animation:pop .45s backwards;max-width:92%}.db.r{flex-direction:row-reverse;margin-left:auto}
+.da{flex:none;width:38px;height:38px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:800;box-shadow:0 4px 10px #0005}
+.dbb{background:var(--soft);border:2px solid var(--c);border-radius:18px 18px 18px 4px;padding:8px 14px;font-weight:600}.db.r .dbb{border-radius:18px 18px 4px 18px}
+.dbb b{display:block;font-size:12px;color:var(--c);margin-bottom:2px}
+.fcw{perspective:1000px;display:grid;place-items:center;margin:16px 0}
+.fc{position:relative;width:min(340px,88vw);height:min(260px,48vh);touch-action:pan-y;cursor:grab;user-select:none}
+.fci{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.8,.3,1.1)}.fc.flip .fci{transform:rotateY(180deg)}
+.fcf,.fcb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;text-align:center;border:3px solid var(--purple);box-shadow:0 16px 40px #0007}
+.fcf{background:linear-gradient(160deg,var(--card),var(--soft))}.fcb{background:linear-gradient(160deg,#ff8a1f,#b86bff);color:#fff;transform:rotateY(180deg);border-color:#fff3}
+.fct{font-size:clamp(26px,7vw,40px);font-weight:800;line-height:1.2}.fcf small,.fcb small{opacity:.7;font-weight:700}
+.fcg{position:absolute;top:14px;padding:6px 14px;border-radius:12px;font-weight:800;opacity:0;pointer-events:none;z-index:2;border:3px solid}.g1{right:14px;color:#22c55e;border-color:#22c55e;transform:rotate(8deg)}.g2{left:14px;color:#ef4444;border-color:#ef4444;transform:rotate(-8deg)}
+.gds{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.gd{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;background:var(--soft);border:2px solid var(--line);color:var(--mut)}.gd.ok{background:#22c55e;border-color:#22c55e;color:#fff}.gd.cur{border-color:#ff8a1f;color:#ff8a1f;animation:pulse .8s ease-in-out infinite alternate}
+.ph{display:flex;gap:8px;justify-content:center;margin:6px 0;flex-wrap:wrap}.ph span{padding:6px 14px;border-radius:99px;background:var(--soft);font-weight:700;font-size:13px;color:var(--mut)}.ph span.on{background:linear-gradient(100deg,#ff7a00,#b86bff);color:#fff}
 .rv.me{outline:2px solid #ff8a1f;background:linear-gradient(90deg,#ff8a1f33,var(--soft))}
 .rv{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--soft);margin:6px 0;font-size:14px;font-weight:600;animation:pop .4s backwards}
 
@@ -171,7 +187,7 @@ const EC=[["😀","Buźki","😀 😃 😄 😁 😆 😅 🤣 😂 🙂 🙃 �
 const hdr=(t,p)=>`<header class="hero"><span class="spd" style="left:9%;--h:44px"><i></i><b>🕷️</b></span><span class="spd" style="left:86%;--h:72px;animation-delay:-1.2s"><i></i><b>🕷️</b></span><span class="spd" style="left:27%;--h:24px;animation-delay:-2s"><i></i><b>🕷️</b></span><span class="spd" style="left:68%;--h:34px;animation-delay:-.6s"><i></i><b>🕷️</b></span><span class="hl">🧙</span><span class="hr">🎃</span><div style="font-size:38px">🎃👻💀</div><h1>${t}</h1><p>${p}</p></header>`;
 
 /* ---------- STUDENT ---------- */
-function student(ex){if(ex.k==="q")return quiz(ex);
+function student(ex){if(ex.k==="q")return quiz(ex);if(ex.k==="v")return vocab(ex);
   const bankWords=[];
   const parts=[];let last=0,n=0;
   ex.x.replace(GAP,(m,a,i)=>{parts.push(big(esc(ex.x.slice(last,i))).replace(/\n/g,"<br>"));
@@ -184,7 +200,7 @@ function student(ex){if(ex.k==="q")return quiz(ex);
   (words.length?`<section class="card"><h2>🎨 Bank słów</h2><div class="bank" id="bank"></div><div class="row"><button class="btn" id="stk" type="button">✏️ Skreślanie słów: wyłączone</button></div><div class="hint">Kliknij słowo, a potem lukę, albo wpisz odpowiedź ręcznie. Włącz skreślanie, żeby ręcznie zaznaczać słowa, które już zrobiłeś (na komputerze działa też prawy przycisk myszy).</div></section>`:"")+
   `<section class="card">
   <label style="margin-top:0">Twoje imię i nazwisko</label><input type="text" id="sname" placeholder="np. Anna Kowalska" style="max-width:320px;margin-bottom:14px">
-  <div class="lay${(ex.im||[]).length?" has":""}"><div class="story">${parts.join("")}</div>${(ex.im||[]).length?`<div class="pics">${(ex.im||[]).map(u=>`<img src="${esc(u)}" alt="">`).join("")}</div>`:""}</div><div class="bar"><i id="bar"></i></div>
+  <div class="lay${(ex.im||[]).length?" has":""}"><div class="story">${ex.dlg?dlgHTML(parts.join("").split("<br>")):parts.join("")}</div>${(ex.im||[]).length?`<div class="pics">${(ex.im||[]).map(u=>`<img src="${esc(u)}" alt="">`).join("")}</div>`:""}</div><div class="bar"><i id="bar"></i></div>
   <div class="row"><button class="btn p" id="chk">✅ Sprawdź (tylko raz)</button></div>
   <div class="res" id="res"></div></section>${words.length?`<button class="btn p fab" id="fab" type="button">📚 Słowa</button><div class="sheet" id="sheet"><div class="sheeth"><b>📚 Bank słów</b><button class="btn" id="shx" type="button">✕ Zamknij</button></div><div class="bank" id="sbank"></div><div class="hint">Kliknij słowo, żeby wstawić je do luki. Skreślanie działa tak samo jak w banku.</div></div>`:''}`;
   const blanks=[...document.querySelectorAll(".blank")];let sel=null,lastIn=null;let saved=null;if(!ex.p){try{saved=JSON.parse(localStorage.getItem("luki_done_"+ex.i))}catch(e){}}
@@ -223,7 +239,7 @@ let pcode="";try{pcode=localStorage.getItem("luki_pcode")||""}catch(e){}
 let cloudErr="",panelOn=false;
 let S={folders:[],ex:[],res:[]},curF="all",curE=null,tab="edit",dbDoc=null,note="",openD={};
 const normS=d=>{const o=Object.assign({folders:[],ex:[],res:[],del:[]},d);["folders","ex","res","del"].forEach(k=>{o[k]=o[k]?(Array.isArray(o[k])?o[k]:Object.values(o[k])):[]});
-  o.ex.forEach(x=>{if(x.qs){x.qs=Array.isArray(x.qs)?x.qs:Object.values(x.qs);x.qs.forEach(q=>{if(q.o)q.o=Array.isArray(q.o)?q.o:Object.values(q.o);if(q.pr)q.pr=Array.isArray(q.pr)?q.pr:Object.values(q.pr)})}if(x.images&&!Array.isArray(x.images))x.images=Object.values(x.images)});return o};
+  o.ex.forEach(x=>{if(x.qs){x.qs=Array.isArray(x.qs)?x.qs:Object.values(x.qs);x.qs.forEach(q=>{if(q.o)q.o=Array.isArray(q.o)?q.o:Object.values(q.o);if(q.pr)q.pr=Array.isArray(q.pr)?q.pr:Object.values(q.pr)})}if(x.images&&!Array.isArray(x.images))x.images=Object.values(x.images);if(x.words){x.words=Array.isArray(x.words)?x.words:Object.values(x.words)}});return o};
 async function pkey(){const t=fbHost(S.fb)+"|"+pcode;try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){return btoa(unescape(encodeURIComponent(t))).replace(/\W/g,"")}}
 const cwHTML=code=>`<div class="cw" id="cw"><button class="btn cwb" id="cwb" type="button" title="Kod wyniku (zapasowy)">🔑</button><div class="cwp"><div class="hint" style="margin:0 0 6px">Kod wyniku (zapasowy). Zwykle niepotrzebny, bo wynik wysyła się sam.</div><textarea class="code" readonly onclick="this.select()">${code}</textarea><div class="row"><button class="btn g" id="cp" type="button">📋 Kopiuj kod</button><span class="msg" id="cm"></span></div></div></div>`;
 const cwShow=(code,open)=>{const o=document.getElementById('cw');if(o)o.remove();document.body.insertAdjacentHTML('beforeend',cwHTML(code));const c=$('#cw');if(open)c.classList.add('on');$('#cwb').onclick=()=>c.classList.toggle('on');
@@ -258,10 +274,10 @@ const small=u=>new Promise(r=>{if(!u.startsWith("data:")||u.length<9000)return r
 let fbErr="";
 const fbHost=h=>String(h||"").trim().replace(/^https?:\/\//,"").replace(/\/.*$/,"");
 async function fbReq(host,path,method,body){const ac=new AbortController();const to=setTimeout(()=>ac.abort(),9000);try{const r=await fetch("https://"+host+path+".json",{method,headers:body?{"Content-Type":"application/json"}:undefined,body:body?JSON.stringify(body):undefined,signal:ac.signal});if(!r.ok)throw new Error("błąd "+r.status);return await r.json()}finally{clearTimeout(to)}}
-async function link(e,mode){const base=location.href.split("#")[0];const mk=(im,inl)=>{const o=mk1(im,inl);if(S.w3)o.w3=S.w3;return o};const mk1=(im,inl)=>{if(e.kind==="quiz")return qObj(e,inl);const o={i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank};if(e.bw!=null)o.bw=e.bw;else if(e.extra)o.e=e.extra;if(im.length)o.im=im;return o};
+async function link(e,mode,vm){const base=location.href.split("#")[0];const lk=vm?"lid_"+vm:"lid";const mk=(im,inl)=>{const o=mk1(im,inl);if(S.w3)o.w3=S.w3;return o};const mk1=(im,inl)=>{if(e.kind==="vocab")return vObj(e,vm);if(e.kind==="quiz")return qObj(e,inl);const o={i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank};if(e.dlg)o.dlg=1;if(e.bw!=null)o.bw=e.bw;else if(e.extra)o.e=e.extra;if(im.length)o.im=im;return o};
   const inl=base+"#u="+await encz(mk(await Promise.all((e.images||[]).map(small)),true));
   fbErr="";const h=fbHost(S.fb);if(!h)return inl;
-  try{const id=(mode!=="new"&&e.lh===h&&e.lid)?e.lid:uid()+uid();await fbReq(h,"/ex/"+id,"PUT",mk(e.images||[]));e.lid=id;e.lh=h;save();return base+"#k="+h+"/"+id}catch(x){fbErr=String((x&&x.message)||x)}
+  try{const id=(mode!=="new"&&e.lh===h&&e[lk])?e[lk]:uid()+uid();await fbReq(h,"/ex/"+id,"PUT",mk(e.images||[]));e[lk]=id;e.lh=h;save();return base+"#k="+h+"/"+id}catch(x){fbErr=String((x&&x.message)||x)}
   return inl}
 function gaps(text){text=text||"";const a=[];text.replace(GAP,(m,x)=>{a.push(x);return m});return a}
 
@@ -274,8 +290,8 @@ function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}const cwx
     ${S.folders.map(f=>`<div class="item ${curF===f.id?"on":""}" data-f="${f.id}">${esc(f.name)} <small>${S.ex.filter(x=>x.folder===f.id).length}</small></div>`).join("")}
     <div class="row"><button class="btn" id="addF">+ Nowy folder</button>${curF!=="all"?`<button class="btn d" id="delF">Usuń</button>`:""}</div>
     <h2 style="margin-top:18px">📝 Teksty</h2>
-    ${fl.map(x=>`<div class="item ${curE===x.id?"on":""}" data-e="${x.id}">${x.kind==="quiz"?"🎃 ":""}${esc(x.title||"Bez tytułu")}</div>`).join("")||'<div class="empty">Brak tekstów</div>'}
-    <div class="row"><button class="btn p" id="addE">+ Dodaj tekst</button><button class="btn g" id="addQ">🎃 Dodaj quiz</button></div>
+    ${fl.map(x=>`<div class="item ${curE===x.id?"on":""}" data-e="${x.id}">${x.kind==="quiz"?"🎃 ":x.kind==="vocab"?"📚 ":""}${esc(x.title||"Bez tytułu")}</div>`).join("")||'<div class="empty">Brak tekstów</div>'}
+    <div class="row"><button class="btn p" id="addE">+ Dodaj tekst</button><button class="btn g" id="addQ">🎃 Dodaj quiz</button><button class="btn" id="addV">📚 Dodaj słówka</button></div>
     <details class="dt" data-k="fb"><summary>⚙️ Baza online</summary><div class="hint">Daje krótkie linki i automatyczne wyniki uczniów. Wklej adres swojej bazy Firebase.</div><input type="text" id="fbu" placeholder="mojprojekt-default-rtdb.firebaseio.com" value="${esc(S.fb||"")}" style="margin-top:8px"><input type="text" id="fbc" placeholder="Kod panelu (hasło), min. 6 znaków" value="${esc(pcode)}" style="margin-top:8px"><div class="hint">Ten sam adres bazy i ten sam kod wpisz na drugim urządzeniu (telefon, komputer), a zobaczysz tam ten sam panel.${cloudErr?` <span style="color:var(--bad)">Synchronizacja: ${esc(cloudErr)}</span>`:""}</div><div class="row"><button class="btn p" id="fbs">Zapisz i połącz</button><button class="btn" id="fbp">↻ Pobierz z chmury</button></div><div class="msg" id="fbm" style="display:block;margin:6px 0 0"></div></details>
     <details class="dt" data-k="nt"><summary>🔔 Powiadomienia e-mail</summary><div class="hint">Gdy uczeń skończy ćwiczenie, dostaniesz e-mail (darmowy serwis Web3Forms).</div><input type="text" id="ntw" placeholder="Klucz Web3Forms" value="${esc(S.w3||"")}" style="margin-top:8px"><div class="hint">Wejdź na https://web3forms.com, wpisz swój e-mail w „Create your Access Key”, klucz przyjdzie na maila. Wklej go powyżej.</div><div class="row"><button class="btn p" id="nts">Zapisz</button><button class="btn" id="ntx">📨 Wyślij próbny e-mail</button><button class="btn" id="ntb">🔔 W przeglądarce</button></div><div class="msg" id="ntm" style="display:block;margin:6px 0 0"></div><div class="hint">Po zapisaniu użyj „Zaktualizuj link” przy ćwiczeniach, bo klucz trafia do linku. „W przeglądarce” pokazuje też dymek, gdy masz otwarty panel.</div></details></div></div>
   <div class="main">${e?editor(e):`<div class="card"><div class="empty">Wybierz tekst z listy lub kliknij „Dodaj tekst”.</div></div>`}</div></div>`;
@@ -284,6 +300,7 @@ function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}const cwx
   $("#addF").onclick=async()=>{const n=await modal({title:"📁 Nowy folder",text:"Podaj nazwę, np. imię ucznia albo kategorię tekstów.",input:1,ph:"Nazwa folderu",ok:"Utwórz"});if(n){const f={id:uid(),name:n};S.folders.push(f);curF=f.id;save();teacher()}};
   const df=$("#delF");if(df)df.onclick=()=>{if(confirm("Usunąć folder? Teksty zostaną przeniesione do „Wszystkie”.")){S.ex.forEach(x=>{if(x.folder===curF)x.folder=""});S.folders=S.folders.filter(f=>f.id!==curF);curF="all";save();teacher()}};
   $("#addE").onclick=()=>{const x={id:uid(),folder:curF==="all"?"":curF,title:"Nowe ćwiczenie",inst:"Uzupełnij luki poprawną formą czasownika.",text:"",bank:true,extra:"",created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
+  $("#addV").onclick=()=>{const x={id:uid(),kind:"vocab",folder:curF==="all"?"":curF,title:"Nowe słówka",inst:"",words:[["",""],["",""],["",""]],vo:{},created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
   $("#addQ").onclick=()=>{const x={id:uid(),kind:"quiz",folder:curF==="all"?"":curF,title:"Nowy quiz",inst:"Wybierz poprawną odpowiedź, zanim minie czas!",qs:[],dT:20,dP:100,dB:50,created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
   const ntm=(t,c)=>{const m=$("#ntm");if(m){m.style.color=c||"var(--mut)";m.textContent=t}};
   $("#nts").onclick=()=>{const k=$("#ntw").value.trim();if(k&&!/^[\w-]{20,}$/.test(k)){ntm("Klucz wygląda na niepełny. Skopiuj go w całości z maila.","var(--bad)");return}
@@ -316,7 +333,7 @@ function editor(e){
   const rs=S.res.filter(r=>r.ex===e.id).sort((a,b)=>b.d.localeCompare(a.d));
   const att={},cn={};[...rs].reverse().forEach(r=>{const k=r.n.trim().toLowerCase();att[r.id]=cn[k]=(cn[k]||0)+1});
   return `<div class="card"><div class="tabs"><div class="tab ${tab==="edit"?"on":""}" data-t="edit">✏️ Edycja</div><div class="tab ${tab==="res"?"on":""}" data-t="res">📊 Wyniki (${rs.length})</div></div>`+
-  (tab==="edit"?(e.kind==="quiz"?qEdit(e):`
+  (tab==="edit"?(e.kind==="quiz"?qEdit(e):e.kind==="vocab"?vEdit(e):`
   <label style="margin-top:0">Tytuł</label><input type="text" id="t" value="${esc(e.title)}">
   <label>Polecenie dla ucznia</label><input type="text" id="n" value="${esc(e.inst)}">
   <label>Folder</label><select id="fo" style="padding:9px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:500 14px Poppins">
@@ -324,6 +341,7 @@ function editor(e){
   <label>Zdjęcia (opcjonalnie, pokażą się nad tekstem)</label>
   <div>${(e.images||[]).map((u,i)=>`<span class="chip"><img src="${esc(u)}" alt="" style="height:56px;border-radius:8px"><button class="btn d" data-di="${i}">✕</button></span>`).join("")}</div>
   <div class="dz" id="dz">Przeciągnij tu zdjęcie (np. z Google) albo wklej je skrótem Ctrl+V<br><button class="btn" id="ai" style="margin-top:8px">🖼 Wybierz plik</button><input type="file" id="fi" accept="image/*" hidden><br><span class="msg" id="im"></span></div>
+  <label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="dg" ${e.dlg?"checked":""}> 💬 Wyświetl tekst jako dialog (każda linia: Imię: tekst)</label>
   <label>Tekst. Wpisz lub wklej, potem zaznacz słowo i kliknij „Zrób lukę”</label><textarea id="x" placeholder="Wklej tutaj tekst...">${esc(e.text)}</textarea>
   <div class="row"><button class="btn p" id="mk">✂️ Zrób lukę z zaznaczenia</button><button class="btn" id="un">↩ Cofnij ostatnią lukę</button><button class="btn" id="em">😁 Wstaw emotikonę</button></div><div id="ep"></div>
   <div class="hint">Luka jest zapisana jako <b>[[słowo]]</b>. Możesz też wpisać ją ręcznie, np. <b>[[didn't steal|did not steal]]</b> (kilka poprawnych odpowiedzi rozdziela znak |).</div>
@@ -352,11 +370,11 @@ function bindEditor(e){
     $("#ar").onclick=()=>{try{const o=dec($("#rc").value.trim());if(o.i!==e.id){note="Ten kod jest z innego ćwiczenia.";teacher();return}
       S.res.push({id:uid(),ex:o.i,n:o.n,c:o.c,t:o.t,d:o.d,a:o.a});note="Dodano!";save();teacher()}catch(x){note="Nieprawidłowy kod.";$("#rm").textContent=note;$("#rm").style.color="var(--bad)"}};
     return}
-  if(e.kind==="quiz")return qBind(e);
+  if(e.kind==="quiz")return qBind(e);if(e.kind==="vocab")return vBind(e);
   const t=$("#t"),n=$("#n"),x=$("#x");
   t.oninput=()=>{e.title=t.value;save()};n.oninput=()=>{e.inst=n.value;save()};
   $("#fo").onchange=ev=>{e.folder=ev.target.value;save();teacher()};
-  $("#bk").onchange=ev=>{e.bank=ev.target.checked;save()};$("#bw").oninput=ev=>{e.bw=ev.target.value;save()};
+  $("#bk").onchange=ev=>{e.bank=ev.target.checked;save()};$("#dg").onchange=ev=>{e.dlg=ev.target.checked;save()};$("#bw").oninput=ev=>{e.bw=ev.target.value;save()};
   $("#rb").onclick=()=>{e.bw=autoBank(e);save();teacher()};
   document.querySelectorAll("details.dt").forEach(d=>{d.open=!!openD[d.dataset.k];d.ontoggle=()=>{openD[d.dataset.k]=d.open}});
   const setF=f=>{if(!f||!f.type.startsWith("image/"))return false;const dt=new DataTransfer();dt.items.add(f);const fi=$("#fi");fi.files=dt.files;fi.dispatchEvent(new Event("change"));return true};
@@ -392,7 +410,7 @@ function bindEditor(e){
   document.querySelectorAll("[data-g]").forEach(inp=>inp.onchange=()=>{const k=+inp.dataset.g;let i=0;
     e.text=e.text.replace(GAP,m=>i++===k?"[["+(inp.value.split("|").map(s=>s.trim()).filter(Boolean).join("|")||"?")+"]]":m);save();teacher()});
   bindLinkBtns(e,()=>gaps(e.text).length?"":"Dodaj przynajmniej jedną lukę.");
-  $("#pv").onclick=()=>{if(!gaps(e.text).length){alert("Dodaj przynajmniej jedną lukę.");return}student({i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank,e:e.extra,bw:e.bw,im:e.images||[],p:1});
+  $("#pv").onclick=()=>{if(!gaps(e.text).length){alert("Dodaj przynajmniej jedną lukę.");return}student({i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank,e:e.extra,bw:e.bw,dlg:e.dlg,im:e.images||[],p:1});
     app.insertAdjacentHTML("afterbegin",`<div class="row" style="margin:0 0 12px"><button class="btn p" id="bkp">← Wróć do edycji</button></div>`);$("#bkp").onclick=teacher}
   $("#del").onclick=()=>{if(confirm("Usunąć ten tekst wraz z wynikami?")){S.ex=S.ex.filter(z=>z.id!==e.id);S.res=S.res.filter(r=>r.ex!==e.id);curE=null;save();teacher()}};
 }
@@ -422,28 +440,30 @@ function musicPlayer(m){let ctx=null,gain=null,timer=null,audio=null,muted=false
     timer=setInterval(()=>{if(!ctx)return;while(next<ctx.currentTime+0.3){const i=step%16,l=P.l[i],b=P.b[i];if(l!=null)note(P.root*Math.pow(2,l/12),next,sd*1.8,P.lt,P.lv||0.1);if(b!=null)note(P.root*Math.pow(2,b/12)/2,next,sd*3.5,P.bt,0.14);next+=sd;step++}},80)}catch(e){}},
    stop(){clearInterval(timer);timer=null;if(audio){audio.pause();audio=null}if(ctx){try{ctx.close()}catch(e){}ctx=null}},
    mute(b){muted=b;if(audio)audio.volume=b?0:0.4;if(gain)gain.gain.value=b?0:0.5}}}
-const qObj=(e,inl)=>({i:e.id,t:e.title,n:e.inst,k:'q',mu:e.mus?(e.mus.k==='f'?(inl?undefined:{k:'f',n:e.mus.n,u:e.mus.u}):e.mus):undefined,qs:e.qs.map(q=>({q:q.q,im:q.im||'',ty:q.ty,o:(q.ty==='o'||q.ty==='f'||q.ty==='m')?[]:q.o,pr:q.ty==='m'?q.pr:undefined,a:q.a||'',tm:q.tm,pt:q.pt,bn:q.bn,pm:q.pm||'all'}))});
+const qObj=(e,inl)=>({i:e.id,t:e.title,n:e.inst,k:'q',mu:e.mus?(e.mus.k==='f'?(inl?undefined:{k:'f',n:e.mus.n,u:e.mus.u}):e.mus):undefined,qs:e.qs.map(q=>({q:q.q,dg:q.dg||'',im:q.im||'',ty:q.ty,o:(q.ty==='o'||q.ty==='f'||q.ty==='m')?[]:q.o,pr:q.ty==='m'?q.pr:undefined,a:q.a||'',tm:q.tm,pt:q.pt,bn:q.bn,pm:q.pm||'all'}))});
 const cnt=(e,r)=>{if(e.kind==='quiz'&&r.a){const g=Object.values(r.a).filter(x=>x&&x[2]==1).length;return [g,e.qs.filter(q=>q.ty!=='f').length-g]}return [r.c,r.t-r.c]};
 const rankHTML=rs=>{const best={};rs.forEach(r=>{const k=norm(r.n);if(!best[k]||r.c>best[k].c)best[k]=r});const L=Object.values(best).sort((a,b)=>b.c-a.c||String(a.d).localeCompare(String(b.d)));
   return L.length?'<h3>🏆 Ranking (najlepszy wynik każdego ucznia)</h3>'+L.map((v,i)=>`<div class="rv"><span style="font-size:20px;min-width:30px">${['🥇','🥈','🥉'][i]||(i+1)+'.'}</span><span style="flex:1">${esc(v.n)}</span><b>${v.c} / ${v.t} pkt</b></div>`).join('')+'<h3>Wszystkie podejścia</h3>':''};
 const detRow=(e,r)=>{const A=r.a?Object.values(r.a):[];let h='<div class="hint">Brak szczegółów (starszy kod wyniku).</div>';
   if(A.length){if(e.kind==='quiz')h=e.qs.map((q,i)=>{const a=A[i]||['',0,0];const ty=q.ty||'c';let ans='',cor='';
-      if(ty==='o'){ans=esc(String(a[0]||'').trim()||'(brak)');cor=esc(String(q.a||'').split('|')[0])}
+      if(ty==='o'){ans=esc(String(a[0]||'').trim()||'(brak)');cor=esc(String(q.a||'').split('|').map(x=>x.trim()).filter(Boolean).join(' / '))}
       else if(ty==='f'){return `<div class="gaprow"><b>${i+1}.</b><span style="color:#b86bff">✍ ${esc(String(a[0]||'').trim()||'(brak odpowiedzi)')}</span> <small>(pytanie bez punktów)</small></div>`}
       else if(ty==='m'){const pk=String(a[0]==null?'':a[0]).split(',').map(Number);ans=(q.pr||[]).map((p,l)=>esc(p[0])+' → '+(pk[l]>=0&&q.pr[pk[l]]?esc(q.pr[pk[l]][1]):'(brak)')).join('; ');cor=(q.pr||[]).map(p=>esc(p[0])+' → '+esc(p[1])).join('; ')}
       else{const ids=String(a[0]==null?'':a[0]).split(',').filter(x=>x!=='').map(Number);ans=esc(ids.length?ids.map(j=>(q.o[j]&&(q.o[j][0]||'[zdjęcie]'))||'?').join(', '):'(brak)');cor=esc(q.o.filter(o=>o[2]).map(o=>o[0]||'[zdjęcie]').join(', '))}
-      return `<div class="gaprow"><b>${i+1}.</b><span style="color:${a[2]==1?'var(--ok)':a[2]==2?'#f5b301':'var(--bad)'}">${a[2]==1?'✔':a[2]==2?'◐':'✘'} ${ans}</span> <small>${a[2]==1?'':'poprawnie: '+cor+' · '}${a[1]} pkt</small></div>`}).join('');
+      return `<div class="gaprow"><b>${i+1}.</b><span style="color:${a[2]==1?'var(--ok)':a[2]==2?'#f5b301':'var(--bad)'}">${a[2]==1?'✔':a[2]==2?'◐':'✘'} ${ans}</span> <small>${a[2]==1?(ty==='o'?'zaakceptowane odpowiedzi: '+cor+' · ':''):'poprawnie: '+cor+' · '}${a[1]} pkt</small></div>`}).join('');
+    else if(e.kind==='vocab')h=A.map((x,i)=>{const w=(e.words||[])[x[3]]||['?','?'];const pe=x[2]===1;return `<div class="gaprow"><b>${i+1}.</b><span style="color:${x[1]?'var(--ok)':'var(--bad)'}">${x[1]?'✔':'✘'} ${esc(pe?w[1]:w[0])} → ${esc(x[0]||'(brak)')}</span>${x[1]?'':` <small>poprawnie: ${esc(pe?w[0]:w[1])}</small>`}</div>`}).join('');
     else h=gaps(e.text).map((g,i)=>{const a=A[i]||['',0];const c=g.split('|').map(s=>s.trim()).join(' / ');return `<div class="gaprow"><b>Luka ${i+1}</b><span style="color:${a[1]?'var(--ok)':'var(--bad)'}">${a[1]?'✔':'✘'} ${esc(a[0]||'(puste)')}</span>${a[1]?'':` <small>poprawnie: ${esc(c)}</small>`}</div>`}).join('')}
   return `<tr id="dx_${r.id}" style="display:none"><td colspan="6">${h}</td></tr>`};
 const TY=[['c','🔘 Wybór odpowiedzi'],['o','⌨️ Wpisz odpowiedź (oceniane)'],['f','✍️ Odpowiedź własna (bez punktów)'],['m','🔗 Dopasowywanie']];
 function qCard(q,i){const ty=q.ty||'c';const num=(f,l,v)=>`<label style="margin:0">${l}</label><input type="text" inputmode="numeric" data-fld="${f}" data-i="${i}" value="${v}" style="width:80px">`;
   const sel='padding:9px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:500 14px Poppins';
-  const body=ty==='o'?`<label>Poprawne odpowiedzi (kilka oddziel znakiem |)</label><input type="text" data-fld="a" data-i="${i}" value="${esc(q.a||'')}">`
+  const body=ty==='o'?`<label>Poprawne odpowiedzi (kilka oddziel znakiem |). Każda z nich daje pełne punkty</label><input type="text" data-fld="a" data-i="${i}" value="${esc(q.a||'')}">`
   :ty==='f'?`<div class="note">✍️ Uczeń wpisuje własną odpowiedź. Nie jest oceniana na punkty, a uczeń dostaje informację, że za to pytanie nie ma punktów. Jego odpowiedź zobaczysz w wynikach.</div>`
   :ty==='m'?`<label>Pary: lewa strona ↔ pasująca prawa strona</label>${(q.pr||[]).map((p,j)=>`<div class="gaprow"><input type="text" data-fld="pl" data-i="${i}" data-j="${j}" value="${esc(p[0])}" placeholder="Lewa ${j+1}"><span>↔</span><input type="text" data-fld="pg" data-i="${i}" data-j="${j}" value="${esc(p[1])}" placeholder="Pasuje do"><button class="btn d" data-a="rp" data-i="${i}" data-j="${j}">✕</button></div>`).join('')}<button class="btn" data-a="ap" data-i="${i}">+ Dodaj parę</button><div class="hint">Uczeń widzi prawą stronę w losowej kolejności. Punkty są proporcjonalne do liczby poprawnych par.</div>`
   :`<label>Odpowiedzi. Zaznacz ✓ przy poprawnych</label>${(q.o||[]).map((o,j)=>`<div class="gaprow" data-oj="${j}"><input type="checkbox" data-fld="ok" data-i="${i}" data-j="${j}" ${o[2]?'checked':''} title="poprawna" style="width:22px;height:22px"><input type="text" data-fld="ot" data-i="${i}" data-j="${j}" value="${esc(o[0])}" placeholder="Odpowiedź ${j+1}"><button class="btn" data-a="imo" data-i="${i}" data-j="${j}" title="${o[1]?'Usuń zdjęcie':'Dodaj zdjęcie do odpowiedzi'}">${o[1]?'🖼✓':'🖼'}</button><button class="btn d" data-a="rmo" data-i="${i}" data-j="${j}">✕</button></div>`).join('')}<button class="btn" data-a="ao" data-i="${i}">+ Dodaj odpowiedź</button>`;
   return `<details class="dt" data-k="q_${q.id}" data-qi="${i}"><summary>Pytanie ${i+1}${q.q?': '+esc(q.q.slice(0,40)):''}</summary>
   <label>Treść pytania</label><textarea data-fld="q" data-i="${i}" style="min-height:70px">${esc(q.q)}</textarea>
+  <label>💬 Dialog do pytania (opcjonalnie)</label><textarea data-fld="dg" data-i="${i}" style="min-height:70px" placeholder="Anna: Hi, how are you?&#10;Tom: Fine, thanks!">${esc(q.dg||'')}</textarea><div class="hint">Każda linia w formacie Imię: tekst. Uczeń zobaczy dymki rozmowy.</div>
   <div class="row">${q.im?`<span class="chip"><img src="${esc(q.im)}" alt="" style="height:56px;border-radius:8px"><button class="btn d" data-a="rmq" data-i="${i}">✕</button></span>`:''}<button class="btn" data-a="imq" data-i="${i}">🖼 Zdjęcie do pytania</button></div>
   <div class="hint">🖼 Zdjęcie możesz też przeciągnąć z komputera na to pytanie albo na wybraną odpowiedź, albo wkleić (Ctrl+V) w polu pytania lub odpowiedzi.</div>
   <label>Rodzaj pytania</label><div class="row" style="margin-top:0">${TY.map(([k,l])=>`<button class="btn ${ty===k?'p':''}" data-a="ty" data-v="${k}" data-i="${i}">${l}</button>`).join('')}</div>
@@ -464,16 +484,17 @@ function qEdit(e){e.qs=e.qs||[];
   <div class="row"><button class="btn p" id="aq">+ Dodaj pytanie</button></div>
   <div class="row">${genBtns(e)}<button class="btn" id="dup">📄 Kopiuj ćwiczenie</button><button class="btn" id="pv">👁 Podgląd</button><button class="btn d" id="del">Usuń quiz</button></div><div id="lk"></div>`}
 const genBtns=e=>`<button class="btn g" id="gen">${e.lid?'🔄 Zaktualizuj link':'🔗 Generuj link'}</button><button class="btn" id="newl" style="${e.lid?'':'display:none'}" title="Tworzy osobny, nowy link. Stary przestanie się zmieniać">🆕 Nowy link</button>`;
-function dup(e){const c=JSON.parse(JSON.stringify(e));c.id=uid();c.title=(e.title||'Bez tytułu')+' (kopia)';delete c.lid;delete c.lh;c.created=new Date().toISOString();if(c.qs)c.qs.forEach(q=>q.id=uid());S.ex.unshift(c);curE=c.id;tab='edit';save();teacher()}
+function dup(e){const c=JSON.parse(JSON.stringify(e));c.id=uid();c.title=(e.title||'Bez tytułu')+' (kopia)';delete c.lid;delete c.lh;Object.keys(c).forEach(k=>{if(/^lid_/.test(k))delete c[k]});c.created=new Date().toISOString();if(c.qs)c.qs.forEach(q=>q.id=uid());S.ex.unshift(c);curE=c.id;tab='edit';save();teacher()}
 function bindLinkBtns(e,check){const go=m=>()=>{const er=check();if(er){alert(er);return}showLink(e,m)};$('#gen').onclick=go('upd');$('#newl').onclick=go('new');$('#dup').onclick=()=>{if(confirm('Utworzyć kopię tego ćwiczenia? Kopia dostanie własny link i nie przejmie wyników.'))dup(e)}}
-async function showLink(e,mode){const lk=$('#lk');lk.innerHTML='<div class="hint">Zapisuję…</div>';const had=!!e.lid;const l=await link(e,mode);const h=fbHost(S.fb);
+async function showLink(e,mode,vm){const lk=$(vm?'#lk_'+vm:'#lk');lk.innerHTML='<div class="hint">Zapisuję…</div>';const key=vm?'lid_'+vm:'lid';const had=!!e[key];const l=await link(e,mode,vm);const h=fbHost(S.fb);
   const note=!h?'Bez bazy online link zawiera całe ćwiczenie, więc po każdej zmianie trzeba wygenerować nowy. Włącz „⚙️ Baza online”, a wtedy ten sam link da się aktualizować.'+(e.mus&&e.mus.k==='f'?' Własnej muzyki nie ma w tym linku (potrzebna baza online), podkłady z listy działają.':'')
     :fbErr?`Baza online nie odpowiedziała (${esc(fbErr)}), więc link jest długi i nie da się go aktualizować.`
-    :(mode==='new'||!had)?'✔ Link gotowy. Kiedy zmienisz ćwiczenie (czas, punkty, pytania), kliknij „Zaktualizuj link”, a ten sam link pokaże nowe dane.'
+    :(mode==='new'||!had)?'✔ Link gotowy. Kiedy zmienisz ćwiczenie, kliknij „Zaktualizuj link”, a ten sam link pokaże nowe dane.'
     :'✔ Link zaktualizowany. Uczniowie z tym samym linkiem zobaczą nowe ustawienia (kto już skończył, nie zrobi drugi raz).';
-  lk.innerHTML=`<div class="hint" style="margin-top:14px"><b>Link dla ucznia</b> (${l.length} znaków)${l.length>6000?'. Link jest długi z powodu zdjęć, użyj mniejszej liczby lub mniejszych zdjęć':''}:</div><textarea class="code" readonly onclick="this.select()">${esc(l)}</textarea><div class="row"><button class="btn g" id="cl">📋 Kopiuj link</button><span class="msg" id="lm"></span></div><div class="hint" style="${h&&!fbErr?'color:var(--green)':''}">${note}</div>`;
-  const g=$('#gen');if(g&&e.lid)g.textContent='🔄 Zaktualizuj link';const nl=$('#newl');if(nl&&e.lid)nl.style.display='';
-  $('#cl').onclick=()=>{const ta=$('#lk textarea');ta.select();try{navigator.clipboard.writeText(l)}catch(z){document.execCommand('copy')}$('#lm').textContent='Skopiowano!'}}
+  lk.innerHTML=`<div class="hint" style="margin-top:14px"><b>Link dla ucznia</b> (${l.length} znaków)${l.length>6000?'. Link jest długi z powodu zdjęć, użyj mniejszej liczby lub mniejszych zdjęć':''}:</div><textarea class="code" readonly onclick="this.select()">${esc(l)}</textarea><div class="row"><button class="btn g cl">📋 Kopiuj link</button><span class="msg lm"></span></div><div class="hint" style="${h&&!fbErr?'color:var(--green)':''}">${note}</div>`;
+  if(!vm){const g=$('#gen');if(g&&e.lid)g.textContent='🔄 Zaktualizuj link';const nl=$('#newl');if(nl&&e.lid)nl.style.display=''}
+  else{const g=document.querySelector(`[data-v=gen][data-m=${vm}]`);if(g&&e[key]){g.textContent='🔄 Zaktualizuj link';if(!document.querySelector(`[data-v=new][data-m=${vm}]`))g.insertAdjacentHTML('afterend',`<button class="btn" data-v="new" data-m="${vm}">🆕 Nowy link</button>`)}}
+  lk.querySelector('.cl').onclick=()=>{const ta=lk.querySelector('textarea');ta.select();try{navigator.clipboard.writeText(l)}catch(z){document.execCommand('copy')}lk.querySelector('.lm').textContent='Skopiowano!'}}
 function qBind(e){const main=document.querySelector('.main');
   const t=$('#t'),n=$('#n');t.oninput=()=>{e.title=t.value;save()};n.oninput=()=>{e.inst=n.value;save()};
   $('#fo').onchange=ev=>{e.folder=ev.target.value;save();teacher()};
@@ -481,7 +502,7 @@ function qBind(e){const main=document.querySelector('.main');
   main.oninput=ev=>{const el=ev.target,f=el.dataset.fld,i=+el.dataset.i,j=+el.dataset.j;
     if(el.dataset.d){e[el.dataset.d]=+el.value||0;save();return}
     const q=e.qs[i];if(!f||!q)return;
-    if(f==='q')q.q=el.value;else if(f==='a')q.a=el.value;else if(f==='ot')q.o[j][0]=el.value;else if(f==='pl')q.pr[j][0]=el.value;else if(f==='pg')q.pr[j][1]=el.value;else if(f==='tm'||f==='pt'||f==='bn')q[f]=+el.value||0;
+    if(f==='q')q.q=el.value;else if(f==='dg')q.dg=el.value;else if(f==='a')q.a=el.value;else if(f==='ot')q.o[j][0]=el.value;else if(f==='pl')q.pr[j][0]=el.value;else if(f==='pg')q.pr[j][1]=el.value;else if(f==='tm'||f==='pt'||f==='bn')q[f]=+el.value||0;
     save()};
   main.onchange=ev=>{const el=ev.target,f=el.dataset.fld,i=+el.dataset.i,j=+el.dataset.j;const q=e.qs[i];if(!q)return;
     if(f==='ok'){q.o[j][2]=el.checked;save();teacher()}
@@ -563,7 +584,7 @@ function quiz(ex){
     qa.innerHTML=`<div class="qh"><span class="chip2">Pytanie ${i+1}/${Q.length}</span><span class="chip2">⭐ <b id="sc">${score}</b></span><button class="btn" id="mu"></button></div>
     <div class="qbar"><i style="width:${i/Q.length*100}%"></i></div>
     <div class="qcard"><div class="qtimer" id="qt"><svg viewBox="0 0 44 44"><circle class="tr" cx="22" cy="22" r="19"/><circle class="tp" id="tp" cx="22" cy="22" r="19"/></svg><b id="tt">${tot}</b></div>
-    <div class="qtxt">${big(esc(q.q))}</div>${q.im?`<img class="qimg" src="${esc(q.im)}" alt="">`:''}
+    <div class="qtxt">${big(esc(q.q))}</div>${q.dg?dlgHTML(q.dg.split('\n').map(l=>big(esc(l)))):''}${q.im?`<img class="qimg" src="${esc(q.im)}" alt="">`:''}
     ${body}
     <div id="qfb"></div></div>`;mu();
     t0=performance.now();let last=-1;clearInterval(tm);const tp=$('#tp');
@@ -623,6 +644,152 @@ function quiz(ex){
     end(name,score,log,code,msg)}
   if(saved&&saved.q)end(saved.name,saved.score,saved.log||[],saved.code,'Ten quiz został już rozwiązany. Oto twój wynik.');else if(ex.sk){name='Podgląd';ask(0)}else intro();
 }
+
+/* ---------- VOCAB ---------- */
+const vsh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let __ac=null;
+function beep(k){if(window.__vmute)return;try{__ac=__ac||new (window.AudioContext||window.webkitAudioContext)();const c=__ac;if(c.state==='suspended')c.resume();
+  const T=(f,s,d,ty,v,f2)=>{const o=c.createOscillator(),g=c.createGain(),n=c.currentTime+s;o.type=ty||'sine';o.frequency.setValueAtTime(f,n);if(f2)o.frequency.exponentialRampToValueAtTime(f2,n+d);g.gain.setValueAtTime(0.0001,n);g.gain.linearRampToValueAtTime(v||0.12,n+0.02);g.gain.exponentialRampToValueAtTime(0.0001,n+d);o.connect(g);g.connect(c.destination);o.start(n);o.stop(n+d+0.05)};
+  if(k==='ok')[523,659,784].forEach((f,i)=>T(f,i*0.07,0.22,'triangle',0.12));else if(k==='bad')T(200,0,0.3,'sawtooth',0.09,90);
+  else if(k==='win')[523,659,784,1047,1319].forEach((f,i)=>T(f,i*0.1,0.3,'triangle',0.12));else T(700,0,0.06,'triangle',0.07)}catch(e){}}
+const confetti=(em,n)=>{for(let i=0;i<n;i++){const s=document.createElement('span');s.className='cf';s.textContent=em[i%em.length];s.style.cssText=`left:${Math.random()*100}vw;--d:${2+Math.random()*2}s;--x:${(Math.random()-0.5)*240}px;font-size:${20+Math.random()*26}px;animation-delay:${Math.random()*0.5}s`;document.body.appendChild(s);setTimeout(()=>s.remove(),5000)}};
+const DLGC=['#ff8a1f','#8b5cf6','#10b981','#ec4899','#0ea5e9'];
+function dlgHTML(lines){const sp={};let n=0,out='';
+  lines.forEach((ln,i)=>{ln=String(ln);if(!ln.trim())return;const m=ln.match(/^\s*([^:<>]{1,24}):\s*([\s\S]*)$/);
+    if(!m){out+=`<div class="dn">${ln}</div>`;return}
+    const name=m[1].trim();if(!(name in sp))sp[name]=n++;const k=sp[name];
+    out+=`<div class="db ${k%2?'r':'l'}" style="--c:${DLGC[k%5]};animation-delay:${Math.min(i,12)*0.08}s"><span class="da">${name.charAt(0).toUpperCase()}</span><div class="dbb"><b>${name}</b><div>${m[2]}</div></div></div>`});
+  return `<div class="dlg">${out}</div>`}
+const vObj=(e,vm)=>{const o=Object.assign({dr:'ep',sh:true,gs:5},(e.vo||{})[vm]||{});return{i:e.id,t:e.title,n:e.inst,k:'v',md:vm,dr:o.dr,sh:o.sh?1:0,gs:+o.gs||5,w:(e.words||[]).map(w=>[w[0],w[1]])}};
+const VD=[['ep','🇬🇧→🇵🇱 angielski → polski'],['pe','🇵🇱→🇬🇧 polski → angielski'],['mx','🔀 mieszane']];
+function vEdit(e){e.words=e.words||[];e.vo=e.vo||{};
+  const o=m=>Object.assign({dr:'ep',sh:true,gs:5},e.vo[m]||{});const st='padding:9px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:500 14px Poppins';
+  const dsel=m=>`<select data-vo="${m}" data-vk="dr" style="${st}">${VD.map(([k,l])=>`<option value="${k}" ${o(m).dr===k?'selected':''}>${l}</option>`).join('')}</select>`;
+  const btns=m=>{const had=!!e['lid_'+m];return `<div class="row"><button class="btn g" data-v="gen" data-m="${m}">${had?'🔄 Zaktualizuj link':'🔗 Generuj link'}</button>${had?`<button class="btn" data-v="new" data-m="${m}">🆕 Nowy link</button>`:''}<button class="btn" data-v="pv" data-m="${m}">👁 Podgląd</button></div><div id="lk_${m}"></div>`};
+  return `<label style="margin-top:0">Tytuł zestawu</label><input type="text" id="t" value="${esc(e.title)}">
+  <label>Folder</label><select id="fo" style="${st}"><option value="">— brak —</option>${S.folders.map(f=>`<option value="${f.id}" ${e.folder===f.id?'selected':''}>${esc(f.name)}</option>`).join('')}</select>
+  <div class="dt" style="margin-top:14px"><b>📚 Słówka (angielski ↔ polski)</b>
+   ${e.words.map((w,j)=>`<div class="gaprow"><input type="text" data-fld="we" data-j="${j}" value="${esc(w[0])}" placeholder="English"><span>↔</span><input type="text" data-fld="wp" data-j="${j}" value="${esc(w[1])}" placeholder="Polski"><button class="btn d" data-v="rw" data-j="${j}">✕</button></div>`).join('')}
+   <div class="row"><button class="btn p" data-v="aw">+ Dodaj słówko</button></div>
+   <label>Wklej listę (jedno słówko w linii: angielski - polski)</label><textarea id="vbulk" style="min-height:90px" placeholder="house - dom&#10;to run - biegać"></textarea><div class="row"><button class="btn" data-v="bulk">➕ Dodaj z listy</button></div>
+   <div class="hint">Kilka znaczeń oddziel znakiem / albo ; (np. „dom / budynek”). Każde z nich uczeń może wpisać jako poprawne.</div></div>
+  <div class="dt vm"><b>📇 Fiszki</b><div class="hint">Karty do przesuwania na telefonie. Uczeń zaznacza, które umie, a postęp zapisuje się na jego urządzeniu.</div><div class="row">${dsel('cards')}<label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" data-vo="cards" data-vk="sh" ${o('cards').sh?'checked':''}> wymieszaj fiszki</label></div>${btns('cards')}</div>
+  <div class="dt vm"><b>🧠 Ucz się</b><div class="hint">Seria po kilka słówek: najpierw wybór A–D, potem te same słówka pisemnie. Potem kolejna seria.</div><div class="row">${dsel('learn')}<label style="margin:0">Słówek w serii</label><input type="text" inputmode="numeric" data-vo="learn" data-vk="gs" value="${o('learn').gs}" style="width:70px"></div>${btns('learn')}</div>
+  <div class="dt vm"><b>📝 Test</b><div class="hint">Uczeń pisze tłumaczenia wszystkich słówek, dostaje wynik, a ty widzisz go w zakładce Wyniki (jedna próba).</div><div class="row">${dsel('test')}</div>${btns('test')}</div>
+  <div class="row"><button class="btn" id="dup">📄 Kopiuj ćwiczenie</button><button class="btn d" id="del">Usuń zestaw</button></div>`}
+function vBind(e){const main=document.querySelector('.main');
+  const t=$('#t');t.oninput=()=>{e.title=t.value;save()};$('#fo').onchange=ev=>{e.folder=ev.target.value;save();teacher()};
+  main.oninput=ev=>{const el=ev.target,f=el.dataset.fld,j=+el.dataset.j;if(f==='we'&&e.words[j])e.words[j][0]=el.value;else if(f==='wp'&&e.words[j])e.words[j][1]=el.value;else return;save()};
+  main.onchange=ev=>{const el=ev.target,m=el.dataset.vo;if(!m)return;e.vo[m]=e.vo[m]||{};const k=el.dataset.vk;e.vo[m][k]=k==='sh'?el.checked:k==='gs'?Math.max(2,+el.value||5):el.value;save()};
+  main.onclick=ev=>{const b=ev.target.closest('[data-v]');if(!b)return;const a=b.dataset.v,m=b.dataset.m,j=+b.dataset.j;
+    if(a==='aw'){e.words.push(['','']);save();teacher()}
+    else if(a==='rw'){if(e.words.length<=2){alert('Zestaw potrzebuje co najmniej dwóch słówek.');return}e.words.splice(j,1);save();teacher()}
+    else if(a==='bulk'){let n=0;const add=[];$('#vbulk').value.split('\n').forEach(l=>{l=l.trim();if(!l)return;const x=l.match(/^(.+?)\s*(?:\t|\s[-–—=:]\s|;|=)\s*(.+)$/);if(x){add.push([x[1].trim(),x[2].trim()]);n++}});
+      if(!n){alert('Nie rozpoznałem żadnej pary. Użyj formatu: house - dom (jedno słówko w linii).');return}e.words=e.words.filter(w=>w[0].trim()||w[1].trim()).concat(add);save();teacher()}
+    else if(a==='gen'||a==='new'||a==='pv'){if(e.words.filter(w=>w[0].trim()&&w[1].trim()).length<2){alert('Dodaj co najmniej dwa słówka (angielski i polski).');return}
+      if(a==='pv'){vocab(Object.assign(vObj(e,m),{p:1}));app.insertAdjacentHTML('afterbegin','<div class="row" style="margin:0 0 12px"><button class="btn p" id="bkp">← Wróć do edycji</button></div>');$('#bkp').onclick=teacher}
+      else showLink(e,a==='new'?'new':'upd',m)}};
+  $('#dup').onclick=async()=>{if(await modal({title:'📄 Kopiować ćwiczenie?',text:'Kopia dostanie własny link i nie przejmie wyników.',ok:'Kopiuj'}))dup(e)};
+  $('#del').onclick=async()=>{if(await modal({title:'Usunąć ten zestaw?',text:'Razem z wynikami testów.',ok:'Usuń'})){S.ex=S.ex.filter(z=>z.id!==e.id);S.res=S.res.filter(r=>r.ex!==e.id);curE=null;save();teacher()}}}
+
+function vocab(ex){
+  const W=(ex.w||[]).map((p,i)=>({en:p[0],pl:p[1],i})).filter(w=>w.en&&w.pl);
+  const alts=s=>String(s).split(/[;\/]/).map(x=>x.trim()).filter(Boolean);
+  const nm=s=>norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ł/g,'l');
+  const ck=(t,target)=>!!nm(t)&&alts(target).some(a=>nm(a)===nm(t));
+  const sig=(()=>{let h=0;const t=W.map(w=>w.en+'|'+w.pl).join('#');for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return (h>>>0).toString(36)})();
+  const key='luki_v_'+ex.i+'_'+ex.md+'_'+(ex.dr||'ep')+'_'+(ex.gs||5)+'_'+sig;
+  const ld=()=>{if(ex.p)return null;try{return JSON.parse(localStorage.getItem(key))}catch(e){return null}};
+  const sv=st=>{if(!ex.p){try{localStorage.setItem(key,JSON.stringify(st))}catch(e){}}};
+  const clr=()=>{try{localStorage.removeItem(key)}catch(e){}};
+  const dirOf=()=>ex.dr==='mx'?(Math.random()<0.5?'ep':'pe'):(ex.dr||'ep');
+  const fr=(w,d)=>d==='ep'?w.en:w.pl,bk=(w,d)=>d==='ep'?w.pl:w.en;
+  const dl={ep:'🇬🇧 → 🇵🇱',pe:'🇵🇱 → 🇬🇧'};
+  const MODE={cards:'📇 Fiszki',learn:'🧠 Ucz się',test:'📝 Test'};
+  app.innerHTML=hdr(esc(ex.t||'Słówka'),(MODE[ex.md]||'Słówka')+(ex.n?' · '+esc(ex.n):''))+'<div id="va"></div>';
+  const va=$('#va');
+  if(W.length<2){va.innerHTML='<section class="card">Ten zestaw ma za mało słówek.</section>';return}
+  const top=(extra,noreset)=>`<div class="qh"><span class="chip2">${MODE[ex.md]}</span>${extra||''}<span><button class="btn" id="vmu">${window.__vmute?'🔇':'🔊'}</button>${noreset?'':' <button class="btn" id="vrs">🔄 Resetuj</button>'}</span></div>`;
+  const bindTop=onReset=>{const m=$('#vmu');if(m)m.onclick=()=>{window.__vmute=!window.__vmute;m.textContent=window.__vmute?'🔇':'🔊'};const r=$('#vrs');if(r&&onReset)r.onclick=async()=>{if(await modal({title:'🔄 Zresetować postęp?',text:'Zaczniesz od początku na tym urządzeniu.',ok:'Resetuj'})){clr();onReset()}}};
+  function cards(){
+    const newDeck=only=>{const idx=only||W.map((w,i)=>i);const o=ex.sh?vsh(idx):idx.slice();return{o:o,d:o.map(()=>dirOf()),p:0,g:[],b:[],h:[]}};
+    let st=ld();if(!st||!st.o||st.o.some(i=>i>=W.length))st=newDeck();
+    const mark=(good,fc)=>{if(fc){fc.style.transition='transform .35s ease';fc.style.transform=`translateX(${good?'':'-'}130vw) rotate(${good?'':'-'}25deg)`}
+      st[good?'g':'b'].push(st.o[st.p]);st.h.push(good?1:0);st.p++;sv(st);beep(good?'ok':'bad');setTimeout(draw,300)};
+    function fin(){va.innerHTML=top('')+`<section class="card" style="text-align:center"><div style="font-size:64px;animation:pop .6s">${st.b.length?'💪':'🏆'}</div><div class="sbig">${st.g.length}/${st.o.length}</div><div style="font-weight:800;font-size:18px">Umiesz ${st.g.length}, do powtórki ${st.b.length}</div><div class="row" style="justify-content:center">${st.b.length?`<button class="btn p" id="vrep">🔁 Powtórz niewiadome (${st.b.length})</button>`:''}<button class="btn" id="vnew">🔄 Zacznij od nowa</button></div></section>`;
+      bindTop(()=>{st=newDeck();draw()});if(!st.b.length){confetti(['🎃','⭐','🦇','✨'],40);beep('win')}
+      const r=$('#vrep');if(r)r.onclick=()=>{st=newDeck(st.b.slice());sv(st);draw()};$('#vnew').onclick=()=>{st=newDeck();sv(st);draw()}}
+    function draw(){
+      if(st.p>=st.o.length)return fin();
+      const w=W[st.o[st.p]],d=st.d[st.p],left=st.o.length-st.p;
+      va.innerHTML=top(`<span class="chip2" style="color:var(--ok)">✔ ${st.g.length}</span><span class="chip2" style="color:var(--bad)">✘ ${st.b.length}</span><span class="chip2">⏳ ${left}</span>`)+`<div class="qbar"><i style="width:${st.p/st.o.length*100}%"></i></div>
+      <div class="fcw"><div class="fc" id="fc"><div class="fci"><div class="fcf"><small>${dl[d]}</small><div class="fct">${big(esc(fr(w,d)))}</div><small>dotknij, aby odwrócić</small></div><div class="fcb"><small>${dl[d==='ep'?'pe':'ep']}</small><div class="fct">${big(esc(bk(w,d)))}</div></div></div><div class="fcg g1">✔ UMIEM</div><div class="fcg g2">✘ NIE UMIEM</div></div></div>
+      <div class="row" style="justify-content:center"><button class="btn d" id="fno" style="font-size:18px;padding:14px 22px">✘ Nie umiem</button><button class="btn" id="fun" title="Cofnij">↶</button><button class="btn g" id="fyes" style="font-size:18px;padding:14px 22px">✔ Umiem</button></div>
+      <div class="hint" style="text-align:center">Przesuń kartę w prawo (umiem) albo w lewo (nie umiem). Postęp zapisuje się na tym urządzeniu.</div>`;
+      bindTop(()=>{st=newDeck();draw()});
+      const fc=$('#fc'),g1=fc.querySelector('.g1'),g2=fc.querySelector('.g2');let sx=0,dx=0,drag=false,moved=false;
+      fc.onpointerdown=e=>{drag=true;moved=false;sx=e.clientX;dx=0;try{fc.setPointerCapture(e.pointerId)}catch(z){}fc.style.transition='none'};
+      fc.onpointermove=e=>{if(!drag)return;dx=e.clientX-sx;if(Math.abs(dx)>8)moved=true;fc.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;g1.style.opacity=Math.max(0,Math.min(1,dx/110));g2.style.opacity=Math.max(0,Math.min(1,-dx/110))};
+      fc.onpointerup=()=>{if(!drag)return;drag=false;fc.style.transition='transform .35s ease';
+        if(!moved){fc.style.transform='';fc.classList.toggle('flip');beep('tap');return}
+        if(dx>110)mark(true,fc);else if(dx<-110)mark(false,fc);else{fc.style.transform='';g1.style.opacity=g2.style.opacity=0}};
+      $('#fyes').onclick=()=>mark(true,fc);$('#fno').onclick=()=>mark(false,fc);
+      $('#fun').onclick=()=>{if(!st.p)return;st.p--;const k=st.h.pop(),id=st.o[st.p],arr=k?st.g:st.b;arr.splice(arr.lastIndexOf(id),1);sv(st);draw()}}
+    draw()}
+  function learn(){
+    const N=Math.max(2,Math.min(+ex.gs||5,W.length));const groups=[];const ids=W.map((w,i)=>i);for(let i=0;i<ids.length;i+=N)groups.push(ids.slice(i,i+N));
+    if(groups.length>1&&groups[groups.length-1].length<2){const l=groups.pop();groups[groups.length-1].push(...l)}
+    const total=groups.length;const fresh=()=>({g:0,ph:1,q:vsh(groups[0]),sc:''});
+    let st=ld();if(!st||st.g==null||!Array.isArray(st.q)||st.q.some(i=>i>=W.length))st=fresh();
+    const L=['A','B','C','D'];
+    function head(){const gsz=groups[st.g].length;const rest=total-st.g-1;return top(`<span class="chip2">Seria ${st.g+1}/${total}</span>`)+`<div class="gds">${groups.map((g,i)=>`<span class="gd ${i<st.g?'ok':i===st.g?'cur':''}">${i<st.g?'✔':i+1}</span>`).join('')}</div>
+      <div class="hint" style="text-align:center;margin:0 0 8px">${rest>0?`Po tej serii zostanie jeszcze ${rest} z ${total} (po ${N} słówek)`:'To ostatnia seria!'}</div>
+      <div class="ph"><span class="${st.ph===1?'on':''}">① Wybór A–D</span><span class="${st.ph===2?'on':''}">② Pisanie</span></div><div class="qbar"><i style="width:${(gsz-st.q.length)/gsz*100}%"></i></div>`}
+    const next=()=>{if(!st.q.length){if(st.ph===1){st.ph=2;st.q=vsh(groups[st.g]);st.sc='p2'}else st.sc='gd'}sv(st);show()};
+    function show(){
+      if(st.g>=total)return fin();
+      if(st.sc==='p2'){va.innerHTML=head()+`<section class="card" style="text-align:center"><div style="font-size:60px;animation:pop .6s">✍️</div><h2>Świetnie! Teraz pisanie</h2><div class="hint">Te same ${groups[st.g].length} słówek, ale tym razem wpisujesz tłumaczenie.</div><div class="row" style="justify-content:center"><button class="btn p" id="vgo" style="font-size:18px;padding:14px 30px">Start ➜</button></div></section>`;bindTop(()=>{st=fresh();show()});$('#vgo').onclick=()=>{st.sc='';sv(st);show()};beep('ok');return}
+      if(st.sc==='gd'){const rest=total-st.g-1;va.innerHTML=head()+`<section class="card" style="text-align:center"><div style="font-size:64px;animation:pop .6s">🎉</div><h2>Seria ${st.g+1} ukończona!</h2><div class="hint">${rest>0?`Zostało jeszcze ${rest} z ${total}.`:'To była ostatnia seria.'}</div><div class="row" style="justify-content:center"><button class="btn p" id="vgo" style="font-size:18px;padding:14px 30px">${rest>0?'Następna seria ➜':'Zobacz wynik 🏆'}</button></div></section>`;bindTop(()=>{st=fresh();show()});confetti(['🎃','⭐','🦇','✨'],24);beep('win');
+        $('#vgo').onclick=()=>{st.g++;st.sc='';st.ph=1;if(st.g<total)st.q=vsh(groups[st.g]);sv(st);show()};return}
+      if(!st.q.length)return next();
+      const wi=st.q[0],w=W[wi],d=dirOf();let box;
+      if(st.ph===1){const cor=alts(bk(w,d))[0];const oth=vsh(W.map((x,i)=>i).filter(i=>i!==wi&&alts(bk(W[i],d))[0]!==cor)).slice(0,3);const opts=vsh([wi,...oth]);
+        box=`<div class="qtxt" style="margin-right:0;text-align:center">${big(esc(fr(w,d)))}</div><div class="hint" style="text-align:center">${dl[d]} · wybierz poprawne tłumaczenie</div><div class="qopts">${opts.map((o,k)=>`<button class="opt" data-o="${o}"><span class="ol">${L[k]}</span><span>${big(esc(alts(bk(W[o],d))[0]))}</span></button>`).join('')}</div>`}
+      else box=`<div class="qtxt" style="margin-right:0;text-align:center">${big(esc(fr(w,d)))}</div><div class="hint" style="text-align:center">${dl[d]} · wpisz tłumaczenie</div><input class="oin" id="va_in" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Twoja odpowiedź…"><div class="row" style="justify-content:center"><button class="btn p" id="vok">Sprawdź ➜</button></div>`;
+      va.innerHTML=head()+`<div class="qcard"><div id="vbox">${box}</div><div id="vfb"></div></div>`;bindTop(()=>{st=fresh();show()});
+      let lock=false;
+      const res=(good,reveal)=>{if(lock)return;lock=true;if(good){st.q.shift()}else{st.q.push(st.q.shift())}sv(st);beep(good?'ok':'bad');if(good)confetti(['✨','⭐'],6);
+        $('#vfb').innerHTML=`<div class="fbk ${good?'ok':'no'}">${good?'✔ Dobrze!':'✘ Poprawnie: <b>'+esc(reveal)+'</b>'}</div><div class="row" style="justify-content:center"><button class="btn p" id="vnx">Dalej ➜</button></div>`;
+        $('#vnx').onclick=next;if(good)setTimeout(()=>{if($('#vnx'))next()},900)};
+      if(st.ph===1){va.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(lock)return;const good=+b.dataset.o===wi;va.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.o===wi)x.classList.add('good');else if(x===b)x.classList.add('bad');else x.classList.add('dim')});res(good,alts(bk(w,d))[0])})}
+      else{const inp=$('#va_in');inp.focus();const go=()=>{if(lock||!inp.value.trim())return;const good=ck(inp.value,bk(w,d));inp.disabled=true;inp.style.borderColor=good?'#22c55e':'#ef4444';res(good,alts(bk(w,d)).join(' / '))};$('#vok').onclick=go;inp.onkeydown=e=>{if(e.key==='Enter')go()}}}
+    function fin(){va.innerHTML=top('')+`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">🏆</div><div class="sbig">${W.length}</div><div style="font-weight:800;font-size:18px">Opanowane słówka: ${W.length} z ${W.length}</div><div class="row" style="justify-content:center"><button class="btn p" id="vnew">🔄 Zacznij od nowa</button></div></section>`;bindTop(()=>{st=fresh();show()});confetti(['🎃','⭐','🦇','✨','👻'],50);beep('win');$('#vnew').onclick=()=>{st=fresh();sv(st);show()}}
+    show()}
+  function test(){
+    let saved=null;if(!ex.p){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
+    const N=W.length;let name='',order=vsh(W.map((w,i)=>i)),log=[],dirs=order.map(()=>dirOf());
+    function end(nm,sc,lg,code,msg){const pc=N?Math.round(sc/N*100):0;
+      va.innerHTML=`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">${pc>=90?'🏆':pc>=60?'🎃':pc>=30?'🦇':'💀'}</div><div class="sbig" id="fs">0</div><div style="font-weight:800;font-size:18px">${esc(nm)}, wynik: ${sc} z ${N} (${pc}%)</div><div class="msg" id="sent" style="display:block;margin-top:10px">${msg||''}</div></section>
+      <section class="card"><h2>Twoje odpowiedzi</h2>${lg.map((x,i)=>{const w=W.find(z=>z.i===x[3])||{en:'?',pl:'?'};const d=x[2]===1?'pe':'ep';return `<div class="rv" style="animation-delay:${Math.min(i,12)*0.05}s"><span>${x[1]?'✔':'✘'}</span><span style="flex:1">${esc(fr(w,d))} → ${esc(x[0]||'(brak)')}${x[1]?'':` <small>(poprawnie: ${esc(bk(w,d))})</small>`}</span></div>`}).join('')}</section>`;
+      const el=$('#fs'),st0=performance.now();const an=n=>{const p=Math.min(1,(n-st0)/800);el.textContent=Math.round(sc*p);if(p<1)requestAnimationFrame(an)};requestAnimationFrame(an);
+      if(code)cwShow(code,!ex.fb&&!ex.p);beep('win');confetti(['🎃','⭐','🦇'],pc>=50?36:12)}
+    function finish(){const score=log.filter(x=>x[1]).length;const code=enc({i:ex.i,n:name,c:score,t:N,d:new Date().toISOString(),a:log});let msg='';
+      if(!ex.p){notifyT(ex,name,score,N);try{localStorage.setItem('luki_done_'+ex.i,JSON.stringify({v:1,name:name,score:score,log:log,code:code}))}catch(e){}
+        if(ex.fb){msg='Wysyłam wynik do nauczyciela…';const mark=(t,bad)=>{const s=$('#sent');if(s){s.textContent=t;if(bad)s.style.color='var(--bad)'}if(bad)cwOpen()};
+          fbReq(ex.fb,'/res/'+ex.i,'POST',{n:name,c:score,t:N,d:new Date().toISOString(),a:log}).then(()=>mark('✔ Wynik został wysłany do nauczyciela.'),()=>mark('Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi.',1))}
+        else msg='Wyślij nauczycielowi kod wyniku: kliknij 🔑 w prawym dolnym rogu.'}
+      end(name,score,log,code,msg)}
+    function ask(i){const w=W[order[i]],d=dirs[i];
+      va.innerHTML=`<div class="qh"><span class="chip2">Słówko ${i+1}/${N}</span><span class="chip2">${dl[d]}</span><button class="btn" id="vmu">${window.__vmute?'🔇':'🔊'}</button></div><div class="qbar"><i style="width:${i/N*100}%"></i></div>
+      <div class="qcard"><div class="qtxt" style="margin-right:0;text-align:center;font-size:clamp(26px,6vw,42px)">${big(esc(fr(w,d)))}</div><input class="oin" id="va_in" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Wpisz tłumaczenie…"><div class="row" style="justify-content:center"><button class="btn p" id="vok" style="font-size:16px;padding:12px 26px">${i+1<N?'Dalej ➜':'Zakończ test 🏁'}</button></div></div>`;bindTop(null);
+      const inp=$('#va_in');inp.focus();let lock=false;const go=()=>{if(lock)return;lock=true;log.push([inp.value.trim(),ck(inp.value,bk(w,d))?1:0,d==='pe'?1:0,w.i]);beep('tap');i+1<N?ask(i+1):finish()};$('#vok').onclick=go;inp.onkeydown=e=>{if(e.key==='Enter')go()}}
+    function intro(){va.innerHTML=`${ex.n?`<section class="card big"><div class="pol">📌 Polecenie</div><div class="polt">${esc(ex.n)}</div></section>`:''}<section class="card"><div class="row" style="margin:0"><span class="chip2">❓ ${N} słówek</span><span class="chip2">${ex.dr==='mx'?'🔀 mieszane kierunki':dl[ex.dr||'ep']}</span><button class="btn" id="vmu">${window.__vmute?'🔇':'🔊'}</button></div><label>Twoje imię i nazwisko</label><input type="text" id="qn" placeholder="np. Anna Kowalska" style="max-width:340px"><div class="row"><button class="btn p" id="go" style="font-size:18px;padding:14px 30px">▶ Start</button></div><div class="hint">Masz tylko jedną próbę. Wpisuj tłumaczenia bez podpowiedzi.</div></section>`;bindTop(null);
+      $('#go').onclick=async()=>{const v=$('#qn').value.trim();if(!v){$('#qn').focus();$('#qn').style.borderColor='#ff7190';return}name=v;
+        if(ex.fb&&!ex.p){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';try{const d=await fbReq(ex.fb,'/res/'+ex.i,'GET');const mine=Object.values(d||{}).find(r=>r&&r.n&&norm(r.n)===norm(v));
+          if(mine){end(mine.n,+mine.c||0,mine.a?Object.values(mine.a):[],'','Ten uczeń już rozwiązał ten test. To wynik z pierwszej próby.');return}}catch(e){}}
+        beep('ok');ask(0)}}
+    if(saved&&saved.v)end(saved.name,saved.score,saved.log||[],saved.code,'Ten test został już rozwiązany. Oto twój wynik.');else intro()}
+  if(ex.md==='learn')learn();else if(ex.md==='test')test();else cards()}
 
 /* ---------- START ---------- */
 async function init(){
