@@ -158,8 +158,8 @@ html.pl .spd.hw,html.pl .hl.hw,html.pl .hr.hw,html.pl .hem .hw{display:none}
 @media(max-width:560px){html.pl .hl.pl,html.pl .hr.pl{display:none}}
 .hem{font-size:38px}
 :root.pl:not(.plain):not([data-theme="light"]){color-scheme:dark;--bg:#1d0b10;--card:#2b1219;--ink:#fff3f5;--mut:#d6a6af;--line:#4d2531;--soft:#3b1b25;--purple:#e8284a;--pink:#ff6b81;--green:#3ddc97;--ok-bg:#123b2e;--ok:#6ff0b8;--bad-bg:#47203a;--bad:#ff8fa8;--field:#230e14}
-html.pl body{background:radial-gradient(circle at 12% -8%,#ffffff1f,transparent 42%),radial-gradient(circle at 96% 106%,#dc143c55,transparent 48%),linear-gradient(180deg,#3a0e19 0%,#1f0b11 55%,#14070b 100%)}
-html.pl .hero{background:linear-gradient(120deg,#c8102e,#8f0c24 55%,#5a0716);box-shadow:0 10px 30px #00000066}
+html.pl body{background:radial-gradient(circle at 12% -8%,#ffffff2e,transparent 45%),radial-gradient(circle at 96% 106%,#e8284a66,transparent 50%),linear-gradient(180deg,#5c1727 0%,#3b1220 55%,#2a0e17 100%) fixed}
+html.pl .hero{background:linear-gradient(120deg,#e11d3f,#b50f2e 55%,#82102a);box-shadow:0 10px 30px #00000066}
 html.pl .btn.p{background:linear-gradient(100deg,#dc143c,#ff4d6d);color:#fff}
 html.pl .bar i,html.pl .qbar i{background:linear-gradient(90deg,#dc143c,#ff8fa3)}
 html.pl .card{border-color:#4d2531}
@@ -183,7 +183,7 @@ html.pl .toast{background:linear-gradient(100deg,#c8102e,#5a0716)}
 .cwg{display:grid;gap:3px;width:max-content;margin:auto}
 .cc{position:relative;width:var(--cs);height:var(--cs)}
 .cc input{width:100%;height:100%;box-sizing:border-box;text-align:center;font:800 calc(var(--cs)*.56) 'Poppins',sans-serif;text-transform:uppercase;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);padding:0;outline:none;caret-color:transparent;transition:background .15s,border-color .15s,box-shadow .15s;box-shadow:inset 0 -3px 0 #0003}
-.cc.hl input{background:var(--soft);border-color:var(--purple)}
+.cc.cwh input{background:var(--soft);border-color:var(--purple)}
 .cc.fo input{box-shadow:0 0 0 3px var(--purple);position:relative;z-index:2}
 .cc.ok input{border-color:#22c55e;background:var(--ok-bg);color:var(--ok)}
 .cc.bad input{border-color:#ef4444;background:var(--bad-bg);color:var(--bad)}
@@ -196,10 +196,108 @@ html.pl .toast{background:linear-gradient(100deg,#c8102e,#5a0716)}
 .rv.me{outline:2px solid #ff8a1f;background:linear-gradient(90deg,#ff8a1f33,var(--soft))}
 .rv{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--soft);margin:6px 0;font-size:14px;font-weight:600;animation:pop .4s backwards}
 
+
+/* patch15: krzyżówka – kontrast, brak przeskoków, telefon */
+.cwscroll{justify-content:flex-start;-webkit-overflow-scrolling:touch;background-color:#0e0a1c;border-color:#ffffff33}
+.cwscroll.cwmini{padding:8px}
+.cwg{margin:auto;gap:3px}
+.cc input{background:#fff;color:#1b1633;border:2px solid #1b1633;border-radius:8px;font-size:max(16px,calc(var(--cs)*.56));box-shadow:inset 0 -3px 0 #1b163322,0 1px 3px #0006}
+.cwmini .cc input{font-size:12px}
+.cc.cwh input{background:#fff2a8;border-color:#e0a100}
+.cc.fo input{background:#ffe066;border-color:#ff7a00;box-shadow:0 0 0 3px #ff7a00}
+.cc.ok input{background:#c9f7dc;border-color:#16a34a;color:#065f33;box-shadow:0 0 0 2px #16a34a88}
+.cc.bad input{background:#ffd5de;border-color:#dc2626;color:#9f1239}
+.cn{color:#4a4466;font-size:max(9px,calc(var(--cs)*.24))}
+.cwcur{position:sticky;top:0;z-index:30;min-height:58px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center;margin:0 0 10px;padding:8px 12px;border-radius:14px;background:var(--card);border:2px solid var(--line);font-weight:600;font-size:15px;box-shadow:0 4px 14px #0005}
+.cwcur img{height:44px;border-radius:8px;cursor:zoom-in}
+.cwbgz{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px;border:2px dashed var(--line);border-radius:14px;outline:none}
+.cwbgz:focus,.cwe:focus-within{border-color:var(--purple)}
+.onc{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:10px 12px;border:2px solid var(--line);border-radius:14px;cursor:pointer}
+.onc input{width:22px;height:22px;margin-top:2px;flex:none}.onc small{display:block;color:var(--mut);font-weight:500;margin-top:2px}
+#lng{position:fixed;right:8px;top:50%;transform:translateY(-50%);z-index:9998;display:flex;flex-direction:column;align-items:center;gap:2px;width:46px;padding:8px 0;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;opacity:.92;box-shadow:0 4px 14px #0006}
+@media(max-width:700px){#lng{top:10px;bottom:auto;right:10px;transform:none;width:40px;padding:5px 0}.cwscroll{padding:8px}.cwcur{font-size:14px;min-height:54px}}
+
+.cwe,.cwbgz{position:relative;transition:background .2s,outline-color .2s}
+.cwdrop{outline:3px dashed var(--purple);outline-offset:2px;background:var(--soft);animation:cwpl .7s ease-in-out infinite alternate}
+.cwdrop::before{content:"⬇ Upuść zdjęcie tutaj";position:absolute;inset:0;display:grid;place-items:center;background:#0009;color:#fff;font-weight:800;font-size:16px;border-radius:12px;z-index:5;pointer-events:none}
+@keyframes cwpl{to{transform:scale(1.015)}}
+.cwbusy::before{content:"⏳ Wgrywam zdjęcie…";position:absolute;inset:0;display:grid;place-items:center;background:#000a;color:#fff;font-weight:800;font-size:16px;border-radius:12px;z-index:5;animation:cwpl .5s ease-in-out infinite alternate}
+.cwok{animation:cwok 1.6s ease-out}
+@keyframes cwok{0%{box-shadow:0 0 0 0 #22c55e;background:#22c55e55}100%{box-shadow:0 0 0 22px #22c55e00;background:transparent}}
+
+/* patch16: układanie zdań */
+.soans,.sobank{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:14px;border-radius:18px;min-height:72px;margin:12px 0}
+.soans{border:3px dashed var(--line);background:var(--soft)}.sobank{background:transparent}
+.soans.dropOn,.sobank.dropOn{border-color:var(--purple);background:var(--soft);outline:3px dashed var(--purple)}
+.sph{color:var(--mut);font-weight:600;font-size:14px}.sp{font-size:26px;font-weight:800;color:var(--purple)}
+.sw{border:none;border-radius:14px;padding:12px 18px;font:700 clamp(16px,3.6vw,20px) 'Poppins',sans-serif;color:#fff;background:linear-gradient(135deg,#8b5cf6,#6d28d9);box-shadow:0 5px 0 #0004;cursor:grab;user-select:none;touch-action:manipulation;transition:transform .15s}
+.sw.b{background:linear-gradient(135deg,#ff8a1f,#ff5a1f)}html.pl .sw{background:linear-gradient(135deg,#dc143c,#a30f2d)}html.pl .sw.b{background:linear-gradient(135deg,#1e3a8a,#172554)}
+.sw:hover{transform:translateY(-2px)}.sw:active{transform:translateY(3px);box-shadow:0 2px 0 #0004}.sw.drag{opacity:.35}
+.sw.ok{background:linear-gradient(135deg,#22c55e,#15803d)!important}.sw.no{background:linear-gradient(135deg,#ef4444,#991b1b)!important}
+.dlg .db{filter:drop-shadow(0 4px 10px #0004)}
+
+/* patch17 design */
+.tp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}.tpc{min-width:0}
+.tpc{display:flex;align-items:center;gap:9px;padding:10px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;text-align:left;font-family:inherit;transition:transform .15s,border-color .15s,box-shadow .15s}
+.tpc:hover{transform:translateY(-2px);border-color:var(--tc);box-shadow:0 6px 16px color-mix(in srgb,var(--tc) 25%,transparent)}
+.tpi{width:38px;height:38px;flex:none;display:grid;place-items:center;font-size:20px;border-radius:12px;background:color-mix(in srgb,var(--tc) 18%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--tc) 40%,transparent)}
+.tpt b{display:block;font-size:13px}.tpt small{display:block;font-size:10.5px;color:var(--mut);line-height:1.25}
+.tile .ti{width:38px;height:38px;flex:none;display:grid;place-items:center;font-size:19px;border-radius:12px;background:color-mix(in srgb,var(--tc,#7758e8) 18%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--tc,#7758e8) 35%,transparent)}
+.tile{border-left:4px solid transparent}.tile.on{background:var(--card)}
+.tyb{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;margin-bottom:16px;background:linear-gradient(100deg,color-mix(in srgb,var(--tc) 20%,transparent),transparent);border:1.5px solid color-mix(in srgb,var(--tc) 35%,transparent)}
+.tyb .tpi{width:44px;height:44px;font-size:23px}.tyb b{display:block;font-size:17px}.tyb small{color:var(--mut);font-size:12px}
+.main .dt{background:var(--soft);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px}
+.main .dt>b:first-child,.main .dt>summary{font-size:15px}
+.main label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:14px 0 5px}
+.main .cwe{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px;margin:8px 0}
+.main .btn.p{box-shadow:0 4px 12px color-mix(in srgb,var(--purple) 30%,transparent)}
+.toast{z-index:9999}
+@media(max-width:560px){.tp{grid-template-columns:1fr 1fr}.tpt small{display:none}}
+
+/* patch18 themes */
+:root[data-th="wh"]{color-scheme:light;--bg:#ffffff;--card:#ffffff;--ink:#0a0a0a;--mut:#595959;--line:#d6d6d6;--soft:#f1f1f1;--purple:#0a0a0a;--pink:#444444;--green:#20b486;--field:#fafafa;--onp:#ffffff;--ok-bg:#e5fff5;--ok:#087c5a;--bad-bg:#fff0f4;--bad:#ce4264}
+html[data-th="wh"] body{background:#ffffff}html[data-th="wh"] .hero{background:linear-gradient(120deg,#0a0a0a,#3a3a3a);color:#fff;box-shadow:0 10px 30px #0a0a0a44}html[data-th="wh"] .btn.p{background:linear-gradient(100deg,#0a0a0a,#444444);color:#ffffff}html[data-th="wh"] .card{border-color:#d6d6d6}
+:root[data-th="bk"]{color-scheme:dark;--bg:#000000;--card:#101010;--ink:#ffffff;--mut:#a8a8a8;--line:#2e2e2e;--soft:#1c1c1c;--purple:#ffffff;--pink:#bdbdbd;--green:#20b486;--field:#080808;--onp:#000000;--ok-bg:#12382e;--ok:#5fe0b6;--bad-bg:#402032;--bad:#ff8fa8}
+html[data-th="bk"] body{background:#000000}html[data-th="bk"] .hero{background:linear-gradient(120deg,#262626,#0a0a0a);color:#fff;box-shadow:0 10px 30px #26262644;border:1px solid #ffffff30}html[data-th="bk"] .btn.p{background:linear-gradient(100deg,#ffffff,#bdbdbd);color:#000000}html[data-th="bk"] .card{border-color:#2e2e2e}
+:root[data-th="ro"]{color-scheme:light;--bg:#fff0f6;--card:#ffffff;--ink:#4a1d34;--mut:#a06882;--line:#f9cfe0;--soft:#ffe3ee;--purple:#e6397a;--pink:#ff7eb3;--green:#20b486;--field:#fff8fb;--onp:#ffffff;--ok-bg:#e5fff5;--ok:#087c5a;--bad-bg:#fff0f4;--bad:#ce4264}
+html[data-th="ro"] body{background:#fff0f6}html[data-th="ro"] .hero{background:linear-gradient(120deg,#ff4f93,#ffa0c6);color:#fff;box-shadow:0 10px 30px #ff4f9344}html[data-th="ro"] .btn.p{background:linear-gradient(100deg,#e6397a,#ff7eb3);color:#ffffff}html[data-th="ro"] .card{border-color:#f9cfe0}
+:root[data-th="oc"]{color-scheme:dark;--bg:#071a2e;--card:#0d2a47;--ink:#e8f4ff;--mut:#8fb4d6;--line:#1b4872;--soft:#12365a;--purple:#2fa8ff;--pink:#5ee0ff;--green:#20b486;--field:#0a2038;--onp:#ffffff;--ok-bg:#12382e;--ok:#5fe0b6;--bad-bg:#402032;--bad:#ff8fa8}
+html[data-th="oc"] body{background:#071a2e}html[data-th="oc"] .hero{background:linear-gradient(120deg,#0b66c3,#19b6d9);color:#fff;box-shadow:0 10px 30px #0b66c344}html[data-th="oc"] .btn.p{background:linear-gradient(100deg,#2fa8ff,#5ee0ff);color:#ffffff}html[data-th="oc"] .card{border-color:#1b4872}
+:root[data-th="mi"]{color-scheme:light;--bg:#effaf4;--card:#ffffff;--ink:#12392b;--mut:#5d8c78;--line:#cdeedd;--soft:#dff6e9;--purple:#14a36b;--pink:#5ccf9d;--green:#20b486;--field:#f7fdfa;--onp:#ffffff;--ok-bg:#e5fff5;--ok:#087c5a;--bad-bg:#fff0f4;--bad:#ce4264}
+html[data-th="mi"] body{background:#effaf4}html[data-th="mi"] .hero{background:linear-gradient(120deg,#0f9a64,#6fdcae);color:#fff;box-shadow:0 10px 30px #0f9a6444}html[data-th="mi"] .btn.p{background:linear-gradient(100deg,#14a36b,#5ccf9d);color:#ffffff}html[data-th="mi"] .card{border-color:#cdeedd}
+:root[data-th="fi"]{color-scheme:dark;--bg:#140b24;--card:#1f1236;--ink:#f1e9ff;--mut:#b39ddb;--line:#3d2766;--soft:#2a1a4a;--purple:#a66bff;--pink:#ff6bd6;--green:#20b486;--field:#170d2a;--onp:#ffffff;--ok-bg:#12382e;--ok:#5fe0b6;--bad-bg:#402032;--bad:#ff8fa8}
+html[data-th="fi"] body{background:#140b24}html[data-th="fi"] .hero{background:linear-gradient(120deg,#7b3fe4,#d946ef);color:#fff;box-shadow:0 10px 30px #7b3fe444}html[data-th="fi"] .btn.p{background:linear-gradient(100deg,#a66bff,#ff6bd6);color:#ffffff}html[data-th="fi"] .card{border-color:#3d2766}
+:root[data-th="zl"]{color-scheme:light;--bg:#fff6ec;--card:#ffffff;--ink:#4a2410;--mut:#a67855;--line:#fbdcbc;--soft:#ffeacf;--purple:#f26a1b;--pink:#ff9a3c;--green:#20b486;--field:#fffaf4;--onp:#ffffff;--ok-bg:#e5fff5;--ok:#087c5a;--bad-bg:#fff0f4;--bad:#ce4264}
+html[data-th="zl"] body{background:#fff6ec}html[data-th="zl"] .hero{background:linear-gradient(120deg,#ff6a2b,#ffb347);color:#fff;box-shadow:0 10px 30px #ff6a2b44}html[data-th="zl"] .btn.p{background:linear-gradient(100deg,#f26a1b,#ff9a3c);color:#ffffff}html[data-th="zl"] .card{border-color:#fbdcbc}
+html[data-th] .tab.on,html[data-th] [style*="background:var(--purple)"]{color:var(--onp)!important}
+html[data-th] .bar i,html[data-th] .qbar i{background:linear-gradient(90deg,var(--purple),var(--pink))}
+html[data-th] .qtimer .tp{stroke:var(--purple)}
+html[data-th] .tile.on{border-color:var(--purple)}
+html[data-th="wh"] .btn.p,html[data-th="wh"] .tab.on{background:#0a0a0a}
+html[data-th="bk"] .btn.p{background:#fff}
+html[data-th="bk"] .btn.g{color:#fff}
+.tg{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px}
+.thp{position:fixed;right:12px;bottom:calc(66px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 12px 36px #0007;width:min(300px,calc(100vw - 24px));animation:pop .2s}
+.thp h4{margin:0 0 8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.thg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tho{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:12px;border:2px solid var(--line);background:var(--soft);color:var(--ink);cursor:pointer;font:600 12px Poppins,sans-serif;text-align:left}
+.tho:hover{border-color:var(--purple)}.tho.on{border-color:var(--purple);box-shadow:0 0 0 2px color-mix(in srgb,var(--purple) 30%,transparent)}
+.thc{width:30px;height:30px;flex:none;border-radius:9px;display:grid;place-items:center;font-size:15px;box-shadow:inset 0 0 0 1px #00000026}
+.tho{min-width:0;font-size:11.5px;line-height:1.2;overflow-wrap:anywhere}.tpt{min-width:0}.tpc{overflow:hidden}.tpt b{overflow-wrap:anywhere}
+
+.ispanel #tg{display:none}
+.setrow{display:flex;justify-content:flex-start;margin:0 0 12px}.setb{padding:9px 16px;font-size:13px;border-radius:99px;background:var(--card);border:1.5px solid var(--line);box-shadow:0 3px 10px #0003}.setb:hover{border-color:var(--purple)}
+.smo{position:fixed;inset:0;z-index:80;background:#000a;display:flex;align-items:flex-start;justify-content:center;padding:4vh 12px;overflow:auto;backdrop-filter:blur(3px)}
+.smo[hidden]{display:none}
+.smb{background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:22px;padding:18px;width:min(560px,100%);box-shadow:0 20px 60px #000a;animation:pop .25s}
+.smh{display:flex;align-items:center;justify-content:space-between;font-size:20px;margin-bottom:6px}
+.smb .dt h3{margin:0 0 8px;font-size:15px}
+.smb .thg{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+body.smopen .ground,body.smopen .fx,body.smopen #lng{visibility:hidden}
 </style>
 </head>
 <body>
-<div class="fx" id="fx"></div><div class="wrap" id="app"></div><div class="ground" id="gr"></div><button class="btn tg" id="tg" title="Motyw Halloween: włącz lub wyłącz">🎃</button>
+<div class="fx" id="fx"></div><div class="wrap" id="app"></div><div class="ground" id="gr"></div><button class="btn tg" id="tg" title="Zmień motyw">🎃</button>
 <script>
 (function(){
 const $=s=>document.querySelector(s);
@@ -209,6 +307,9 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const enc=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 const dec=s=>{s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return JSON.parse(decodeURIComponent(escape(atob(s))))};
 const norm=t=>t.trim().toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g," ");
+const isOk=o=>!!o&&(o[2]===true||o[2]===1||o[2]==='true');
+const pairSplit=l=>{l=String(l||'').trim();if(!l)return null;let m=l.match(/^(.+?)\s*(?:\t|\s[-–—=:]\s|;)\s*(\S.*)$/)||l.match(/^(.+?)\s*=\s*(\S.*)$/);if(m)return[m[1].trim(),m[2].trim()];m=l.match(/^([^-–—:=]+?)\s*[-–—:=]\s*(\S.*)$/);return m?[m[1].trim(),m[2].trim()]:null};
+const cwBgCss=u=>u?"background-image:linear-gradient(rgba(10,6,20,.38),rgba(10,6,20,.38)),url('"+String(u).replace(/'/g,"%27")+"');background-size:cover;background-position:center":"";
 const GAP=/\[\[(.+?)\]\]/g;
 const fmt=d=>new Date(d).toLocaleString("pl-PL",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
 const shrink=(f,max,q)=>new Promise((ok,no)=>{const fr=new FileReader();fr.onerror=no;fr.onload=()=>{const im=new Image();im.onerror=no;im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);ok({blob:()=>new Promise(r=>c.toBlob(r,'image/jpeg',q)),url:()=>{const w=c.toDataURL('image/webp',q);return w.startsWith('data:image/webp')?w:c.toDataURL('image/jpeg',q)}})};im.src=fr.result};fr.readAsDataURL(f)});
@@ -229,7 +330,7 @@ const EC=[["😀","Buźki","😀 😃 😄 😁 😆 😅 🤣 😂 🙂 🙃 �
 const hdr=(t,p)=>`<header class="hero">${[[9,44,0],[86,72,-1.2],[27,24,-2],[68,34,-0.6]].map(a=>`<span class="spd hw" style="left:${a[0]}%;--h:${a[1]}px;animation-delay:${a[2]}s"><i></i><b>🕷️</b></span><span class="spd pl" style="left:${a[0]}%;--h:${a[1]}px;animation-delay:${a[2]}s"><i></i><b><span class="flag"></span></b></span>`).join('')}<span class="hl hw">🧙</span><span class="hr hw">🎃</span><span class="hl pl">🦅</span><span class="hr pl"><span class="flag"></span></span><div class="hem"><span class="hw">🎃👻💀</span><span class="pl">🦅🎆🕊️</span></div><h1>${t}</h1><p>${p}</p></header>`;
 
 /* ---------- STUDENT ---------- */
-function student(ex){if(ex.k==="q")return quiz(ex);if(ex.k==="v")return vocab(ex);if(ex.k==="c")return cwPlay(ex);
+function student(ex){i18nInit(ex);if(ex.k==="q")return quiz(ex);if(ex.k==="v")return vocab(ex);if(ex.k==="c")return cwPlay(ex);if(ex.k==="s")return soPlay(ex);
   const bankWords=[];
   const parts=[];let last=0,n=0;
   ex.x.replace(GAP,(m,a,i)=>{parts.push(big(esc(ex.x.slice(last,i))).replace(/\n/g,"<br>"));
@@ -245,7 +346,7 @@ function student(ex){if(ex.k==="q")return quiz(ex);if(ex.k==="v")return vocab(ex
   <div class="lay${(ex.im||[]).length?" has":""}">${(ex.im||[]).length?`<div class="pics">${(ex.im||[]).map(u=>`<img src="${esc(u)}" alt="">`).join("")}</div>`:""}<div class="story">${ex.dlg?dlgHTML(parts.join("").split("<br>")):parts.join("")}</div></div><div class="bar"><i id="bar"></i></div>
   <div class="row"><button class="btn p" id="chk">✅ Sprawdź (tylko raz)</button></div>
   <div class="res" id="res"></div></section>${words.length?`<button class="btn p fab" id="fab" type="button">📚 Słowa</button><div class="sheet" id="sheet"><div class="sheeth"><b>📚 Bank słów</b><button class="btn" id="shx" type="button">✕ Zamknij</button></div><div class="bank" id="sbank"></div><div class="hint">Kliknij słowo, żeby wstawić je do luki. Skreślanie działa tak samo jak w banku.</div></div>`:''}`;
-  const blanks=[...document.querySelectorAll(".blank")];let sel=null,lastIn=null;let saved=null;if(!ex.p){try{saved=JSON.parse(localStorage.getItem("luki_done_"+ex.i))}catch(e){}}
+  const blanks=[...document.querySelectorAll(".blank")];let sel=null,lastIn=null;let saved=null;if(!ex.p&&!ex.mo){try{saved=JSON.parse(localStorage.getItem("luki_done_"+ex.i))}catch(e){}}
   const bank=$("#bank");let strike=false;const sb=$("#stk");if(sb)sb.onclick=()=>{strike=!strike;sb.textContent="✏️ Skreślanie słów: "+(strike?"włączone, klikaj słowa":"wyłączone");sb.style.background=strike?"var(--purple)":"";sb.style.color=strike?"#fff":""};
   const upd=()=>{const u=new Set(blanks.map(b=>norm(b.value)));document.querySelectorAll(".word").forEach(w=>w.classList.toggle("used",u.has(norm(w.textContent))))};
   words.forEach(w=>{const b=document.createElement("button");b.className="word";b.type="button";b.textContent=w;
@@ -259,13 +360,13 @@ function student(ex){if(ex.k==="q")return quiz(ex);if(ex.k==="v")return vocab(ex
   $("#chk").onclick=()=>{
     const name=$("#sname").value.trim();
     if(!name){$("#sname").focus();$("#sname").style.borderColor="#ff7190";return}
-    if(!saved&&!ex.p&&!confirm("Możesz sprawdzić odpowiedzi tylko jeden raz. Czy na pewno chcesz sprawdzić?"))return;
+    if(!saved&&!ex.p&&!ex.mo&&!confirm("Możesz sprawdzić odpowiedzi tylko jeden raz. Czy na pewno chcesz sprawdzić?"))return;
     let ok=0;const det=[];blanks.forEach(b=>{const good=b.dataset.a.split("|").map(norm).includes(norm(b.value));b.classList.remove("correct","wrong");b.classList.add(good?"correct":"wrong");det.push([b.value,good?1:0]);if(good)ok++});
     const t=blanks.length;$("#bar").style.width=(t?ok/t*100:0)+"%";
     const code=saved?saved.code:enc({i:ex.i,n:name,c:ok,t:t,d:new Date().toISOString(),a:det});
     if(!saved&&!ex.p)notifyT(ex,name,ok,t);
     if(ex.fb&&!saved&&!ex.p){fbReq(ex.fb,"/res/"+ex.i,"POST",{n:name,c:ok,t:t,d:new Date().toISOString(),a:det}).then(()=>{const s=$("#sent");if(s)s.textContent="✔ Wynik został wysłany do nauczyciela automatycznie."},()=>{const s=$("#sent");if(s){s.style.color="var(--bad)";s.textContent="Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi."}cwOpen()})}
-    if(!ex.p){blanks.forEach(b=>b.readOnly=true);document.querySelectorAll(".word").forEach(w=>w.disabled=true);$("#sname").readOnly=true;$("#chk").style.display="none";
+    if(!ex.p&&!ex.mo){blanks.forEach(b=>b.readOnly=true);document.querySelectorAll(".word").forEach(w=>w.disabled=true);$("#sname").readOnly=true;$("#chk").style.display="none";
       try{localStorage.setItem("luki_done_"+ex.i,JSON.stringify({code:code,ans:blanks.map(b=>b.value),name:name}))}catch(e){}}
     const r=$("#res");r.style.display="block";
     r.innerHTML=`${ok===t?"🏆 Perfekcyjnie!":"⭐ Twój wynik:"} <span style="color:var(--ok)">✔ ${ok} dobrze</span> · <span style="color:var(--bad)">✘ ${t-ok} źle</span> (${ok}/${t})
@@ -316,7 +417,7 @@ const small=u=>new Promise(r=>{if(!u.startsWith("data:")||u.length<9000)return r
 let fbErr="";
 const fbHost=h=>String(h||"").trim().replace(/^https?:\/\//,"").replace(/\/.*$/,"");
 async function fbReq(host,path,method,body){const ac=new AbortController();const to=setTimeout(()=>ac.abort(),9000);try{const r=await fetch("https://"+host+path+".json",{method,headers:body?{"Content-Type":"application/json"}:undefined,body:body?JSON.stringify(body):undefined,signal:ac.signal});if(!r.ok)throw new Error("błąd "+r.status);return await r.json()}finally{clearTimeout(to)}}
-async function link(e,mode,vm){const base=location.href.split("#")[0];const lk=vm?"lid_"+vm:"lid";const mk=(im,inl)=>{const o=mk1(im,inl);if(S.w3)o.w3=S.w3;return o};const mk1=(im,inl)=>{if(e.kind==="cw")return cwObj(e);if(e.kind==="vocab")return vObj(e,vm);if(e.kind==="quiz")return qObj(e,inl);const o={i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank};if(e.dlg)o.dlg=1;if(e.bw!=null)o.bw=e.bw;else if(e.extra)o.e=e.extra;if(im.length)o.im=im;return o};
+async function link(e,mode,vm){const base=location.href.split("#")[0];const lk=vm?"lid_"+vm:"lid";const mk=(im,inl)=>{const o=mk1(im,inl);if(S.w3)o.w3=S.w3;if(e.once===false)o.mo=1;return o};const mk1=(im,inl)=>{if(e.kind==="so")return soObj(e);if(e.kind==="cw")return cwObj(e);if(e.kind==="vocab")return vObj(e,vm);if(e.kind==="quiz")return qObj(e,inl);const o={i:e.id,t:e.title,n:e.inst,x:e.text,b:e.bank};if(e.dlg)o.dlg=1;if(e.bw!=null)o.bw=e.bw;else if(e.extra)o.e=e.extra;if(im.length)o.im=im;return o};
   const inl=base+"#u="+await encz(mk(await Promise.all((e.images||[]).map(small)),true));
   fbErr="";const h=fbHost(S.fb);if(!h)return inl;
   try{const id=(mode!=="new"&&e.lh===h&&e[lk])?e[lk]:uid()+uid();await fbReq(h,"/ex/"+id,"PUT",mk(e.images||[]));e[lk]=id;e.lh=h;save();return base+"#k="+h+"/"+id}catch(x){fbErr=String((x&&x.message)||x)}
@@ -330,15 +431,18 @@ const isDesc=(t,fid)=>{let c=t,g=0;while(c&&g++<30){if(c===fid)return true;const
 const ensureOpen=id=>{S.fe=S.fe||{};fpath(id).slice(0,-1).forEach(f=>S.fe[f.id]=true)};
 const folderOpts=sel=>{const out=['<option value="">— brak —</option>'];const walk=(p,d)=>kids(p).forEach(f=>{out.push(`<option value="${f.id}" ${sel===f.id?'selected':''}>${'\u00a0\u00a0'.repeat(d)}${d?'↳ ':''}${esc(f.name)}</option>`);walk(f.id,d+1)});walk('',0);return out.join('')};
 const tree=(pid,d)=>kids(pid).map(f=>{const k=kids(f.id).length,op=S.fe&&S.fe[f.id];return `<div class="fn"><div class="item ft ${curF===f.id?'on':''}" data-f="${f.id}" data-dz="${f.id}" draggable="true" style="padding-left:${8+d*16}px"><span class="tg2" data-tg="${f.id}">${k?(op?'▾':'▸'):'·'}</span><span class="fi">${op&&k?'📂':'📁'}</span><span class="fnm">${esc(f.name)}</span><small>${cntIn(f.id)}</small></div>${op&&k?tree(f.id,d+1):''}</div>`}).join('');
+const TYP={g:['📝','Luki','Uzupełnianie tekstu','#7758e8'],q:['🎯','Quiz','Pytania z czasem i punktami','#ff6b9d'],v:['📚','Słówka','Fiszki, parowanie, test','#20b486'],c:['🧩','Krzyżówka','Hasła i obrazki','#f59e0b'],d:['💬','Dialogi','Rozmowa z lukami','#0ea5e9'],s:['🔤','Zdania','Układanie słów w zdanie','#e0457b']};
+const tyOf=x=>x.kind==='quiz'?'q':x.kind==='vocab'?'v':x.kind==='cw'?'c':x.kind==='so'?'s':x.isD?'d':'g';
 function listHTML(){const q=srch.trim().toLowerCase();
-  const ico=x=>x.kind==='quiz'?'🎯':x.kind==='vocab'?'📚':x.kind==='cw'?'🧩':'📝';
-  const meta=x=>x.kind==='quiz'?((x.qs||[]).length+' pytań'):x.kind==='vocab'?((x.words||[]).filter(w=>w[0]&&w[1]).length+' słówek'):x.kind==='cw'?((x.cw||[]).length+' haseł'):(gaps(x.text).length+' luk');
+  const ico=x=>x.kind==='quiz'?'🎯':x.kind==='vocab'?'📚':x.kind==='cw'?'🧩':x.kind==='so'?'🔤':x.isD?'💬':'📝';
+  const meta=x=>x.kind==='quiz'?((x.qs||[]).length+' pytań'):x.kind==='vocab'?((x.words||[]).filter(w=>w[0]&&w[1]).length+' słówek'):x.kind==='cw'?((x.cw||[]).length+' haseł'):x.kind==='so'?((x.so||[]).length+' zdań'):(gaps(x.text).length+' luk');
   let subs='',items;
   if(q)items=S.ex.filter(x=>(x.title||'').toLowerCase().includes(q));
   else if(curF==='all')items=S.ex;
-  else{subs=kids(curF).map(f=>`<div class="tile" data-f="${f.id}" data-dz="${f.id}"><span class="ti">📁</span><div><b>${esc(f.name)}</b><small>${cntIn(f.id)} elementów</small></div></div>`).join('');items=S.ex.filter(x=>x.folder===curF)}
-  return subs+items.map(x=>`<div class="tile ${curE===x.id?'on':''}" data-e="${x.id}" draggable="true"><span class="ti">${ico(x)}</span><div><b>${esc(x.title||'Bez tytułu')}</b><small>${meta(x)}${x.folder&&(q||curF==='all')?' · 📁 '+esc((S.folders.find(f=>f.id===x.folder)||{}).name||''):''}</small></div></div>`).join('')||(subs?'':'<div class="empty">Pusto. Dodaj ćwiczenie poniżej.</div>')}
+  else{subs=kids(curF).map(f=>`<div class="tile" data-f="${f.id}" data-dz="${f.id}"><span class="ti" style="--tc:#94a3b8">📁</span><div><b>${esc(f.name)}</b><small>${cntIn(f.id)} elementów</small></div></div>`).join('');items=S.ex.filter(x=>x.folder===curF)}
+  return subs+items.map(x=>`<div class="tile ${curE===x.id?'on':''}" data-e="${x.id}" draggable="true"><span class="ti" style="--tc:${TYP[tyOf(x)][3]}">${ico(x)}</span><div><b>${esc(x.title||'Bez tytułu')}</b><small>${meta(x)}${x.folder&&(q||curF==='all')?' · 📁 '+esc((S.folders.find(f=>f.id===x.folder)||{}).name||''):''}</small></div></div>`).join('')||(subs?'':'<div class="empty">Pusto. Dodaj ćwiczenie poniżej.</div>')}
 function goBack(){window.__restore=true;teacher()}
+let setOpen=false;
 function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}const cwx=document.getElementById('cw');if(cwx)cwx.remove();
   const e=S.ex.find(x=>x.id===curE);
   const crumbs=()=>{const path=e?(e.folder?fpath(e.folder):[]):(curF==='all'?[]:fpath(curF));return `<div class="crumbs"><a data-f="all">🏠 Wszystkie</a>${path.map(f=>` › <a data-f="${f.id}">${esc(f.name)}</a>`).join('')}${e?` › <span>${esc(e.title||'Bez tytułu')}</span>`:''}</div>`};
@@ -350,9 +454,14 @@ function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}const cwx
     <div class="row"><button class="btn" id="addF">${curF==="all"?"+ Nowy folder":"+ Podfolder"}</button>${curF!=="all"?'<button class="btn" id="renF" title="Zmień nazwę">✏️</button><button class="btn d" id="delF" title="Usuń folder">🗑</button>':""}</div>
     <h2 style="margin-top:18px">📂 ${curF==="all"?"Wszystkie":fpath(curF).map(f=>esc(f.name)).join(" › ")}</h2>
     <div id="itl">${listHTML()}</div>
-    <div class="row"><button class="btn p" id="addE">📝 Luki</button><button class="btn g" id="addQ">🎯 Quiz</button><button class="btn" id="addV">📚 Słówka</button><button class="btn" id="addC">🧩 Krzyżówka</button></div>
-    <details class="dt" data-k="fb"><summary>⚙️ Baza online</summary><div class="hint">Daje krótkie linki i automatyczne wyniki uczniów. Wklej adres swojej bazy Firebase.</div><input type="text" id="fbu" placeholder="mojprojekt-default-rtdb.firebaseio.com" value="${esc(S.fb||"")}" style="margin-top:8px"><input type="text" id="fbc" placeholder="Kod panelu (hasło), min. 6 znaków" value="${esc(pcode)}" style="margin-top:8px"><div class="hint">Ten sam adres bazy i ten sam kod wpisz na drugim urządzeniu (telefon, komputer), a zobaczysz tam ten sam panel.${cloudErr?` <span style="color:var(--bad)">Synchronizacja: ${esc(cloudErr)}</span>`:""}</div><div class="row"><button class="btn p" id="fbs">Zapisz i połącz</button><button class="btn" id="fbp">↻ Pobierz z chmury</button></div><div class="msg" id="fbm" style="display:block;margin:6px 0 0"></div></details>
-    <details class="dt" data-k="nt"><summary>🔔 Powiadomienia e-mail</summary><div class="hint">Gdy uczeń skończy ćwiczenie, dostaniesz e-mail (darmowy serwis Web3Forms).</div><input type="text" id="ntw" placeholder="Klucz Web3Forms" value="${esc(S.w3||"")}" style="margin-top:8px"><div class="hint">Wejdź na https://web3forms.com, wpisz swój e-mail w „Create your Access Key”, klucz przyjdzie na maila. Wklej go powyżej.</div><div class="row"><button class="btn p" id="nts">Zapisz</button><button class="btn" id="ntx">📨 Wyślij próbny e-mail</button><button class="btn" id="ntb">🔔 W przeglądarce</button></div><div class="msg" id="ntm" style="display:block;margin:6px 0 0"></div><div class="hint">Po zapisaniu użyj „Zaktualizuj link” przy ćwiczeniach, bo klucz trafia do linku. „W przeglądarce” pokazuje też dymek, gdy masz otwarty panel.</div></details></div></div>
+    <h2 style="margin-top:18px">➕ Nowe ćwiczenie</h2><div class="tp"><button class="tpc" id="addE" style="--tc:#7758e8"><span class="tpi">📝</span><span class="tpt"><b>Luki</b><small>Uzupełnianie tekstu</small></span></button><button class="tpc" id="addQ" style="--tc:#ff6b9d"><span class="tpi">🎯</span><span class="tpt"><b>Quiz</b><small>Pytania z czasem i punktami</small></span></button><button class="tpc" id="addV" style="--tc:#20b486"><span class="tpi">📚</span><span class="tpt"><b>Słówka</b><small>Fiszki, parowanie, test</small></span></button><button class="tpc" id="addC" style="--tc:#f59e0b"><span class="tpi">🧩</span><span class="tpt"><b>Krzyżówka</b><small>Hasła i obrazki</small></span></button><button class="tpc" id="addD" style="--tc:#0ea5e9"><span class="tpi">💬</span><span class="tpt"><b>Dialogi</b><small>Rozmowa z lukami</small></span></button><button class="tpc" id="addS" style="--tc:#e0457b"><span class="tpi">🔤</span><span class="tpt"><b>Zdania</b><small>Układanie słów w zdanie</small></span></button></div>
+    <button class="btn setb" id="setb" title="Ustawienia">⚙️ Ustawienia</button>
+</div></div>
+  <div class="smo" id="smo" ${setOpen?'':'hidden'}><div class="smb"><div class="smh"><b>⚙️ Ustawienia</b><button class="btn" id="smx">✕</button></div>
+  <div class="dt"><h3>🎨 Motywy</h3><div class="thg" id="thgrid"></div></div>
+    <div class="dt"><h3>⚙️ Baza online</h3><div class="hint">Daje krótkie linki i automatyczne wyniki uczniów. Wklej adres swojej bazy Firebase.</div><input type="text" id="fbu" placeholder="mojprojekt-default-rtdb.firebaseio.com" value="${esc(S.fb||"")}" style="margin-top:8px"><input type="text" id="fbc" placeholder="Kod panelu (hasło), min. 6 znaków" value="${esc(pcode)}" style="margin-top:8px"><div class="hint">Ten sam adres bazy i ten sam kod wpisz na drugim urządzeniu (telefon, komputer), a zobaczysz tam ten sam panel.${cloudErr?` <span style="color:var(--bad)">Synchronizacja: ${esc(cloudErr)}</span>`:""}</div><div class="row"><button class="btn p" id="fbs">Zapisz i połącz</button><button class="btn" id="fbp">↻ Pobierz z chmury</button></div><div class="msg" id="fbm" style="display:block;margin:6px 0 0"></div></div>
+    <div class="dt"><h3>🔔 Powiadomienia e-mail</h3><div class="hint">Gdy uczeń skończy ćwiczenie, dostaniesz e-mail (darmowy serwis Web3Forms).</div><input type="text" id="ntw" placeholder="Klucz Web3Forms" value="${esc(S.w3||"")}" style="margin-top:8px"><div class="hint">Wejdź na https://web3forms.com, wpisz swój e-mail w „Create your Access Key”, klucz przyjdzie na maila. Wklej go powyżej.</div><div class="row"><button class="btn p" id="nts">Zapisz</button><button class="btn" id="ntx">📨 Wyślij próbny e-mail</button><button class="btn" id="ntb">🔔 W przeglądarce</button></div><div class="msg" id="ntm" style="display:block;margin:6px 0 0"></div><div class="hint">Po zapisaniu użyj „Zaktualizuj link” przy ćwiczeniach, bo klucz trafia do linku. „W przeglądarce” pokazuje też dymek, gdy masz otwarty panel.</div></div>
+  </div></div>
   <div class="main">${crumbs()}${e?editor(e):`<div class="card"><div class="empty">Wybierz ćwiczenie z listy albo dodaj nowe przyciskami po lewej. Foldery możesz zagnieżdżać i przeciągać do nich ćwiczenia.</div></div>`}</div></div>`;
   const bindList=()=>{
     document.querySelectorAll("[data-f]").forEach(el=>el.onclick=ev=>{if(ev.target.closest("[data-tg]"))return;curF=el.dataset.f;if(curF!=="all")ensureOpen(curF);teacher()});
@@ -370,7 +479,9 @@ function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}const cwx
   const df=$("#delF");if(df)df.onclick=async()=>{const f=S.folders.find(z=>z.id===curF);if(await modal({title:"🗑 Usunąć folder „"+esc(f.name)+"”?",text:"Podfoldery i ćwiczenia przejdą poziom wyżej.",ok:"Usuń"})){S.folders.forEach(z=>{if(z.parent===f.id)z.parent=f.parent||""});S.ex.forEach(x=>{if(x.folder===f.id)x.folder=f.parent||""});S.folders=S.folders.filter(z=>z.id!==f.id);curF=f.parent||"all";save();teacher()}};
   $("#addE").onclick=()=>{const x={id:uid(),folder:curF==="all"?"":curF,title:"Nowe ćwiczenie",inst:"Uzupełnij luki poprawną formą czasownika.",text:"",bank:true,extra:"",created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
   $("#addV").onclick=()=>{const x={id:uid(),kind:"vocab",folder:curF==="all"?"":curF,title:"Nowe słówka",inst:"",words:[["",""],["",""],["",""]],vo:{},created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
-  $("#addC").onclick=()=>{const x={id:uid(),kind:"cw",folder:curF==="all"?"":curF,title:"Nowa krzyżówka",inst:"",cw:[{q:"",im:"",a:""},{q:"",im:"",a:""},{q:"",im:"",a:""}],hn:true,created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
+  $("#addC").onclick=()=>{const x={id:uid(),kind:"cw",folder:curF==="all"?"":curF,title:"Nowa krzyżówka",inst:"",cw:[{q:"",im:"",a:""},{q:"",im:"",a:""},{q:"",im:"",a:""}],hn:false,created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
+  $("#addD").onclick=()=>{const x={id:uid(),isD:true,dlg:true,folder:curF==="all"?"":curF,title:"Nowy dialog",inst:"Uzupełnij dialog.",text:"Anna: Hi Tom, how [[are]] you?\nTom: I [[am]] fine, thanks. And you?\nAnna: I [[am]] great!",bank:true,extra:"",created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
+  $("#addS").onclick=()=>{const x={id:uid(),kind:"so",folder:curF==="all"?"":curF,title:"Układanie zdań",inst:"Ułóż słowa w odpowiedniej kolejności.",so:[{s:"I went to school yesterday.",h:"Wczoraj poszedłem do szkoły."},{s:"She is reading a very interesting book.",h:""},{s:"We did not go to the party.",h:""}],created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
   $("#addQ").onclick=()=>{const x={id:uid(),kind:"quiz",folder:curF==="all"?"":curF,title:"Nowy quiz",inst:"Wybierz poprawną odpowiedź, zanim minie czas!",qs:[],dT:20,dP:100,dB:50,created:new Date().toISOString()};S.ex.unshift(x);curE=x.id;tab="edit";save();teacher()};
   const ntm=(t,c)=>{const m=$("#ntm");if(m){m.style.color=c||"var(--mut)";m.textContent=t}};
   $("#nts").onclick=()=>{const k=$("#ntw").value.trim();if(k&&!/^[\w-]{20,}$/.test(k)){ntm("Klucz wygląda na niepełny. Skopiuj go w całości z maila.","var(--bad)");return}
@@ -395,6 +506,12 @@ function teacher(){if(window.__mp){window.__mp.stop();window.__mp=null}const cwx
   $("#fbp").onclick=async()=>{const h=fbHost($("#fbu").value),code=$("#fbc").value.trim();if(!h||code.length<6){fbm("Wpisz adres bazy i kod panelu (min. 6 znaków).","var(--bad)");return}
     S.fb=h;pcode=code;try{localStorage.setItem("luki_pcode",code)}catch(e){}fbm("Pobieram…");const ch=await cloudPull(true);if(ch){curE=null;teacher();fbm("Pobrano panel z chmury.","var(--green)")}else fbm(cloudErr?"Nie udało się pobrać ("+cloudErr+").":"W chmurze nie ma jeszcze panelu z tym kodem.",cloudErr?"var(--bad)":"var(--mut)")};
 
+  document.body.classList.add('ispanel');{const h=document.querySelector('.hero'),b=$('#setb');if(h&&b&&!document.getElementById('setrow')){const r=document.createElement('div');r.id='setrow';r.className='setrow';r.appendChild(b);h.parentNode.insertBefore(r,h)}}
+  {const smo=$("#smo"),fill=()=>{const g=$("#thgrid");if(g&&window.__thGrid)g.innerHTML=window.__thGrid()};
+   const sc=v=>document.body.classList.toggle('smopen',v);const op=()=>{setOpen=true;smo.hidden=false;sc(1);fill()},cl=()=>{setOpen=false;smo.hidden=true;sc(0)};
+   $("#setb").onclick=op;$("#smx").onclick=cl;smo.onclick=ev=>{if(ev.target===smo)cl()};
+   $("#thgrid").onclick=ev=>{const b=ev.target.closest('[data-th]');if(b&&window.__applyTheme){window.__applyTheme(b.dataset.th);fill()}};
+   if(setOpen){fill();sc(1)}}
   document.querySelectorAll("details.dt").forEach(d=>{d.open=!!openD[d.dataset.k];d.ontoggle=()=>{openD[d.dataset.k]=d.open}});
   if(e)bindEditor(e);
   if(window.__restore){window.__restore=false;const id=window.__qid,y=window.__y||0;window.__qid=null;requestAnimationFrame(()=>{const el=id&&document.querySelector(`details[data-k="q_${id}"]`);if(el){el.open=true;openD["q_"+id]=true;el.scrollIntoView({block:"center"})}else window.scrollTo(0,y)})}
@@ -404,7 +521,8 @@ function editor(e){
   const rs=S.res.filter(r=>r.ex===e.id).sort((a,b)=>b.d.localeCompare(a.d));
   const att={},cn={};[...rs].reverse().forEach(r=>{const k=r.n.trim().toLowerCase();att[r.id]=cn[k]=(cn[k]||0)+1});
   return `<div class="card"><div class="tabs"><div class="tab ${tab==="edit"?"on":""}" data-t="edit">✏️ Edycja</div><div class="tab ${tab==="res"?"on":""}" data-t="res">📊 Wyniki (${rs.length})</div></div>`+
-  (tab==="edit"?(e.kind==="quiz"?qEdit(e):e.kind==="vocab"?vEdit(e):e.kind==="cw"?cwEdit(e):`
+  (tab==="edit"?(t=>`<div class="tyb" style="--tc:${t[3]}"><span class="tpi">${t[0]}</span><div><b>${t[1]}</b><small>${t[2]}</small></div></div>`)(TYP[tyOf(e)]):'')+
+  (tab==="edit"?(e.kind==="quiz"?qEdit(e):e.kind==="vocab"?vEdit(e):e.kind==="cw"?cwEdit(e):e.kind==="so"?soEdit(e):`
   <label style="margin-top:0">Tytuł</label><input type="text" id="t" value="${esc(e.title)}">
   <label>Polecenie dla ucznia</label><input type="text" id="n" value="${esc(e.inst)}">
   <label>Folder</label><select id="fo" style="padding:9px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:500 14px Poppins">
@@ -413,7 +531,7 @@ function editor(e){
   <div>${(e.images||[]).map((u,i)=>`<span class="chip"><img src="${esc(u)}" alt="" style="height:56px;border-radius:8px"><button class="btn d" data-di="${i}">✕</button></span>`).join("")}</div>
   <div class="dz" id="dz">Przeciągnij tu zdjęcie (np. z Google) albo wklej je skrótem Ctrl+V<br><button class="btn" id="ai" style="margin-top:8px">🖼 Wybierz plik</button><input type="file" id="fi" accept="image/*" hidden><br><span class="msg" id="im"></span></div>
   <label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="dg" ${e.dlg?"checked":""}> 💬 Wyświetl tekst jako dialog (każda linia: Imię: tekst)</label>
-  <label>Tekst. Wpisz lub wklej, potem zaznacz słowo i kliknij „Zrób lukę”</label><textarea id="x" placeholder="Wklej tutaj tekst...">${esc(e.text)}</textarea>
+  <label>${e.isD?'Dialog: każda linia w formacie Imię: tekst. Zaznacz słowo i kliknij „Zrób lukę”':'Tekst. Wpisz lub wklej, potem zaznacz słowo i kliknij „Zrób lukę”'}</label><textarea id="x" placeholder="Wklej tutaj tekst...">${esc(e.text)}</textarea>
   <div class="row"><button class="btn p" id="mk">✂️ Zrób lukę z zaznaczenia</button><button class="btn" id="un">↩ Cofnij ostatnią lukę</button><button class="btn" id="em">😁 Wstaw emotikonę</button></div><div id="ep"></div>
   <div class="hint">Luka jest zapisana jako <b>[[słowo]]</b>. Możesz też wpisać ją ręcznie, np. <b>[[didn't steal|did not steal]]</b> (kilka poprawnych odpowiedzi rozdziela znak |).</div>
   <details class="dt" data-k="ans"><summary>✅ Poprawne odpowiedzi (${g.length} luk)</summary>
@@ -441,7 +559,7 @@ function bindEditor(e){
     $("#ar").onclick=()=>{try{const o=dec($("#rc").value.trim());if(o.i!==e.id){note="Ten kod jest z innego ćwiczenia.";teacher();return}
       S.res.push({id:uid(),ex:o.i,n:o.n,c:o.c,t:o.t,d:o.d,a:o.a});note="Dodano!";save();teacher()}catch(x){note="Nieprawidłowy kod.";$("#rm").textContent=note;$("#rm").style.color="var(--bad)"}};
     return}
-  if(e.kind==="quiz")return qBind(e);if(e.kind==="vocab")return vBind(e);if(e.kind==="cw")return cwBind(e);
+  if(e.kind==="quiz")return qBind(e);if(e.kind==="vocab")return vBind(e);if(e.kind==="cw")return cwBind(e);if(e.kind==="so")return soBind(e);
   const t=$("#t"),n=$("#n"),x=$("#x");
   t.oninput=()=>{e.title=t.value;save()};n.oninput=()=>{e.inst=n.value;save()};
   $("#fo").onchange=ev=>{e.folder=ev.target.value;save();teacher()};
@@ -512,7 +630,7 @@ function musicPlayer(m){let ctx=null,gain=null,timer=null,audio=null,muted=false
     timer=setInterval(()=>{if(!ctx)return;while(next<ctx.currentTime+0.3){const i=step%16,l=P.l[i],b=P.b[i];if(l!=null)note(P.root*Math.pow(2,l/12),next,sd*1.8,P.lt,P.lv||0.1);if(b!=null)note(P.root*Math.pow(2,b/12)/2,next,sd*3.5,P.bt,0.14);next+=sd;step++}},80)}catch(e){}},
    stop(){clearInterval(timer);timer=null;if(audio){audio.pause();audio=null}if(ctx){try{ctx.close()}catch(e){}ctx=null}},
    mute(b){muted=b;if(audio)audio.volume=b?0:0.4;if(gain)gain.gain.value=b?0:0.5}}}
-const qObj=(e,inl)=>({i:e.id,t:e.title,n:e.inst,k:'q',mu:e.mus?(e.mus.k==='f'?(inl?undefined:{k:'f',n:e.mus.n,u:e.mus.u}):e.mus):undefined,qs:e.qs.map(q=>({q:q.q,dg:q.dg||'',im:q.im||'',ty:q.ty,o:(q.ty==='o'||q.ty==='f'||q.ty==='m')?[]:q.o,pr:q.ty==='m'?q.pr:undefined,a:q.a||'',tm:q.tm,pt:q.pt,bn:q.bn,pm:q.pm||'all'}))});
+const qObj=(e,inl)=>({i:e.id,t:e.title,n:e.inst,k:'q',mu:e.mus?(e.mus.k==='f'?(inl?undefined:{k:'f',n:e.mus.n,u:e.mus.u}):e.mus):undefined,qs:e.qs.map(q=>({q:q.q,dg:q.dg||'',im:q.im||'',ty:q.ty,o:(q.ty==='o'||q.ty==='f'||q.ty==='m')?[]:(q.o||[]).map(o=>[o[0]||'',o[1]||'',isOk(o)?1:0]),pr:q.ty==='m'?q.pr:undefined,a:q.a||'',tm:q.tm,pt:q.pt,bn:q.bn,pm:q.pm||'all'}))});
 const cnt=(e,r)=>{if(e.kind==='quiz'&&r.a){const g=Object.values(r.a).filter(x=>x&&x[2]==1).length;return [g,e.qs.filter(q=>q.ty!=='f').length-g]}return [r.c,r.t-r.c]};
 const rankHTML=rs=>{const best={};rs.forEach(r=>{const k=norm(r.n);if(!best[k]||r.c>best[k].c)best[k]=r});const L=Object.values(best).sort((a,b)=>b.c-a.c||String(a.d).localeCompare(String(b.d)));
   return L.length?'<h3>🏆 Ranking (najlepszy wynik każdego ucznia)</h3>'+L.map((v,i)=>`<div class="rv"><span style="font-size:20px;min-width:30px">${['🥇','🥈','🥉'][i]||(i+1)+'.'}</span><span style="flex:1">${esc(v.n)}</span><b>${v.c} / ${v.t} pkt</b></div>`).join('')+'<h3>Wszystkie podejścia</h3>':''};
@@ -521,8 +639,9 @@ const detRow=(e,r)=>{const A=r.a?Object.values(r.a):[];let h='<div class="hint">
       if(ty==='o'){ans=esc(String(a[0]||'').trim()||'(brak)');cor=esc(String(q.a||'').split('|').map(x=>x.trim()).filter(Boolean).join(' / '))}
       else if(ty==='f'){return `<div class="gaprow"><b>${i+1}.</b><span style="color:#b86bff">✍ ${esc(String(a[0]||'').trim()||'(brak odpowiedzi)')}</span> <small>(pytanie bez punktów)</small></div>`}
       else if(ty==='m'){const pk=String(a[0]==null?'':a[0]).split(',').map(Number);ans=(q.pr||[]).map((p,l)=>esc(p[0])+' → '+(pk[l]>=0&&q.pr[pk[l]]?esc(q.pr[pk[l]][1]):'(brak)')).join('; ');cor=(q.pr||[]).map(p=>esc(p[0])+' → '+esc(p[1])).join('; ')}
-      else{const ids=String(a[0]==null?'':a[0]).split(',').filter(x=>x!=='').map(Number);ans=esc(ids.length?ids.map(j=>(q.o[j]&&(q.o[j][0]||'[zdjęcie]'))||'?').join(', '):'(brak)');cor=esc(q.o.filter(o=>o[2]).map(o=>o[0]||'[zdjęcie]').join(', '))}
+      else{const ids=String(a[0]==null?'':a[0]).split(',').filter(x=>x!=='').map(Number);ans=esc(ids.length?ids.map(j=>(q.o[j]&&(q.o[j][0]||'[zdjęcie]'))||'?').join(', '):'(brak)');cor=esc(q.o.filter(isOk).map(o=>o[0]||'[zdjęcie]').join(', '))}
       return `<div class="gaprow"><b>${i+1}.</b><span style="color:${a[2]==1?'var(--ok)':a[2]==2?'#f5b301':'var(--bad)'}">${a[2]==1?'✔':a[2]==2?'◐':'✘'} ${ans}</span> <small>${a[2]==1?(ty==='o'?'zaakceptowane odpowiedzi: '+cor+' · ':''):'poprawnie: '+cor+' · '}${a[1]} pkt</small></div>`}).join('');
+    else if(e.kind==='so')h=A.map((x,i)=>{const c=(e.so||[])[x[2]]||{s:'?'};return `<div class="gaprow"><b>${i+1}.</b><span style="color:${x[1]?'var(--ok)':'var(--bad)'}">${x[1]?'✔':'✘'} ${esc(x[0]||'(brak)')}</span>${x[1]?'':` <small>poprawnie: ${esc(String(c.s).split('|')[0].trim())}</small>`}</div>`}).join('');
     else if(e.kind==='cw')h=A.map((x,i)=>{const c=(e.cw||[])[x[2]]||{q:'?',a:'?'};return `<div class="gaprow"><b>${i+1}.</b><span style="color:${x[1]?'var(--ok)':'var(--bad)'}">${x[1]?'✔':'✘'} ${esc(c.q||'(zdjęcie)')} → ${esc(x[0]||'(brak)')}</span>${x[1]?'':` <small>poprawnie: ${esc(c.a)}</small>`}</div>`}).join('');
     else if(e.kind==='vocab')h=A.map((x,i)=>{const w=(e.words||[])[x[3]]||['?','?'];const pe=x[2]===1;return `<div class="gaprow"><b>${i+1}.</b><span style="color:${x[1]?'var(--ok)':'var(--bad)'}">${x[1]?'✔':'✘'} ${esc(pe?w[1]:w[0])} → ${esc(x[0]||'(brak)')}</span>${x[1]?'':` <small>poprawnie: ${esc(pe?w[0]:w[1])}</small>`}</div>`}).join('');
     else h=gaps(e.text).map((g,i)=>{const a=A[i]||['',0];const c=g.split('|').map(s=>s.trim()).join(' / ');return `<div class="gaprow"><b>Luka ${i+1}</b><span style="color:${a[1]?'var(--ok)':'var(--bad)'}">${a[1]?'✔':'✘'} ${esc(a[0]||'(puste)')}</span>${a[1]?'':` <small>poprawnie: ${esc(c)}</small>`}</div>`}).join('')}
@@ -533,7 +652,7 @@ function qCard(q,i){const ty=q.ty||'c';const num=(f,l,v)=>`<label style="margin:
   const body=ty==='o'?`<label>Poprawne odpowiedzi (kilka oddziel znakiem |). Każda z nich daje pełne punkty</label><input type="text" data-fld="a" data-i="${i}" value="${esc(q.a||'')}">`
   :ty==='f'?`<div class="note">✍️ Uczeń wpisuje własną odpowiedź. Nie jest oceniana na punkty, a uczeń dostaje informację, że za to pytanie nie ma punktów. Jego odpowiedź zobaczysz w wynikach.</div>`
   :ty==='m'?`<label>Pary: lewa strona ↔ pasująca prawa strona</label>${(q.pr||[]).map((p,j)=>`<div class="gaprow"><input type="text" data-fld="pl" data-i="${i}" data-j="${j}" value="${esc(p[0])}" placeholder="Lewa ${j+1}"><span>↔</span><input type="text" data-fld="pg" data-i="${i}" data-j="${j}" value="${esc(p[1])}" placeholder="Pasuje do"><button class="btn d" data-a="rp" data-i="${i}" data-j="${j}">✕</button></div>`).join('')}<button class="btn" data-a="ap" data-i="${i}">+ Dodaj parę</button><div class="hint">Uczeń widzi prawą stronę w losowej kolejności. Punkty są proporcjonalne do liczby poprawnych par.</div>`
-  :`<label>Odpowiedzi. Zaznacz ✓ przy poprawnych</label>${(q.o||[]).map((o,j)=>`<div class="gaprow" data-oj="${j}"><input type="checkbox" data-fld="ok" data-i="${i}" data-j="${j}" ${o[2]?'checked':''} title="poprawna" style="width:22px;height:22px"><input type="text" data-fld="ot" data-i="${i}" data-j="${j}" value="${esc(o[0])}" placeholder="Odpowiedź ${j+1}"><button class="btn" data-a="imo" data-i="${i}" data-j="${j}" title="${o[1]?'Usuń zdjęcie':'Dodaj zdjęcie do odpowiedzi'}">${o[1]?'🖼✓':'🖼'}</button><button class="btn d" data-a="rmo" data-i="${i}" data-j="${j}">✕</button></div>`).join('')}<button class="btn" data-a="ao" data-i="${i}">+ Dodaj odpowiedź</button>`;
+  :`<label>Odpowiedzi. Zaznacz ✓ przy poprawnych</label>${(q.o||[]).map((o,j)=>`<div class="gaprow" data-oj="${j}"><input type="checkbox" data-fld="ok" data-i="${i}" data-j="${j}" ${isOk(o)?'checked':''} title="poprawna" style="width:22px;height:22px"><input type="text" data-fld="ot" data-i="${i}" data-j="${j}" value="${esc(o[0])}" placeholder="Odpowiedź ${j+1}"><button class="btn" data-a="imo" data-i="${i}" data-j="${j}" title="${o[1]?'Usuń zdjęcie':'Dodaj zdjęcie do odpowiedzi'}">${o[1]?'🖼✓':'🖼'}</button><button class="btn d" data-a="rmo" data-i="${i}" data-j="${j}">✕</button></div>`).join('')}<button class="btn" data-a="ao" data-i="${i}">+ Dodaj odpowiedź</button>`;
   return `<details class="dt" data-k="q_${q.id}" data-qi="${i}"><summary>Pytanie ${i+1}${q.q?': '+esc(q.q.slice(0,40)):''}</summary>
   <label>Treść pytania</label><textarea data-fld="q" data-i="${i}" style="min-height:70px">${esc(q.q)}</textarea>
   <label>💬 Dialog do pytania (opcjonalnie)</label><textarea data-fld="dg" data-i="${i}" style="min-height:70px" placeholder="Anna: Hi, how are you?&#10;Tom: Fine, thanks!">${esc(q.dg||'')}</textarea><div class="hint">Każda linia w formacie Imię: tekst. Uczeń zobaczy dymki rozmowy.</div>
@@ -541,7 +660,7 @@ function qCard(q,i){const ty=q.ty||'c';const num=(f,l,v)=>`<label style="margin:
   <div class="hint">🖼 Zdjęcie możesz też przeciągnąć z komputera na to pytanie albo na wybraną odpowiedź, albo wkleić (Ctrl+V) w polu pytania lub odpowiedzi.</div>
   <label>Rodzaj pytania</label><div class="row" style="margin-top:0">${TY.map(([k,l])=>`<button class="btn ${ty===k?'p':''}" data-a="ty" data-v="${k}" data-i="${i}">${l}</button>`).join('')}</div>
   ${body}
-  ${ty==='c'&&q.o.filter(o=>o[2]).length>1?`<label>Punkty, gdy uczeń zaznaczy tylko część poprawnych odpowiedzi</label><select data-fld="pm" data-i="${i}" style="${sel}"><option value="all" ${(q.pm||'all')==='all'?'selected':''}>Brak punktów (trzeba zaznaczyć wszystkie)</option><option value="part" ${q.pm==='part'?'selected':''}>Proporcjonalnie (np. 1 z 3 poprawnych = 1/3 punktów)</option><option value="any" ${q.pm==='any'?'selected':''}>Pełne punkty za dowolną poprawną</option></select><div class="hint">Zaznaczenie choć jednej błędnej odpowiedzi zawsze daje 0 punktów.</div>`:''}
+  ${ty==='c'&&q.o.filter(isOk).length>1?`<label>Punkty, gdy uczeń zaznaczy tylko część poprawnych odpowiedzi</label><select data-fld="pm" data-i="${i}" style="${sel}"><option value="all" ${(q.pm||'all')==='all'?'selected':''}>Brak punktów (trzeba zaznaczyć wszystkie)</option><option value="part" ${q.pm==='part'?'selected':''}>Proporcjonalnie (np. 1 z 3 poprawnych = 1/3 punktów)</option><option value="any" ${q.pm==='any'?'selected':''}>Pełne punkty za dowolną poprawną</option></select><div class="hint">Zaznaczenie choć jednej błędnej odpowiedzi zawsze daje 0 punktów.</div>`:''}
   <div class="row">${num('tm','Czas (s)',q.tm)}${ty==='f'?'':num('pt','Punkty',q.pt)+num('bn','Bonus za szybkość',q.bn)}</div>
   <div class="row"><button class="btn g" data-a="pvq" data-i="${i}">👁 Podgląd pytania</button><button class="btn" data-a="up" data-i="${i}">↑</button><button class="btn" data-a="dn" data-i="${i}">↓</button><button class="btn d" data-a="dq" data-i="${i}">Usuń pytanie</button></div></details>`}
 function qEdit(e){e.qs=e.qs||[];
@@ -558,7 +677,7 @@ function qEdit(e){e.qs=e.qs||[];
   <div class="row">${genBtns(e)}<button class="btn" id="dup">📄 Kopiuj ćwiczenie</button><button class="btn" id="pv">👁 Podgląd</button><button class="btn d" id="del">Usuń quiz</button></div><div id="lk"></div>`}
 const genBtns=e=>`<button class="btn g" id="gen">${e.lid?'🔄 Zaktualizuj link':'🔗 Generuj link'}</button><button class="btn" id="newl" style="${e.lid?'':'display:none'}" title="Tworzy osobny, nowy link. Stary przestanie się zmieniać">🆕 Nowy link</button>`;
 function dup(e){const c=JSON.parse(JSON.stringify(e));c.id=uid();c.title=(e.title||'Bez tytułu')+' (kopia)';delete c.lid;delete c.lh;Object.keys(c).forEach(k=>{if(/^lid_/.test(k))delete c[k]});c.created=new Date().toISOString();if(c.qs)c.qs.forEach(q=>q.id=uid());S.ex.unshift(c);curE=c.id;tab='edit';save();teacher()}
-function bindLinkBtns(e,check){const go=m=>()=>{const er=check();if(er){alert(er);return}showLink(e,m)};$('#gen').onclick=go('upd');$('#newl').onclick=go('new');$('#dup').onclick=()=>{if(confirm('Utworzyć kopię tego ćwiczenia? Kopia dostanie własny link i nie przejmie wyników.'))dup(e)}}
+function bindLinkBtns(e,check){const go=m=>()=>{const er=check();if(er){toast('⚠️ '+er);return}showLink(e,m)};$('#gen').onclick=go('upd');$('#newl').onclick=go('new');$('#dup').onclick=()=>{if(confirm('Utworzyć kopię tego ćwiczenia? Kopia dostanie własny link i nie przejmie wyników.'))dup(e)}}
 async function showLink(e,mode,vm){const lk=$(vm?'#lk_'+vm:'#lk');lk.innerHTML='<div class="hint">Zapisuję…</div>';const key=vm?'lid_'+vm:'lid';const had=!!e[key];const l=await link(e,mode,vm);const h=fbHost(S.fb);
   const note=!h?'Bez bazy online link zawiera całe ćwiczenie, więc po każdej zmianie trzeba wygenerować nowy. Włącz „⚙️ Baza online”, a wtedy ten sam link da się aktualizować.'+(e.mus&&e.mus.k==='f'?' Własnej muzyki nie ma w tym linku (potrzebna baza online), podkłady z listy działają.':'')
     :fbErr?`Baza online nie odpowiedziała (${esc(fbErr)}), więc link jest długi i nie da się go aktualizować.`
@@ -578,7 +697,7 @@ function qBind(e){const main=document.querySelector('.main');
     if(f==='q')q.q=el.value;else if(f==='dg')q.dg=el.value;else if(f==='a')q.a=el.value;else if(f==='ot')q.o[j][0]=el.value;else if(f==='pl')q.pr[j][0]=el.value;else if(f==='pg')q.pr[j][1]=el.value;else if(f==='tm'||f==='pt'||f==='bn')q[f]=+el.value||0;
     save()};
   main.onchange=ev=>{const el=ev.target,f=el.dataset.fld,i=+el.dataset.i,j=+el.dataset.j;const q=e.qs[i];if(!q)return;
-    if(f==='ok'){q.o[j][2]=el.checked;save();teacher()}
+    if(f==='ok'){q.o[j][2]=!!el.checked;save();teacher()}
     if(f==='pm'){q.pm=el.value;save()}
     if(f==='ty'){q.ty=el.value;if(q.ty==='c'&&!(q.o&&q.o.length))q.o=[['','',true],['','',false]];save();teacher()}};
   main.onclick=async ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,i=+b.dataset.i,j=+b.dataset.j,q=e.qs[i];
@@ -617,8 +736,8 @@ function qBind(e){const main=document.querySelector('.main');
   $('#pv').onclick=()=>{if(!e.qs.length){alert('Dodaj przynajmniej jedno pytanie.');return}quiz(Object.assign(qObj(e),{p:1}));app.insertAdjacentHTML('afterbegin','<div class="row" style="margin:0 0 12px"><button class="btn p" id="bkp">← Wróć do edycji</button></div>');$('#bkp').onclick=goBack};
   $('#del').onclick=()=>{if(confirm('Usunąć ten quiz wraz z wynikami?')){S.ex=S.ex.filter(z=>z.id!==e.id);S.res=S.res.filter(r=>r.ex!==e.id);curE=null;save();teacher()}};
 }
-function quiz(ex){
-  const Q=ex.qs||[];let saved=null;if(!ex.p){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
+function quiz(ex){i18nInit(ex);
+  const Q=ex.qs||[];let saved=null;if(!ex.p&&!ex.mo){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
   const max=Q.reduce((s,q)=>s+(q.ty==='f'?0:(+q.pt||0)+(+q.bn||0)),0);
   let mp=null,idx=0,score=0,log=[],name='',mute=false,tm=null,t0=0,tot=20,locked=false,AC=null;
   const sfx=n=>{if(mute)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const c=AC;if(c.state==='suspended')c.resume();
@@ -641,7 +760,7 @@ function quiz(ex){
     <div class="row"><button class="btn p" id="go" style="font-size:18px;padding:14px 30px">▶ Start</button></div>
     <div class="hint">Masz tylko jedną próbę. Im szybciej odpowiesz poprawnie, tym więcej punktów dostaniesz. Włącz dźwięk 🔊</div></section>`;mu();
     $('#go').onclick=async()=>{const v=$('#qn').value.trim();if(!v){$('#qn').focus();$('#qn').style.borderColor='#ff7190';return}name=v;
-      if(ex.fb&&!ex.p){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';
+      if(ex.fb&&!ex.p&&!ex.mo){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';
         try{const d=await fbReq(ex.fb,'/res/'+ex.i,'GET');const mine=Object.values(d||{}).find(r=>r&&r.n&&norm(r.n)===norm(v));
           if(mine){end(mine.n,+mine.c||0,mine.a?Object.values(mine.a):[],'','Ten uczeń już rozwiązał ten quiz. To wynik z pierwszej próby, drugiej nie ma.');return}}catch(e){}}
       if(ex.mu){mp=musicPlayer(ex.mu);window.__mp=mp;mp.mute(mute);mp.play()}
@@ -649,7 +768,7 @@ function quiz(ex){
   const PAL=['#ff8a1f','#8b5cf6','#10b981','#ec4899','#0ea5e9','#f5b301','#ef4444','#14b8a6'];
   const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
   let cur=()=>null;
-  function ask(i){idx=i;const q=Q[i];const ty=q.ty||'c';tot=+q.tm||20;locked=false;cur=()=>null;const multi=ty==='c'&&q.o.filter(o=>o[2]).length>1;let body;
+  function ask(i){idx=i;const q=Q[i];const ty=q.ty||'c';tot=+q.tm||20;locked=false;cur=()=>null;const multi=ty==='c'&&q.o.filter(isOk).length>1;let body;
     if(ty==='o')body=`<input class="oin" id="oa" placeholder="Wpisz odpowiedź…" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="row" style="justify-content:center"><button class="btn p" id="ob">Odpowiedz ➜</button></div>`;
     else if(ty==='f')body=`<div class="note">✍️ Pytanie bez punktów. Twoja odpowiedź nie jest oceniana automatycznie, przeczyta ją nauczyciel.</div><textarea class="oin" id="fa" rows="3" placeholder="Napisz swoją odpowiedź…" style="text-align:left;font-weight:600"></textarea><div class="row" style="justify-content:center"><button class="btn p" id="ob">Wyślij odpowiedź ➜</button></div>`;
     else if(ty==='m')body=`<div class="hint" style="text-align:center">Dotknij elementu po lewej, potem pasującego po prawej (albo odwrotnie). Dotknięcie sparowanego elementu rozłącza parę.</div><div class="mt"><div id="mtl"></div><div id="mtr"></div></div><div class="row" style="justify-content:center"><button class="btn p" id="ob">Zatwierdź ✔</button></div>`;
@@ -679,12 +798,12 @@ function quiz(ex){
     if(ty==='f'){sv=sel||'';flag=3}
     else if(ty==='m'){const pk=sel||[];sv=q.pr.map((p,l)=>pk[l]==null?-1:pk[l]).join(',');good=q.pr.filter((p,l)=>pk[l]===l).length;fr=q.pr.length?good/q.pr.length:0;ok=good===q.pr.length}
     else if(sel!==null){if(ty==='o'){sv=sel;ok=String(q.a||'').split('|').map(norm).filter(Boolean).includes(norm(sel))}
-      else{sv=sel.slice().sort().join(',');const cs=q.o.map((o,j)=>o[2]?j:-1).filter(j=>j>=0);const gd=sel.filter(j=>cs.includes(j)).length,bd=sel.length-gd;ok=bd===0&&gd===cs.length;if(!ok&&bd===0&&gd>0){const m=q.pm||'all';fr=m==='any'?1:m==='part'?gd/cs.length:0}}}
+      else{sv=sel.slice().sort().join(',');const cs=q.o.map((o,j)=>isOk(o)?j:-1).filter(j=>j>=0);const gd=sel.filter(j=>cs.includes(j)).length,bd=sel.length-gd;ok=bd===0&&gd===cs.length;if(!ok&&bd===0&&gd>0){const m=q.pm||'all';fr=m==='any'?1:m==='part'?gd/cs.length:0}}}
     if(ok)fr=1;const bon=fr>0?Math.round((+q.bn||0)*rem/tot*fr):0,pts=fr>0?Math.round((+q.pt||0)*fr)+bon:0,from=score;score+=pts;log.push([sv,pts,flag||(fr===1?1:fr>0?2:0)]);
     if(ty==='o'){$('#oa').disabled=true;$('#oa').style.borderColor=ok?'#22c55e':'#ef4444'}
     else if(ty==='f')$('#fa').disabled=true;
     else if(ty==='m'){const pk=sel||[];document.querySelectorAll('.mrow').forEach((b,l)=>{b.disabled=true;b.classList.add(pk[l]===l?'good':'bad');if(pk[l]!==l){b.querySelector('.ms').innerHTML=(pk[l]>=0?'<s>'+big(esc(q.pr[pk[l]][1]))+'</s> ':'')+'✔ '+big(esc(q.pr[l][1]))}});document.querySelectorAll('.mchip').forEach(b=>b.disabled=true)}
-    else document.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;if(q.o[j][2])b.classList.add('good');else if(sel&&sel.includes(j))b.classList.add('bad');else b.classList.add('dim')});
+    else document.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;if(isOk(q.o[j]))b.classList.add('good');else if(sel&&sel.includes(j))b.classList.add('bad');else b.classList.add('dim')});
     const ob=$('#ob');if(ob)ob.style.display='none';
     const verdict=fr===1?'✔ Świetnie!':fr>0?(ty==='m'?`◐ Poprawne pary: ${good} z ${q.pr.length}.`:'◐ Tylko część poprawnych odpowiedzi.'):'✘ Niestety źle.';
     $('#qfb').innerHTML=ty==='f'?`<div class="fbk info">${sel?'✍️ Odpowiedź zapisana. Za to pytanie nie ma punktów, ale nauczyciel ją przeczyta.':'⏰ Czas minął i nie wpisałeś/aś odpowiedzi. To pytanie i tak jest bez punktów.'}</div>`
@@ -706,12 +825,12 @@ function quiz(ex){
     qa.innerHTML=`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">${em}</div><div class="sbig" id="fs">0</div>
     <div style="font-weight:800;font-size:18px">${esc(nm)}, zdobyłeś/aś ${sc} z ${max} pkt (${pc}%)</div><div class="msg" id="sent" style="display:block;margin-top:10px">${msg||''}</div></section>
     <section class="card"><h2>Twoje odpowiedzi</h2>${Q.map((q,i)=>{const a=lg[i]||['',0,0];return `<div class="rv" style="animation-delay:${i*0.06}s"><span>${a[2]==1?'✔':a[2]==2?'◐':a[2]==3?'✍':'✘'}</span><span style="flex:1">${esc(q.q.slice(0,90))}</span><b>${a[2]==3?'bez punktów':a[1]+' pkt'}</b></div>`}).join('')}</section>
-    ${!ex.p?'<section class="card"><h2>🏆 Ranking</h2><div id="lbx"></div><div class="row"><button class="btn" id="lbr">↻ Odśwież ranking</button></div></section>':''}${ex.p?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
+    ${!ex.p?'<section class="card"><h2>🏆 Ranking</h2><div id="lbx"></div><div class="row"><button class="btn" id="lbr">↻ Odśwież ranking</button></div></section>':''}${(ex.p||ex.mo)?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
     if(code)cwShow(code,!ex.fb&&!ex.p);
     cnt_($('#fs'),0,sc);if(!ex.p){$('#lbr').onclick=()=>lb(nm,sc);lb(nm,sc);if(ex.fb){clearInterval(window.__lbt);window.__lbt=setInterval(()=>{if($('#lbx'))lb(nm,sc);else clearInterval(window.__lbt)},20000)}}sfx('end');boom(TE(),pc>=50?46:16);const ag=$('#again');if(ag)ag.onclick=()=>{score=0;log=[];intro()}}
   function finish(){const code=enc({i:ex.i,n:name,c:score,t:max,d:new Date().toISOString(),a:log});let msg='';
     if(!ex.p)notifyT(ex,name,score,max);
-    if(!ex.p){try{localStorage.setItem('luki_done_'+ex.i,JSON.stringify({q:1,name:name,score:score,log:log,code:code}))}catch(e){}
+    if(!ex.p){try{if(!ex.mo)localStorage.setItem('luki_done_'+ex.i,JSON.stringify({q:1,name:name,score:score,log:log,code:code}))}catch(e){}
       if(ex.fb){msg='Wysyłam wynik do nauczyciela…';const mark=(t,bad)=>{const s=$('#sent');if(s){s.textContent=t;if(bad)s.style.color='var(--bad)'}if(bad)cwOpen()};
         fbReq(ex.fb,'/res/'+ex.i,'POST',{n:name,c:score,t:max,d:new Date().toISOString(),a:log}).then(()=>{mark('✔ Wynik został wysłany do nauczyciela.');lb(name,score)},()=>mark('Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi.',1))}else msg='Wyślij nauczycielowi kod wyniku: kliknij 🔑 w prawym dolnym rogu.'}
     end(name,score,log,code,msg)}
@@ -747,7 +866,7 @@ function vEdit(e){e.words=e.words||[];e.vo=e.vo||{};
   <div class="dt" style="margin-top:14px"><b>📚 Słówka (angielski ↔ polski)</b>
    ${e.words.map((w,j)=>`<div class="gaprow"><input type="text" data-fld="we" data-j="${j}" value="${esc(w[0])}" placeholder="English"><span>↔</span><input type="text" data-fld="wp" data-j="${j}" value="${esc(w[1])}" placeholder="Polski"><button class="btn d" data-v="rw" data-j="${j}">✕</button></div>`).join('')}
    <div class="row"><button class="btn p" data-v="aw">+ Dodaj słówko</button></div>
-   <label>Wklej listę (jedno słówko w linii: angielski - polski)</label><textarea id="vbulk" style="min-height:90px" placeholder="house - dom&#10;to run - biegać"></textarea><div class="row"><button class="btn" data-v="bulk">➕ Dodaj z listy</button></div>
+   <label>Wklej listę (jedno słówko w linii: angielski - polski albo angielski-polski)</label><textarea id="vbulk" style="min-height:90px" placeholder="house - dom&#10;to run - biegać"></textarea><div class="row"><button class="btn" data-v="bulk">➕ Dodaj z listy</button></div>
    <div class="hint">Kilka znaczeń oddziel znakiem / albo ; (np. „dom / budynek”). Każde z nich uczeń może wpisać jako poprawne.</div></div>
   <div class="dt vm"><b>📇 Fiszki</b><div class="hint">Karty do przesuwania na telefonie. Uczeń zaznacza, które umie, a postęp zapisuje się na jego urządzeniu.</div><div class="row">${dsel('cards')}<label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" data-vo="cards" data-vk="sh" ${o('cards').sh?'checked':''}> wymieszaj fiszki</label></div>${btns('cards')}</div>
   <div class="dt vm"><b>🧠 Ucz się</b><div class="hint">Seria po kilka słówek: najpierw wybór A–D, potem te same słówka pisemnie. Potem kolejna seria.</div><div class="row">${dsel('learn')}<label style="margin:0">Słówek w serii</label><input type="text" inputmode="numeric" data-vo="learn" data-vk="gs" value="${o('learn').gs}" style="width:70px"></div>${btns('learn')}</div>
@@ -760,7 +879,7 @@ function vBind(e){const main=document.querySelector('.main');
   main.onclick=ev=>{const b=ev.target.closest('[data-v]');if(!b)return;const a=b.dataset.v,m=b.dataset.m,j=+b.dataset.j;
     if(a==='aw'){e.words.push(['','']);save();teacher()}
     else if(a==='rw'){if(e.words.length<=2){alert('Zestaw potrzebuje co najmniej dwóch słówek.');return}e.words.splice(j,1);save();teacher()}
-    else if(a==='bulk'){let n=0;const add=[];$('#vbulk').value.split('\n').forEach(l=>{l=l.trim();if(!l)return;const x=l.match(/^(.+?)\s*(?:\t|\s[-–—=:]\s|;|=)\s*(.+)$/);if(x){add.push([x[1].trim(),x[2].trim()]);n++}});
+    else if(a==='bulk'){let n=0;const add=[];$('#vbulk').value.split('\n').forEach(l=>{l=l.trim();if(!l)return;const x=pairSplit(l);if(x){add.push([x[0],x[1]]);n++}});
       if(!n){alert('Nie rozpoznałem żadnej pary. Użyj formatu: house - dom (jedno słówko w linii).');return}e.words=e.words.filter(w=>w[0].trim()||w[1].trim()).concat(add);save();teacher()}
     else if(a==='gen'||a==='new'||a==='pv'){if(e.words.filter(w=>w[0].trim()&&w[1].trim()).length<2){alert('Dodaj co najmniej dwa słówka (angielski i polski).');return}
       if(a==='pv'){vocab(Object.assign(vObj(e,m),{p:1}));app.insertAdjacentHTML('afterbegin','<div class="row" style="margin:0 0 12px"><button class="btn p" id="bkp">← Wróć do edycji</button></div>');$('#bkp').onclick=goBack}
@@ -768,7 +887,7 @@ function vBind(e){const main=document.querySelector('.main');
   $('#dup').onclick=async()=>{if(await modal({title:'📄 Kopiować ćwiczenie?',text:'Kopia dostanie własny link i nie przejmie wyników.',ok:'Kopiuj'}))dup(e)};
   $('#del').onclick=async()=>{if(await modal({title:'Usunąć ten zestaw?',text:'Razem z wynikami testów.',ok:'Usuń'})){S.ex=S.ex.filter(z=>z.id!==e.id);S.res=S.res.filter(r=>r.ex!==e.id);curE=null;save();teacher()}}}
 
-function vocab(ex){
+function vocab(ex){i18nInit(ex);
   const W=(ex.w||[]).map((p,i)=>({en:p[0],pl:p[1],i})).filter(w=>w.en&&w.pl);
   const alts=s=>String(s).split(/[;\/]/).map(x=>x.trim()).filter(Boolean);
   const nm=s=>norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ł/g,'l');
@@ -842,15 +961,16 @@ function vocab(ex){
     function fin(){va.innerHTML=top('')+`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">🏆</div><div class="sbig">${W.length}</div><div style="font-weight:800;font-size:18px">Opanowane słówka: ${W.length} z ${W.length}</div><div class="row" style="justify-content:center"><button class="btn p" id="vnew">🔄 Zacznij od nowa</button></div></section>`;bindTop(()=>{st=fresh();show()});confetti(TE(),50);beep('win');$('#vnew').onclick=()=>{st=fresh();sv(st);show()}}
     show()}
   function test(){
-    let saved=null;if(!ex.p){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
+    let saved=null;if(!ex.p&&!ex.mo){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
     const N=W.length;let name='',order=vsh(W.map((w,i)=>i)),log=[],dirs=order.map(()=>dirOf());
     function end(nm,sc,lg,code,msg){const pc=N?Math.round(sc/N*100):0;
       va.innerHTML=`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">${pc>=90?'🏆':pc>=60?TE()[0]:pc>=30?TE()[2]:'💪'}</div><div class="sbig" id="fs">0</div><div style="font-weight:800;font-size:18px">${esc(nm)}, wynik: ${sc} z ${N} (${pc}%)</div><div class="msg" id="sent" style="display:block;margin-top:10px">${msg||''}</div></section>
-      <section class="card"><h2>Twoje odpowiedzi</h2>${lg.map((x,i)=>{const w=W.find(z=>z.i===x[3])||{en:'?',pl:'?'};const d=x[2]===1?'pe':'ep';return `<div class="rv" style="animation-delay:${Math.min(i,12)*0.05}s"><span>${x[1]?'✔':'✘'}</span><span style="flex:1">${esc(fr(w,d))} → ${esc(x[0]||'(brak)')}${x[1]?'':` <small>(poprawnie: ${esc(bk(w,d))})</small>`}</span></div>`}).join('')}</section>`;
+      <section class="card"><h2>Twoje odpowiedzi</h2>${lg.map((x,i)=>{const w=W.find(z=>z.i===x[3])||{en:'?',pl:'?'};const d=x[2]===1?'pe':'ep';return `<div class="rv" style="animation-delay:${Math.min(i,12)*0.05}s"><span>${x[1]?'✔':'✘'}</span><span style="flex:1">${esc(fr(w,d))} → ${esc(x[0]||'(brak)')}${x[1]?'':` <small>(poprawnie: ${esc(bk(w,d))})</small>`}</span></div>`}).join('')}</section>${(ex.p||ex.mo)?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
+      const ag0=$('#again');if(ag0)ag0.onclick=()=>test();
       const el=$('#fs'),st0=performance.now();const an=n=>{const p=Math.min(1,(n-st0)/800);el.textContent=Math.round(sc*p);if(p<1)requestAnimationFrame(an)};requestAnimationFrame(an);
       if(code)cwShow(code,!ex.fb&&!ex.p);beep('win');confetti(TE(),pc>=50?36:12)}
     function finish(){const score=log.filter(x=>x[1]).length;const code=enc({i:ex.i,n:name,c:score,t:N,d:new Date().toISOString(),a:log});let msg='';
-      if(!ex.p){notifyT(ex,name,score,N);try{localStorage.setItem('luki_done_'+ex.i,JSON.stringify({v:1,name:name,score:score,log:log,code:code}))}catch(e){}
+      if(!ex.p){notifyT(ex,name,score,N);try{if(!ex.mo)localStorage.setItem('luki_done_'+ex.i,JSON.stringify({v:1,name:name,score:score,log:log,code:code}))}catch(e){}
         if(ex.fb){msg='Wysyłam wynik do nauczyciela…';const mark=(t,bad)=>{const s=$('#sent');if(s){s.textContent=t;if(bad)s.style.color='var(--bad)'}if(bad)cwOpen()};
           fbReq(ex.fb,'/res/'+ex.i,'POST',{n:name,c:score,t:N,d:new Date().toISOString(),a:log}).then(()=>mark('✔ Wynik został wysłany do nauczyciela.'),()=>mark('Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi.',1))}
         else msg='Wyślij nauczycielowi kod wyniku: kliknij 🔑 w prawym dolnym rogu.'}
@@ -861,7 +981,7 @@ function vocab(ex){
       const inp=$('#va_in');inp.focus();let lock=false;const go=()=>{if(lock)return;lock=true;log.push([inp.value.trim(),ck(inp.value,bk(w,d))?1:0,d==='pe'?1:0,w.i]);beep('tap');i+1<N?ask(i+1):finish()};$('#vok').onclick=go;inp.onkeydown=e=>{if(e.key==='Enter')go()}}
     function intro(){va.innerHTML=`${ex.n?`<section class="card big"><div class="pol">📌 Polecenie</div><div class="polt">${esc(ex.n)}</div></section>`:''}<section class="card"><div class="row" style="margin:0"><span class="chip2">❓ ${N} słówek</span><span class="chip2">${ex.dr==='mx'?'🔀 mieszane kierunki':dl[ex.dr||'pe']}</span><button class="btn" id="vmu">${window.__vmute?'🔇':'🔊'}</button></div><label>Twoje imię i nazwisko</label><input type="text" id="qn" placeholder="np. Anna Kowalska" style="max-width:340px"><div class="row"><button class="btn p" id="go" style="font-size:18px;padding:14px 30px">▶ Start</button></div><div class="hint">Masz tylko jedną próbę. Wpisuj tłumaczenia bez podpowiedzi.</div></section>`;bindTop(null);
       $('#go').onclick=async()=>{const v=$('#qn').value.trim();if(!v){$('#qn').focus();$('#qn').style.borderColor='#ff7190';return}name=v;
-        if(ex.fb&&!ex.p){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';try{const d=await fbReq(ex.fb,'/res/'+ex.i,'GET');const mine=Object.values(d||{}).find(r=>r&&r.n&&norm(r.n)===norm(v));
+        if(ex.fb&&!ex.p&&!ex.mo){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';try{const d=await fbReq(ex.fb,'/res/'+ex.i,'GET');const mine=Object.values(d||{}).find(r=>r&&r.n&&norm(r.n)===norm(v));
           if(mine){end(mine.n,+mine.c||0,mine.a?Object.values(mine.a):[],'','Ten uczeń już rozwiązał ten test. To wynik z pierwszej próby.');return}}catch(e){}}
         beep('ok');ask(0)}}
     if(saved&&saved.v)end(saved.name,saved.score,saved.log||[],saved.code,'Ten test został już rozwiązany. Oto twój wynik.');else intro()}
@@ -909,22 +1029,23 @@ function cwGridHTML(L,show){let h=`<div class="cwg" style="grid-template-columns
 function ensureLayout(e,force){e.cw=e.cw||[];const words=e.cw.map(w=>cwClean(w.a));const sig=words.join('|');
   if(force||!e.cwl||e.cwl.sig!==sig||!e.cwl.p){const seed=force?Math.floor(Math.random()*1e9):((e.cwl&&e.cwl.seed)||Math.floor(Math.random()*1e9));let sd=seed;let b=cwBuild(words,sd);if(force&&e.cwl&&e.cwl.p){const old=JSON.stringify(e.cwl.p);for(let k=0;k<4&&JSON.stringify(b.p)===old;k++){sd=Math.floor(Math.random()*1e9);b=cwBuild(words,sd)}}e.cwl={seed:sd,sig,p:b.p,un:b.un}}
   return e.cwl}
-const cwObj=e=>{ensureLayout(e);return{i:e.id,t:e.title,n:e.inst,k:'c',hn:e.hn!==false?1:0,cl:e.cw.map(w=>({q:w.q||'',im:w.im||'',a:w.a||''})),lay:e.cwl.p}};
+const cwObj=e=>{ensureLayout(e);return{i:e.id,t:e.title,n:e.inst,k:'c',hn:e.hn===true?1:0,cl:e.cw.map(w=>({q:w.q||'',im:w.im||'',a:w.a||''})),lay:e.cwl.p,bg:e.cbg||''}};
 function cwEdit(e){e.cw=e.cw||[];const st='padding:9px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:500 14px Poppins';
   const ok=e.cw.filter(w=>cwClean(w.a).length>1);let prev='<div class="empty">Dodaj co najmniej 3 hasła z odpowiedziami, a układ pojawi się tutaj.</div>',warn='';
-  if(ok.length>=3){const lay=ensureLayout(e);const L=cwLay(e.cw,lay.p);prev=`<div class="cwscroll cwmini">${cwGridHTML(L,true)}</div><div class="hint">Wymiary: ${L.C}×${L.R}, umieszczone hasła: ${L.words.length}/${ok.length}</div>`;
+  if(ok.length>=3){const lay=ensureLayout(e);const L=cwLay(e.cw,lay.p);prev=`<div class="cwscroll cwmini" style="${esc(cwBgCss(e.cbg))}">${cwGridHTML(L,true)}</div><div class="hint">Wymiary: ${L.C}×${L.R}, umieszczone hasła: ${L.words.length}/${ok.length}</div>`;
     if(lay.un&&lay.un.length)warn=`<div class="note">⚠️ Nie udało się wpisać w układ: ${lay.un.map(i=>esc(e.cw[i].a)).join(', ')}. Kliknij „Mieszaj” albo zmień te odpowiedzi (muszą mieć wspólne litery z innymi).</div>`}
   return `<label style="margin-top:0">Tytuł krzyżówki</label><input type="text" id="t" value="${esc(e.title)}">
   <label>Polecenie (opcjonalnie)</label><input type="text" id="n" value="${esc(e.inst||'')}">
   <label>Folder</label><select id="fo" style="${st}">${folderOpts(e.folder)}</select>
   <div class="dt" style="margin-top:14px"><b>🧩 Hasła: pytanie lub zdjęcie → odpowiedź</b>
-   ${e.cw.map((w,j)=>`<div class="cwe"><div class="row" style="margin:0 0 6px"><b>${j+1}.</b><input type="text" data-fld="cq" data-j="${j}" value="${esc(w.q||'')}" placeholder="Pytanie / podpowiedź" style="flex:1;min-width:160px"><button class="btn d" data-v="rw" data-j="${j}">✕</button></div>
+   ${e.cw.map((w,j)=>`<div class="cwe" data-j="${j}"><div class="row" style="margin:0 0 6px"><b>${j+1}.</b><input type="text" data-fld="cq" data-j="${j}" value="${esc(w.q||'')}" placeholder="Pytanie / podpowiedź" style="flex:1;min-width:160px"><button class="btn d" data-v="rw" data-j="${j}">✕</button></div>
    <div class="row" style="margin:0">${w.im?`<span class="chip"><img src="${esc(w.im)}" alt="" style="height:48px;border-radius:8px"><button class="btn d" data-v="rim" data-j="${j}">✕</button></span>`:''}<button class="btn" data-v="aim" data-j="${j}">🖼 Zdjęcie</button><input type="text" data-fld="ca" data-j="${j}" value="${esc(w.a||'')}" placeholder="Odpowiedź (słowo lub fraza)" style="flex:1;min-width:150px"></div></div>`).join('')}
    <div class="row"><button class="btn p" data-v="aw">+ Dodaj hasło</button></div>
-   <label>Wklej listę (jedno hasło w linii: pytanie - odpowiedź)</label><textarea id="cwbulk" style="min-height:80px" placeholder="the opposite of hot - cold&#10;a pet that barks - dog"></textarea><div class="row"><button class="btn" data-v="bulk">➕ Dodaj z listy</button></div>
-   <div class="hint">Spacje i myślniki w odpowiedzi są pomijane w kratkach. Układ krzyżówki tworzy się sam.</div></div>
+   <label>Wklej listę (jedno hasło w linii: pytanie - odpowiedź albo pytanie-odpowiedź)</label><textarea id="cwbulk" style="min-height:80px" placeholder="the opposite of hot - cold&#10;a pet that barks - dog"></textarea><div class="row"><button class="btn" data-v="bulk">➕ Dodaj z listy</button></div>
+   <div class="hint">Zdjęcie do hasła: kliknij 🖼, przeciągnij plik na hasło albo kliknij w pole hasła i wklej (Ctrl+V). Spacje i myślniki w odpowiedzi są pomijane w kratkach. Układ krzyżówki tworzy się sam.</div></div>
+  <div class="dt"><b>🖼 Tło krzyżówki (opcjonalnie)</b><div id="cwbgz" class="cwbgz" tabindex="0">${e.cbg?`<span class="chip"><img src="${esc(e.cbg)}" alt="" style="height:60px;border-radius:8px"><button class="btn d" data-v="rbg">✕ Usuń tło</button></span>`:''}<button class="btn" data-v="abg">🖼 ${e.cbg?'Zmień':'Wybierz'} zdjęcie</button><span class="hint" style="margin:0">…albo przeciągnij zdjęcie tutaj lub kliknij to pole i wklej (Ctrl+V)</span></div></div>
   <div class="dt"><b>🧩 Układ (widok nauczyciela z literami)</b>${warn}<div id="cwprev">${prev}</div>
-   <div class="row"><button class="btn g" data-v="mix">🔀 Mieszaj</button><label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cwhn" ${e.hn!==false?'checked':''}> pozwól na podpowiedzi (litera)</label></div>
+   <div class="row"><button class="btn g" data-v="mix">🔀 Mieszaj</button><label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cwhn" ${e.hn===true?'checked':''}> pozwól na podpowiedzi (litera)</label></div>
    <div class="hint">„Mieszaj” losuje inny wzór. Wszyscy uczniowie z linku widzą ten sam układ. Zmiana odpowiedzi tworzy nowy układ.</div></div>
   <div class="row">${genBtns(e)}<button class="btn" id="pv">👁 Podgląd</button><button class="btn" id="dup">📄 Kopiuj ćwiczenie</button><button class="btn d" id="del">Usuń krzyżówkę</button></div><div id="lk"></div>`}
 function cwBind(e){const main=document.querySelector('.main');
@@ -932,7 +1053,21 @@ function cwBind(e){const main=document.querySelector('.main');
   $('#cwhn').onchange=ev=>{e.hn=ev.target.checked;save()};
   main.oninput=ev=>{const el=ev.target,f=el.dataset.fld,j=+el.dataset.j;if(f==='cq'&&e.cw[j])e.cw[j].q=el.value;else if(f==='ca'&&e.cw[j])e.cw[j].a=el.value;else return;save()};
   const valid=()=>e.cw.filter(w=>cwClean(w.a).length>1).length>=3?'':'Dodaj co najmniej 3 hasła z odpowiedziami.';
-  const openPrev=()=>{const er=valid();if(er){alert(er);return}const o=Object.assign(cwObj(e),{p:1,sh:()=>{ensureLayout(e,true);save();openPrev(true)}});cwPlay(o);
+  const zSel=j=>j==null?'#cwbgz':`.cwe[data-j="${j}"]`;
+  const putImg=async(f,j)=>{const zEl=document.querySelector(zSel(j));if(zEl)zEl.classList.add('cwbusy');
+    try{const u=await imgUp(f);if(j==null)e.cbg=u;else if(e.cw[j])e.cw[j].im=u;save();teacher();const z2=document.querySelector(zSel(j));if(z2){z2.classList.add('cwok');z2.scrollIntoView&&z2.scrollIntoView({block:'nearest',behavior:'smooth'})}toast('✔ Zdjęcie dodane')}catch(z){if(zEl)zEl.classList.remove('cwbusy');alert('Nie udało się wgrać zdjęcia: '+((z&&z.message)||z))}};
+  const imgOf=dt=>[...((dt&&dt.files)||[])].find(f=>f.type&&f.type.startsWith('image/'));
+  const zoneOf=ev=>ev.target&&ev.target.closest?ev.target.closest('.cwe,#cwbgz'):null;
+  const urlOf=dt=>{if(!dt)return '';let u=(dt.getData&&dt.getData('text/uri-list'))||'';if(!u){const h=(dt.getData&&dt.getData('text/html'))||'';const m=h.match(/<img[^>]+src=["']([^"']+)/i);if(m)u=m[1]}return /^(https?:|data:image)/i.test(u.split('\n')[0]||'')?u.split('\n')[0]:''};
+  const dropFn=async(ev)=>{clr();const z=zoneOf(ev);if(!z)return;ev.preventDefault();ev.stopPropagation();const j=z.id==='cwbgz'?null:+z.dataset.j;const f=imgOf(ev.dataTransfer);if(f)return putImg(f,j);const u=urlOf(ev.dataTransfer);if(!u){alert('Nie rozpoznałem zdjęcia. Zapisz je na dysku i przeciągnij plik albo użyj przycisku 🖼.');return}
+    try{const r=await fetch(u);const b=await r.blob();if(!/^image\//.test(b.type))throw 0;return putImg(new File([b],'img',{type:b.type}),j)}catch(z2){if(j==null)e.cbg=u;else e.cw[j].im=u;save();teacher()}};
+  const clr=()=>document.querySelectorAll('.cwdrop').forEach(x=>x.classList.remove('cwdrop'));
+  const overFn=ev=>{const z=zoneOf(ev);if(z){ev.preventDefault();if(!z.classList.contains('cwdrop')){clr();z.classList.add('cwdrop')}}else clr()};
+  if(window.__cwdd){document.removeEventListener('dragover',window.__cwdd[0],true);document.removeEventListener('dragenter',window.__cwdd[0],true);document.removeEventListener('drop',window.__cwdd[1],true)}
+  window.__cwdd=[overFn,dropFn];document.addEventListener('dragover',overFn,true);document.addEventListener('dragenter',overFn,true);document.addEventListener('drop',dropFn,true);document.addEventListener('dragleave',ev=>{if(!ev.relatedTarget)clr()},true);
+  
+  window.onpaste=ev=>{const it=[...((ev.clipboardData&&ev.clipboardData.items)||[])].find(i=>i.type.startsWith('image/'));if(!it)return;const ae=document.activeElement;const z=ae&&ae.closest&&ae.closest('.cwe,#cwbgz');if(!z)return;ev.preventDefault();putImg(it.getAsFile(),z.id==='cwbgz'?null:+z.dataset.j)};
+  const openPrev=()=>{const er=valid();if(er){toast('⚠️ '+er);return}const o=Object.assign(cwObj(e),{p:1,sh:()=>{ensureLayout(e,true);save();openPrev(true)}});cwPlay(o);
     app.insertAdjacentHTML('afterbegin','<div class="row" style="margin:0 0 12px"><button class="btn p" id="bkp">← Wróć do edycji</button></div>');$('#bkp').onclick=goBack};
   main.onclick=async ev=>{const b=ev.target.closest('[data-v]');if(!b)return;const a=b.dataset.v,j=+b.dataset.j;
     try{
@@ -940,19 +1075,21 @@ function cwBind(e){const main=document.querySelector('.main');
       else if(a==='rw'){e.cw.splice(j,1)}
       else if(a==='aim'){const f=await pickImg();if(!f)return;b.textContent='Wgrywanie…';e.cw[j].im=await imgUp(f)}
       else if(a==='rim'){e.cw[j].im=''}
-      else if(a==='mix'){const er=valid();if(er){alert(er);return}b.disabled=true;b.textContent='Mieszam…';await new Promise(r=>setTimeout(r,40));ensureLayout(e,true)}
-      else if(a==='bulk'){const add=[];$('#cwbulk').value.split('\n').forEach(l=>{l=l.trim();if(!l)return;const x=l.match(/^(.+?)\s*(?:\t|\s[-–—=:]\s|;|=)\s*(\S.*)$/);if(x)add.push({q:x[1].trim(),im:'',a:x[2].trim()})});
+      else if(a==='abg'){const f=await pickImg();if(!f)return;b.textContent='Wgrywanie…';e.cbg=await imgUp(f)}
+      else if(a==='rbg'){e.cbg=''}
+      else if(a==='mix'){const er=valid();if(er){toast('⚠️ '+er);return}b.disabled=true;b.textContent='Mieszam…';await new Promise(r=>setTimeout(r,40));ensureLayout(e,true)}
+      else if(a==='bulk'){const add=[];$('#cwbulk').value.split('\n').forEach(l=>{l=l.trim();if(!l)return;const x=pairSplit(l);if(x)add.push({q:x[0],im:'',a:x[1]})});
         if(!add.length){alert('Nie rozpoznałem żadnej pary. Użyj formatu: pytanie - odpowiedź (jedno w linii).');return}e.cw=e.cw.filter(w=>(w.q||'').trim()||(w.a||'').trim()||w.im).concat(add)}
       else return;
       save();teacher()}catch(z){alert('Nie udało się: '+((z&&z.message)||z));teacher()}};
   bindLinkBtns(e,valid);
   $('#pv').onclick=openPrev;
   $('#del').onclick=async()=>{if(await modal({title:'Usunąć tę krzyżówkę?',text:'Razem z wynikami.',ok:'Usuń'})){S.ex=S.ex.filter(z=>z.id!==e.id);S.res=S.res.filter(r=>r.ex!==e.id);curE=null;save();teacher()}}}
-function cwPlay(ex){
+function cwPlay(ex){i18nInit(ex);
   const CL=Object.values(ex.cl||[]);const P=Object.values(ex.lay||[]).map(x=>Object.values(x));const L=cwLay(CL,P);const N=L.words.length;
   const hs=(()=>{let h=0;const t=JSON.stringify(P)+CL.map(c=>c.a).join('|');for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return (h>>>0).toString(36)})();
   const pk='luki_cwp_'+ex.i+'_'+hs;
-  let saved=null;if(!ex.p){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
+  let saved=null;if(!ex.p&&!ex.mo){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
   let name='',act=0,dir='A',lastK='',el0=0,t0=0,tick=null,hints=0,fin=false;const prev={};
   app.innerHTML=hdr(esc(ex.t||'Krzyżówka'),'🧩 Krzyżówka'+(ex.n?' · '+esc(ex.n):''))+'<div id="cwa"></div>';
   const ca=$('#cwa');
@@ -973,22 +1110,22 @@ function cwPlay(ex){
     const pr=$('#cwpr');if(pr)pr.textContent=solved+'/'+N;const bar=$('#cwbar');if(bar)bar.style.width=(N?solved/N*100:0)+'%';
     if(solved===N&&!fin&&!quiet){confetti(TE(),30);beep('win')}
     return solved}
-  function paint(fk){ca.querySelectorAll('.cc').forEach(c=>c.classList.remove('hl','fo'));const w=L.words[act];keysOf(w).forEach(k=>{const c=ca.querySelector(`.cc[data-k="${k}"]`);if(c)c.classList.add('hl')});
+  function paint(fk){ca.querySelectorAll('.cc').forEach(c=>c.classList.remove('cwh','fo'));const w=L.words[act];keysOf(w).forEach(k=>{const c=ca.querySelector(`.cc[data-k="${k}"]`);if(c)c.classList.add('cwh')});
     if(fk){const c=ca.querySelector(`.cc[data-k="${fk}"]`);if(c)c.classList.add('fo')}
     ca.querySelectorAll('.cwli').forEach(li=>li.classList.toggle('on',+li.dataset.w===act));
-    const cur=$('#cwcur');if(cur)cur.innerHTML=`<b>${w.num}. ${w.d==='A'?'poziomo ➜':'pionowo ↓'}</b> · ${esc(CL[w.i].q||'(zdjęcie)')}`}
+    const cur=$('#cwcur');if(cur)cur.innerHTML=`<b>${w.num}. ${w.d==='A'?'poziomo ➜':'pionowo ↓'}</b> · ${esc(CL[w.i].q||(CL[w.i].im?'':'(zdjęcie)'))}${CL[w.i].im?'<img src="'+esc(CL[w.i].im)+'" alt="" data-z="1">':''}`}
   function pick(k,tog){const ws=L.cells.get(k).ws;let w=ws[0];if(ws.length>1){if(tog&&lastK===k&&ws.includes(act))w=ws.find(x=>x!==act);else if(ws.includes(act)&&lastK!==k)w=act;else w=ws.find(x=>L.words[x].d===dir)??ws[0]}act=w;dir=L.words[w].d;lastK=k;paint(k)}
-  const focusK=k=>{const i=inp(k);if(i){i.focus();if(i.select)i.select()}};
+  const focusK=k=>{const i=inp(k);if(i){try{i.focus({preventScroll:true})}catch(e){i.focus()}if(i.select)i.select()}};
   const wk=()=>keysOf(L.words[act]);
   const zoom=src=>{const m=document.createElement('div');m.className='mo';m.innerHTML=`<img src="${esc(src)}" alt="" style="max-width:92vw;max-height:88vh;border-radius:16px">`;m.onclick=()=>m.remove();document.body.appendChild(m)};
   function end(nm,sc,lg,code,msg,tm){const pc=N?Math.round(sc/N*100):0;
     ca.innerHTML=`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">${pc>=90?'🏆':pc>=60?'🧩':'💪'}</div><div class="sbig" id="fs">0</div><div style="font-weight:800;font-size:18px">${esc(nm)}, hasła: ${sc} z ${N} (${pc}%)${tm!=null?' · czas '+fmt2(tm):''}</div><div class="msg" id="sent" style="display:block;margin-top:10px">${msg||''}</div></section>
-    <section class="card"><h2>Twoje odpowiedzi</h2>${lg.map((x,i)=>{const c=CL[x[2]]||{q:'?',a:'?'};return `<div class="rv" style="animation-delay:${Math.min(i,12)*0.05}s"><span>${x[1]?'✔':'✘'}</span><span style="flex:1">${esc(c.q||'(zdjęcie)')} → ${esc(x[0]||'(brak)')}${x[1]?'':` <small>(poprawnie: ${esc(c.a)})</small>`}</span></div>`}).join('')}</section>${ex.p?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
+    <section class="card"><h2>Twoje odpowiedzi</h2>${lg.map((x,i)=>{const c=CL[x[2]]||{q:'?',a:'?'};return `<div class="rv" style="animation-delay:${Math.min(i,12)*0.05}s"><span>${x[1]?'✔':'✘'}</span><span style="flex:1">${esc(c.q||'(zdjęcie)')} → ${esc(x[0]||'(brak)')}${x[1]?'':` <small>(poprawnie: ${esc(c.a)})</small>`}</span></div>`}).join('')}</section>${(ex.p||ex.mo)?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
     const e2=$('#fs'),s0=performance.now();const an=n=>{const p=Math.min(1,(n-s0)/800);e2.textContent=Math.round(sc*p);if(p<1)requestAnimationFrame(an)};requestAnimationFrame(an);
     if(code)cwShow(code,!ex.fb&&!ex.p);beep('win');confetti(TE(),pc>=50?36:12);const ag=$('#again');if(ag)ag.onclick=()=>{fin=false;t0=0;el0=0;hints=0;play()}}
   function finish(){clearInterval(tick);fin=true;const solved=evaluate(true);const tm=elapsed();const a=L.words.map(w=>[typed(w).join(''),correct(w)?1:0,w.i]);
     const code=enc({i:ex.i,n:name,c:solved,t:N,d:new Date().toISOString(),a});let msg='';
-    if(!ex.p){notifyT(ex,name,solved,N);try{localStorage.setItem('luki_done_'+ex.i,JSON.stringify({cw:1,name:name,score:solved,log:a,code:code,tm:tm}));localStorage.removeItem(pk)}catch(e){}
+    if(!ex.p){notifyT(ex,name,solved,N);try{if(!ex.mo)localStorage.setItem('luki_done_'+ex.i,JSON.stringify({cw:1,name:name,score:solved,log:a,code:code,tm:tm}));localStorage.removeItem(pk)}catch(e){}
       if(ex.fb){msg='Wysyłam wynik do nauczyciela…';const mark=(t,bad)=>{const s=$('#sent');if(s){s.textContent=t;if(bad)s.style.color='var(--bad)'}if(bad)cwOpen()};
         fbReq(ex.fb,'/res/'+ex.i,'POST',{n:name,c:solved,t:N,d:new Date().toISOString(),a:a}).then(()=>mark('✔ Wynik został wysłany do nauczyciela.'),()=>mark('Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi.',1))}
       else msg='Wyślij nauczycielowi kod wyniku: kliknij 🔑 w prawym dolnym rogu.'}
@@ -996,21 +1133,25 @@ function cwPlay(ex){
   function play(){
     const cluesOf=d=>L.words.map((w,wi)=>[w,wi]).filter(([w])=>w.d===d).sort((a,b)=>a[0].num-b[0].num).map(([w,wi])=>`<div class="cwli" data-w="${wi}"><b>${w.num}.</b><span class="cwq">${big(esc(CL[w.i].q||''))}${CL[w.i].im?`<img src="${esc(CL[w.i].im)}" alt="" data-z="1">`:''}</span><span class="ck"></span></div>`).join('');
     let grid=`<div class="cwg" style="grid-template-columns:repeat(${L.C},var(--cs))">`;
-    for(let r=0;r<L.R;r++)for(let c=0;c<L.C;c++){const x=L.cells.get(r+','+c);grid+=x?`<div class="cc" data-k="${r},${c}">${x.num?`<span class="cn">${x.num}</span>`:''}<input data-k="${r},${c}" maxlength="1" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Kratka ${r+1},${c+1}"></div>`:'<div class="ce"></div>'}
+    for(let r=0;r<L.R;r++)for(let c=0;c<L.C;c++){const x=L.cells.get(r+','+c);grid+=x?`<div class="cc" data-k="${r},${c}">${x.num?`<span class="cn">${x.num}</span>`:''}<input data-k="${r},${c}" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" enterkeyhint="next" aria-label="Kratka ${r+1},${c+1}"></div>`:'<div class="ce"></div>'}
     grid+='</div>';
     ca.innerHTML=`<div class="qh"><span class="chip2">🧩 Hasła <b id="cwpr">0/${N}</b></span><span class="chip2">⏱ <b id="cwt">0:00</b></span><span><button class="btn" id="vmu">${window.__vmute?'🔇':'🔊'}</button></span></div><div class="qbar"><i id="cwbar" style="width:0"></i></div>
-    <div class="note" id="cwcur" style="margin:0 0 10px;text-align:center"></div>
-    <div class="cwscroll">${grid}</div>
+    <div class="cwcur" id="cwcur">👆 Dotknij kratki, żeby zacząć</div>
+    <div class="cwscroll" style="${esc(cwBgCss(ex.bg))}">${grid}</div>
     <div class="row" style="justify-content:center">${ex.hn!==0?'<button class="btn" id="cwhn">💡 Podpowiedź (litera)</button>':''}<button class="btn" id="cwcl">🧹 Wyczyść hasło</button>${typeof ex.sh==='function'?'<button class="btn g" id="cwmix">🔀 Mieszaj</button>':''}<button class="btn p" id="cwfin">✅ Zakończ${ex.p?'':' i wyślij'}</button></div>
     <div class="hint" style="text-align:center">Wpisuj litery w kratki. Gdy hasło jest pełne, zaświeci się na zielono (dobrze) albo na czerwono (źle) i możesz je poprawić.</div>
     <div class="cwcl"><div class="cwcol"><h3>Poziomo ➜</h3>${cluesOf('A')||'<div class="hint">brak</div>'}</div><div class="cwcol"><h3>Pionowo ↓</h3>${cluesOf('D')||'<div class="hint">brak</div>'}</div></div>`;
     const m=$('#vmu');if(m)m.onclick=()=>{window.__vmute=!window.__vmute;m.textContent=window.__vmute?'🔇':'🔊'};
+    const cu0=$('#cwcur');if(cu0)cu0.onclick=ev=>{if(ev.target.dataset&&ev.target.dataset.z)zoom(ev.target.src)};
+    const fit=()=>{const sc=ca.querySelector('.cwscroll');if(!sc||!document.body.contains(sc)){window.removeEventListener('resize',fit);return}const cs=getComputedStyle(sc);const av=sc.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);const px=Math.max(28,Math.min(52,Math.floor((av-(L.C-1)*3)/Math.max(1,L.C))));sc.style.setProperty('--cs',px+'px')};fit();window.addEventListener('resize',fit);
     ca.querySelectorAll('input[data-k]').forEach(i=>{const k=i.dataset.k;
-      i.oninput=()=>{let v=(i.value||'').toUpperCase().slice(-1);if(v&&!/\p{L}/u.test(v))v='';i.value=v;if(v){startT();const ks=wk(),ix=ks.indexOf(k);if(ix>=0&&ix<ks.length-1)focusK(ks[ix+1])}evaluate(false);persist()};
+      i.oninput=()=>{let v=(i.value||'').toUpperCase().slice(-1);if(v&&!/\p{L}/u.test(v)){i.value=i.dataset.p||'';return}i.value=v;i.dataset.p=v;if(v){startT();const ks=wk(),ix=ks.indexOf(k);if(ix>=0&&ix<ks.length-1)focusK(ks[ix+1])}evaluate(false);persist()};
       i.onkeydown=e=>{if(e.key==='Backspace'&&!i.value){const ks=wk(),ix=ks.indexOf(k);if(ix>0){const p2=ks[ix-1];inp(p2).value='';focusK(p2);evaluate(false);persist();e.preventDefault()}}
         else if(e.key.indexOf('Arrow')===0){const [r,c]=k.split(',').map(Number);const d=e.key==='ArrowLeft'?[0,-1]:e.key==='ArrowRight'?[0,1]:e.key==='ArrowUp'?[-1,0]:[1,0];const nk=(r+d[0])+','+(c+d[1]);
           if(inp(nk)){dir=d[0]?'D':'A';const ws=L.cells.get(nk).ws;act=ws.find(x=>L.words[x].d===dir)??ws[0];lastK=nk;focusK(nk);paint(nk);e.preventDefault()}}};
-      i.onfocus=()=>{pick(k,false);if(i.select)i.select()};i.onclick=()=>pick(k,true)});
+      i.addEventListener('beforeinput',e=>{if(e.inputType==='deleteContentBackward'&&!i.value){const ks=wk(),ix=ks.indexOf(k);if(ix>0){const p2=ks[ix-1];inp(p2).value='';inp(p2).dataset.p='';focusK(p2);evaluate(false);persist();e.preventDefault()}}});
+      i.addEventListener('pointerdown',()=>{i.__was=document.activeElement===i});
+      i.onfocus=()=>{pick(k,false);if(i.select)i.select()};i.onclick=()=>{if(i.__was)pick(k,true);i.__was=true;if(i.select)i.select()}});
     ca.querySelectorAll('.cwli').forEach(li=>li.onclick=ev=>{if(ev.target.dataset.z){zoom(ev.target.src);return}const wi=+li.dataset.w;act=wi;dir=L.words[wi].d;const ks=keysOf(L.words[wi]);const first=ks.find(k=>!inp(k).value)||ks[0];lastK=first;focusK(first);paint(first)});
     const hn=$('#cwhn');if(hn)hn.onclick=()=>{const w=L.words[act],ks=keysOf(w);const k=ks.find((kk,ix)=>cwFold(inp(kk).value)!==cwFold(w.ans[ix]));if(k){inp(k).value=w.ans[ks.indexOf(k)];hints++;startT();evaluate(false);persist()}};
     $('#cwcl').onclick=()=>{const w=L.words[act];keysOf(w).forEach((k,ix)=>{if(!(L.cells.get(k).ws.some(x=>x!==act&&prev[x]===1)))inp(k).value=''});evaluate(false);persist()};
@@ -1021,12 +1162,94 @@ function cwPlay(ex){
     ca.querySelectorAll('.cwli img').forEach(im=>{im.dataset.z='1'})}
   function intro(){ca.innerHTML=`${ex.n?`<section class="card big"><div class="pol">📌 Polecenie</div><div class="polt">${esc(ex.n)}</div></section>`:''}<section class="card"><div class="row" style="margin:0"><span class="chip2">🧩 ${N} haseł</span><span class="chip2">📐 ${L.C}×${L.R}</span></div><label>Twoje imię i nazwisko</label><input type="text" id="qn" placeholder="np. Anna Kowalska" style="max-width:340px"><div class="row"><button class="btn p" id="go" style="font-size:18px;padding:14px 30px">▶ Start</button></div><div class="hint">Wynik wyślesz na końcu. Masz jedną próbę, ale możesz poprawiać litery do zakończenia.</div></section>`;
     $('#go').onclick=async()=>{const v=$('#qn').value.trim();if(!v){$('#qn').focus();$('#qn').style.borderColor='#ff7190';return}name=v;
-      if(ex.fb&&!ex.p){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';try{const d=await fbReq(ex.fb,'/res/'+ex.i,'GET');const mine=Object.values(d||{}).find(r=>r&&r.n&&norm(r.n)===norm(v));
+      if(ex.fb&&!ex.p&&!ex.mo){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';try{const d=await fbReq(ex.fb,'/res/'+ex.i,'GET');const mine=Object.values(d||{}).find(r=>r&&r.n&&norm(r.n)===norm(v));
         if(mine){end(mine.n,+mine.c||0,mine.a?Object.values(mine.a):[],'','Ta osoba już rozwiązała tę krzyżówkę. To wynik z pierwszej próby.',null);return}}catch(e){}}
       beep('ok');play()}}
   if(!N){ca.innerHTML='<section class="card">Ta krzyżówka nie ma jeszcze układu.</section>';return}
   if(saved&&saved.cw)end(saved.name,saved.score,saved.log||[],saved.code,'Ta krzyżówka została już rozwiązana. Oto twój wynik.',saved.tm);
   else if(ex.p)play();else intro()}
+
+/* ---------- UKŁADANIE ZDAŃ ---------- */
+const soObj=e=>({i:e.id,t:e.title,n:e.inst,k:'s',so:(e.so||[]).filter(x=>(x.s||'').trim()).map(x=>({s:x.s.trim(),h:x.h||''}))});
+function soEdit(e){e.so=e.so||[];const st='padding:9px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:500 14px Poppins';
+  return `<label style="margin-top:0">Tytuł</label><input type="text" id="t" value="${esc(e.title)}">
+  <label>Polecenie dla ucznia</label><input type="text" id="n" value="${esc(e.inst||'')}">
+  <label>Folder</label><select id="fo" style="${st}">${folderOpts(e.folder)}</select>
+  <div class="dt" style="margin-top:14px"><b>🔤 Zdania do ułożenia</b>
+   ${e.so.map((w,j)=>`<div class="cwe"><div class="row" style="margin:0 0 6px"><b>${j+1}.</b><input type="text" data-fld="ss" data-j="${j}" value="${esc(w.s||'')}" placeholder="Poprawne zdanie, np. I went to school yesterday." style="flex:1;min-width:200px"><button class="btn d" data-v="rs" data-j="${j}">✕</button></div>
+   <div class="row" style="margin:0"><input type="text" data-fld="sh" data-j="${j}" value="${esc(w.h||'')}" placeholder="Podpowiedź dla ucznia (opcjonalnie), np. tłumaczenie po polsku" style="flex:1;min-width:200px"></div></div>`).join('')}
+   <div class="row"><button class="btn p" data-v="as">+ Dodaj zdanie</button></div>
+   <label>Wklej listę (jedno zdanie w linii)</label><textarea id="sobulk" style="min-height:90px" placeholder="She is reading a book.&#10;We did not go to the party."></textarea><div class="row"><button class="btn" data-v="bulk">➕ Dodaj z listy</button></div>
+   <div class="hint">Uczeń dostaje pomieszane słowa i układa je w kolejności (przeciąganie albo dotknięcie). Kropka, wykrzyknik lub znak zapytania na końcu zostaje na stałe. Kilka poprawnych wersji rozdziel znakiem | (np. <b>I am fine.|I'm fine.</b>).</div></div>
+  <div class="row">${genBtns(e)}<button class="btn" id="pv">👁 Podgląd</button><button class="btn" id="dup">📄 Kopiuj ćwiczenie</button><button class="btn d" id="del">Usuń ćwiczenie</button></div><div id="lk"></div>`}
+function soBind(e){const main=document.querySelector('.main');
+  const t=$('#t'),n=$('#n');t.oninput=()=>{e.title=t.value;save()};n.oninput=()=>{e.inst=n.value;save()};$('#fo').onchange=ev=>{e.folder=ev.target.value;save();teacher()};
+  main.oninput=ev=>{const el=ev.target,f=el.dataset.fld,j=+el.dataset.j;if(f==='ss'&&e.so[j])e.so[j].s=el.value;else if(f==='sh'&&e.so[j])e.so[j].h=el.value;else return;save()};
+  const valid=()=>e.so.filter(w=>(w.s||'').trim().split(/\s+/).length>=2).length>=1?'':'Wpisz co najmniej jedno zdanie z dwoma lub więcej słowami.';
+  main.onclick=ev=>{const b=ev.target.closest('[data-v]');if(!b)return;const a=b.dataset.v,j=+b.dataset.j;
+    if(a==='as')e.so.push({s:'',h:''});
+    else if(a==='rs')e.so.splice(j,1);
+    else if(a==='bulk'){const add=$('#sobulk').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>({s:l,h:''}));if(!add.length){toast('⚠️ Wklej zdania, jedno w linii.');return}e.so=e.so.filter(w=>(w.s||'').trim()).concat(add)}
+    else return;
+    save();teacher()};
+  bindLinkBtns(e,valid);
+  $('#pv').onclick=()=>{const er=valid();if(er){toast('⚠️ '+er);return}soPlay(Object.assign(soObj(e),{p:1}));app.insertAdjacentHTML('afterbegin','<div class="row" style="margin:0 0 12px"><button class="btn p" id="bkp">← Wróć do edycji</button></div>');$('#bkp').onclick=goBack};
+  $('#del').onclick=async()=>{if(await modal({title:'Usunąć to ćwiczenie?',text:'Razem z wynikami.',ok:'Usuń'})){S.ex=S.ex.filter(z=>z.id!==e.id);S.res=S.res.filter(r=>r.ex!==e.id);curE=null;save();teacher()}}}
+function soPlay(ex){
+  const SO=Object.values(ex.so||[]).filter(x=>x&&String(x.s||'').trim());const N=SO.length;
+  let saved=null;if(!ex.p&&!ex.mo){try{saved=JSON.parse(localStorage.getItem('luki_done_'+ex.i))}catch(e){}}
+  let name='',idx=0,log=[],score=0,locked=false;
+  app.innerHTML=hdr(esc(ex.t||'Układanie zdań'),'🔤 Układanie zdań'+(ex.n?' · '+esc(ex.n):''))+'<div id="soa"></div>';
+  const sa=$('#soa');
+  const parse=a=>{const m=a.match(/^(.*?)([.!?…]+)$/);const body=m?m[1]:a;return{w:body.split(/\s+/).filter(Boolean),p:m?m[2]:''}};
+  const alts=s=>String(s).split('|').map(x=>x.trim()).filter(Boolean).map(parse);
+  const sh=a=>{const r=a.slice();for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r};
+  const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  function end(nm,sc,lg,code,msg){const pc=N?Math.round(sc/N*100):0;
+    sa.innerHTML=`<section class="card" style="text-align:center"><div style="font-size:70px;animation:pop .6s">${pc>=90?'🏆':pc>=60?'🔤':'💪'}</div><div class="sbig" id="fs">0</div><div style="font-weight:800;font-size:18px">${esc(nm)}, zdania: ${sc} z ${N} (${pc}%)</div><div class="msg" id="sent" style="display:block;margin-top:10px">${msg||''}</div></section>
+    <section class="card"><h2>Twoje odpowiedzi</h2>${lg.map((x,i)=>{const c=SO[x[2]]||{s:'?'};return `<div class="rv" style="animation-delay:${Math.min(i,12)*0.05}s"><span>${x[1]?'✔':'✘'}</span><span style="flex:1">${esc(x[0]||'(brak)')}${x[1]?'':` <small>(poprawnie: ${esc(String(c.s).split('|')[0].trim())})</small>`}</span></div>`}).join('')}</section>${(ex.p||ex.mo)?'<div class="row"><button class="btn p" id="again">↺ Zagraj jeszcze raz</button></div>':''}`;
+    const e2=$('#fs'),s0=performance.now();const an=n=>{const p=Math.min(1,(n-s0)/800);e2.textContent=Math.round(sc*p);if(p<1)requestAnimationFrame(an)};requestAnimationFrame(an);
+    if(code)cwShow(code,!ex.fb&&!ex.p);beep('win');confetti(TE(),pc>=50?36:12);const ag=$('#again');if(ag)ag.onclick=()=>{idx=0;log=[];score=0;ask(0)}}
+  function finish(){const code=enc({i:ex.i,n:name,c:score,t:N,d:new Date().toISOString(),a:log});let msg='';
+    if(!ex.p){notifyT(ex,name,score,N);try{if(!ex.mo)localStorage.setItem('luki_done_'+ex.i,JSON.stringify({so:1,name:name,score:score,log:log,code:code}))}catch(e){}
+      if(ex.fb){msg='Wysyłam wynik do nauczyciela…';const mark=(t,bad)=>{const s=$('#sent');if(s){s.textContent=t;if(bad)s.style.color='var(--bad)'}if(bad)cwOpen()};
+        fbReq(ex.fb,'/res/'+ex.i,'POST',{n:name,c:score,t:N,d:new Date().toISOString(),a:log}).then(()=>mark('✔ Wynik został wysłany do nauczyciela.'),()=>mark('Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi.',1))}
+      else msg='Wyślij nauczycielowi kod wyniku: kliknij 🔑 w prawym dolnym rogu.'}
+    end(name,score,log,code,msg)}
+  function ask(i){idx=i;locked=false;const q=SO[i],A=alts(q.s),main=A[0],W=main.w;let order=sh(W.map((w,k)=>k));if(W.length>1)for(let t=0;t<6&&order.every((k,p)=>k===p);t++)order=sh(order);
+    let ans=[];
+    sa.innerHTML=`<div class="qh"><span class="chip2">Zdanie ${i+1}/${N}</span><span class="chip2">⭐ <b>${score}</b></span></div><div class="qbar"><i style="width:${i/N*100}%"></i></div>
+    <div class="qcard"><div class="qtxt" style="margin-right:0;text-align:center;font-size:clamp(18px,4vw,24px)">Ułóż zdanie we właściwej kolejności</div>${q.h?`<div class="note" style="text-align:center">💡 ${esc(q.h)}</div>`:''}
+    <div class="soans" id="soans"></div><div class="sobank" id="sobank"></div>
+    <div class="row" style="justify-content:center"><button class="btn" id="sorst">↺ Wyczyść</button><button class="btn p" id="sock">Sprawdź ➜</button></div><div id="sofb"></div></div>`;
+    const draw=()=>{const bank=order.filter(k=>!ans.includes(k));
+      $('#soans').innerHTML=ans.map((k,p)=>`<button type="button" class="sw" draggable="${!locked}" data-a="${p}">${esc(W[k])}</button>`).join('')+(main.p?`<span class="sp">${esc(main.p)}</span>`:'')+(!ans.length?'<span class="sph">Przeciągnij albo dotknij słów poniżej…</span>':'');
+      $('#sobank').innerHTML=bank.map(k=>`<button type="button" class="sw b" draggable="${!locked}" data-b="${k}">${esc(W[k])}</button>`).join('');};
+    const box=sa.querySelector('.qcard');
+    box.onclick=ev=>{if(locked)return;const b=ev.target.closest('.sw');if(!b)return;if(b.dataset.b!==undefined){ans.push(+b.dataset.b);beep('tap')}else if(b.dataset.a!==undefined){ans.splice(+b.dataset.a,1)}draw()};
+    box.ondragstart=ev=>{const b=ev.target.closest&&ev.target.closest('.sw');if(!b||locked){ev.preventDefault();return}ev.dataTransfer.setData('text/plain',b.dataset.b!==undefined?'b:'+b.dataset.b:'a:'+b.dataset.a);ev.dataTransfer.effectAllowed='move';setTimeout(()=>b.classList.add('drag'),0)};
+    box.ondragend=()=>{box.querySelectorAll('.drag,.dropOn').forEach(x=>x.classList.remove('drag','dropOn'))};
+    box.ondragover=ev=>{if(locked)return;if(ev.target.closest('#soans,#sobank')){ev.preventDefault();const z=ev.target.closest('#soans,#sobank');box.querySelectorAll('.dropOn').forEach(x=>x!==z&&x.classList.remove('dropOn'));z.classList.add('dropOn')}};
+    box.ondrop=ev=>{if(locked)return;const z=ev.target.closest('#soans,#sobank');if(!z)return;ev.preventDefault();box.querySelectorAll('.dropOn').forEach(x=>x.classList.remove('dropOn'));const d=(ev.dataTransfer.getData('text/plain')||'').split(':');if(d.length<2)return;
+      if(z.id==='sobank'){if(d[0]==='a')ans.splice(+d[1],1)}
+      else{const t=ev.target.closest('.sw[data-a]');let pos=t?+t.dataset.a:ans.length;if(d[0]==='b'){if(!ans.includes(+d[1]))ans.splice(pos,0,+d[1])}else{const from=+d[1],v=ans[from];ans.splice(from,1);if(from<pos)pos--;ans.splice(pos,0,v)}}
+      beep('tap');draw()};
+    $('#sorst').onclick=()=>{if(locked)return;ans=[];draw()};
+    $('#sock').onclick=()=>{if(locked)return;if(ans.length<W.length){const z=$('#soans');z.classList.remove('shk');void z.offsetWidth;z.classList.add('shk');return}
+      locked=true;const got=ans.map(k=>W[k]).join(' ');const gn=norm(got);const ok=A.some(a=>norm(a.w.join(' '))===gn);const ft=main.p;
+      if(ok)score++;log.push([got+ft,ok?1:0,i]);
+      box.querySelectorAll('.sw').forEach(b=>{b.draggable=false;if(b.dataset.a!==undefined)b.classList.add(ok?'ok':'no')});$('#sock').style.display='none';$('#sorst').style.display='none';
+      $('#sofb').innerHTML=`<div class="fbk ${ok?'ok':'no'}">${ok?'✔ Świetnie!':'✘ Niestety źle. Poprawnie: <b>'+esc(String(q.s).split('|')[0].trim())+'</b>'}</div><div class="row" style="justify-content:center"><button class="btn p" id="sonx">${i+1<N?'Dalej ➜':'Zobacz wynik 🏆'}</button></div>`;
+      beep(ok?'ok':'bad');if(ok)confetti(TE(),8);$('#sonx').onclick=()=>{i+1<N?ask(i+1):finish()}};
+    draw()}
+  function intro(){sa.innerHTML=`${ex.n?`<section class="card big"><div class="pol">📌 Polecenie</div><div class="polt">${esc(ex.n)}</div></section>`:''}<section class="card"><div class="row" style="margin:0"><span class="chip2">🔤 ${N} zdań</span></div><label>Twoje imię i nazwisko</label><input type="text" id="qn" placeholder="np. Anna Kowalska" style="max-width:340px"><div class="row"><button class="btn p" id="go" style="font-size:18px;padding:14px 30px">▶ Start</button></div><div class="hint">Masz tylko jedną próbę. Układaj słowa w odpowiedniej kolejności.</div></section>`;
+    $('#go').onclick=async()=>{const v=$('#qn').value.trim();if(!v){$('#qn').focus();$('#qn').style.borderColor='#ff7190';return}name=v;
+      if(ex.fb&&!ex.p&&!ex.mo){const g=$('#go');g.disabled=true;g.textContent='Sprawdzam…';try{const d=await fbReq(ex.fb,'/res/'+ex.i,'GET');const mine=Object.values(d||{}).find(r=>r&&r.n&&norm(r.n)===norm(v));
+        if(mine){end(mine.n,+mine.c||0,mine.a?Object.values(mine.a):[],'','Ta osoba już rozwiązała to ćwiczenie. To wynik z pierwszej próby.');return}}catch(e){}}
+      beep('ok');ask(0)}}
+  if(!N){sa.innerHTML='<section class="card">To ćwiczenie nie ma jeszcze zdań.</section>';return}
+  if(saved&&saved.so)end(saved.name,saved.score,saved.log||[],saved.code,'To ćwiczenie zostało już rozwiązane. Oto twój wynik.');
+  else if(ex.p){name='Podgląd';ask(0)}else intro()}
 
 /* ---------- START ---------- */
 async function init(){
@@ -1039,7 +1262,7 @@ async function init(){
   let owner=true;
   try{const u=await cap("user");if(u)owner=await u.isOwner()}catch(e){}
   if(!owner){app.innerHTML=hdr("Ćwiczenia z lukami","Otwórz link otrzymany od nauczyciela")+`<div class="card">Ta strona to panel nauczyciela. Uczeń otwiera ćwiczenie przez swój link.</div>`;return}
-  await load();if(!S.fb&&openD.fb===undefined)openD.fb=true;teacher();panelOn=true;
+  await load();if(!S.fb&&openD.fb===undefined)openD.fb=true;teacher();panelOn=true;i18nInit({p:1},true);
   cloudPull(false).then(ch=>{if(ch)teacher()});
   setInterval(pollRes,60000);
 }
@@ -1052,11 +1275,144 @@ window.addEventListener("hashchange",()=>location.reload());
   const PL=[["FLAG",2,12,36],["🦅",92,16,46],["🎆",90,44,48],["🎇",3,64,44],["FLAG",93,72,34],["❤️",6,88,30],["🤍",86,88,34],["🕯️",2,40,30],["🎖️",94,58,36],["🏛️",8,26,34],["🎆",80,4,46],["🌹",96,30,34],["🎇",5,78,38]];
   const GH=["🪦","🎃","💀","🧟","🧙","🎃","👻","🦇","🕯️","🧛","🎃","🪦"],GP=["FLAG","🦅","🎆","🏛️","FLAG","🎖️","🕊️","🎇","FLAG"];
   const build=()=>{fx.innerHTML='';(th==='pl'?PL:th==='hw'?HW:[]).forEach((a,i)=>{const sp=document.createElement("span");sp.className="fl";if(a[0]==='FLAG')sp.innerHTML='<span class="flag"></span>';else sp.textContent=a[0];sp.style.cssText=`left:${a[1]}%;top:${a[2]}%;font-size:${a[3]}px;animation-delay:-${(i*.7)%4}s;animation-duration:${3.5+(i%3)}s`;fx.appendChild(sp)});
-    if(th!=='plain')[[12,17],[30,22],[22,26]].forEach((a,i)=>{const sp=document.createElement("span");sp.className="bat";sp.textContent=th==='pl'?'🕊️':'🦇';sp.style.cssText=`top:${a[0]}vh;animation-duration:${a[1]}s;animation-delay:-${i*7}s`;fx.appendChild(sp)});
+    if(th==='pl'||th==='hw')[[12,17],[30,22],[22,26]].forEach((a,i)=>{const sp=document.createElement("span");sp.className="bat";sp.textContent=th==='pl'?'🕊️':'🦇';sp.style.cssText=`top:${a[0]}vh;animation-duration:${a[1]}s;animation-delay:-${i*7}s`;fx.appendChild(sp)});
     $("#gr").innerHTML=(th==='pl'?GP:GH).map((m,i)=>`<span style="animation-delay:${i*.25}s">${m==='FLAG'?'<span class="flag"></span>':m}</span>`).join("")};
-  const apply=t=>{th=t;R.classList.remove('pl','plain');if(t==='pl')R.classList.add('pl');if(t==='plain')R.classList.add('plain');try{localStorage.setItem('luki_theme',t)}catch(e){}const g=$('#tg');if(g)g.textContent=t==='pl'?'🦅':t==='hw'?'🎃':'⚪';build()};
-  $("#tg").onclick=()=>apply(th==='pl'?'hw':th==='hw'?'plain':'pl');apply(th);
+  const THS=[["pl", "🦅", "Święto Niepodległości", "linear-gradient(135deg,#c8102e 50%,#fff 50%)"], ["hw", "🎃", "Halloween", "linear-gradient(135deg,#ff7a00,#5b21b6)"], ["wh", "⬜", "Biały", "linear-gradient(135deg,#fff 50%,#0a0a0a 50%)"], ["bk", "⬛", "Czarny", "linear-gradient(135deg,#000 50%,#fff 50%)"], ["ro", "🌸", "Róż", "linear-gradient(135deg,#ff4f93,#ffa0c6)"], ["oc", "🌊", "Ocean", "linear-gradient(135deg,#0b66c3,#19b6d9)"], ["mi", "🌿", "Mięta", "linear-gradient(135deg,#0f9a64,#6fdcae)"], ["fi", "🔮", "Fiolet", "linear-gradient(135deg,#7b3fe4,#d946ef)"], ["zl", "🌅", "Zachód", "linear-gradient(135deg,#ff6a2b,#ffb347)"], ["plain", "⚪", "Systemowy", "linear-gradient(135deg,#7858e8,#ff78ad)"]];
+  const NEW=['wh','bk','ro','oc','mi','fi','zl'];if(th!=='pl'&&th!=='hw'&&th!=='plain'&&!NEW.includes(th))th='pl';
+  const apply=t=>{th=t;R.classList.remove('pl','plain');R.removeAttribute('data-th');R.removeAttribute('data-theme');if(t==='pl')R.classList.add('pl');else if(t!=='hw'){R.classList.add('plain');if(t!=='plain'){R.setAttribute('data-th',t);R.setAttribute('data-theme','light')}}try{localStorage.setItem('luki_theme',t)}catch(e){}const g=$('#tg');if(g){g.textContent=(THS.find(x=>x[0]===t)||THS[0])[1];g.title='Motyw: '+(THS.find(x=>x[0]===t)||THS[0])[2]}build()};
+  const closeP=()=>{const p=document.getElementById('thp');if(p)p.remove()};
+  $("#tg").onclick=ev=>{ev.stopPropagation();if(document.getElementById('thp')){closeP();return}const p=document.createElement('div');p.className='thp';p.id='thp';p.innerHTML='<h4>🎨 Motyw</h4><div class="thg">'+THS.map(x=>`<button class="tho ${x[0]===th?'on':''}" data-th="${x[0]}"><span class="thc" style="background:${x[3]}">${x[1]}</span>${x[2]}</button>`).join('')+'</div>';document.body.appendChild(p);p.onclick=e2=>{e2.stopPropagation();const b=e2.target.closest('[data-th]');if(b){apply(b.dataset.th);p.querySelectorAll('.tho').forEach(z=>z.classList.toggle('on',z===b))}}};
+  document.addEventListener('click',closeP);apply(th);
+  window.__thGrid=()=>THS.map(x=>`<button class="tho ${x[0]===th?'on':''}" data-th="${x[0]}"><span class="thc" style="background:${x[3]}">${x[1]}</span>${x[2]}</button>`).join('');window.__applyTheme=apply;
   window.addEventListener('scroll',()=>{if(document.querySelector('.main #t,.main .dt'))window.__y=window.scrollY},{passive:true})})();
+/* ---------- TŁUMACZENIE STRONY UCZNIA (PL → EN) + reguły „wiele prób” ---------- */
+const I18_EX=[['Sprawdź ➜','Check ➜'],['Dalej ➜','Next ➜'],['Start ➜','Start ➜'],['Słówka','Vocabulary'],['Krzyżówka','Crossword'],['Zatwierdź ✔','Confirm ✔'],['Odpowiedz ➜','Answer ➜'],['Zakończ test 🏁','Finish test 🏁'],['Zobacz wynik 🏆','See result 🏆'],['Następna seria ➜','Next round ➜'],['Poziomo ➜','Across ➜'],['Pionowo ↓','Down ↓'],['Anuluj','Cancel'],['Podgląd','Preview'],['Ćwiczenie','Exercise'],['ćwiczenie','exercise'],['bez punktów','no points'],['wyłączone','off'],['Chwileczkę','One moment'],['✔ Świetnie!','✔ Great!'],['✔ Dobrze!','✔ Correct!'],['✘ Nie umiem','✘ Don\'t know'],['✔ Umiem','✔ I know it'],['Umiem','I know it']];
+const I18_SB=[
+['Uzupełnij luki i kliknij „Sprawdź”. Masz tylko jedną próbę!','Fill in the gaps and click “Check”. You have only one attempt!'],
+['Możesz sprawdzić odpowiedzi tylko jeden raz. Czy na pewno chcesz sprawdzić?','You can check your answers only once. Are you sure you want to check?'],
+['Kliknij słowo, a potem lukę, albo wpisz odpowiedź ręcznie. Włącz skreślanie, żeby ręcznie zaznaczać słowa, które już zrobiłeś (na komputerze działa też prawy przycisk myszy).','Click a word, then a gap, or type the answer yourself. Turn on strike-through to cross out words you have already used (on a computer the right mouse button works too).'],
+['Kliknij słowo, żeby wstawić je do luki. Skreślanie działa tak samo jak w banku.','Click a word to put it into a gap. Strike-through works just like in the word bank.'],
+['✏️ Skreślanie słów: ','✏️ Strike-through: '],['włączone, klikaj słowa','on, click words'],
+['Zielone luki są poprawne, czerwone błędne. To była jedyna próba.','Green gaps are correct, red ones are wrong. That was your only attempt.'],
+['Wynik został wysłany do nauczyciela automatycznie.','Your result was sent to the teacher automatically.'],['Wynik został wysłany do nauczyciela.','Your result was sent to the teacher.'],
+['Nie udało się wysłać wyniku automatycznie. Kliknij 🔑 w prawym dolnym rogu, skopiuj kod i wyślij go nauczycielowi.','The result could not be sent automatically. Click 🔑 in the bottom right corner, copy the code and send it to your teacher.'],
+['Wyślij nauczycielowi kod wyniku: kliknij 🔑 w prawym dolnym rogu.','Send the result code to your teacher: click 🔑 in the bottom right corner.'],
+['Kod wyniku (zapasowy). Zwykle niepotrzebny, bo wynik wysyła się sam.','Result code (backup). Usually not needed, because the result is sent automatically.'],
+['Wysyłam wynik do nauczyciela…','Sending your result to the teacher…'],['Sprawdzam…','Checking…'],['Ładuję ranking…','Loading ranking…'],['Ładowanie…','Loading…'],
+['Masz tylko jedną próbę. Im szybciej odpowiesz poprawnie, tym więcej punktów dostaniesz. Włącz dźwięk 🔊','You have only one attempt. The faster you answer correctly, the more points you get. Turn the sound on 🔊'],
+['Możesz próbować wiele razy. Im szybciej odpowiesz poprawnie, tym więcej punktów dostaniesz. Włącz dźwięk 🔊','You can try as many times as you like. The faster you answer correctly, the more points you get. Turn the sound on 🔊'],
+['Masz tylko jedną próbę. Wpisuj tłumaczenia bez podpowiedzi.','You have only one attempt. Type the translations without help.'],
+['Możesz próbować wiele razy.','You can try as many times as you like.'],
+['Wynik wyślesz na końcu. ','You will send the result at the end. '],
+['Dotknij elementu po lewej, potem pasującego po prawej (albo odwrotnie). Dotknięcie sparowanego elementu rozłącza parę.','Tap an item on the left, then the matching one on the right (or the other way round). Tapping a paired item un-pairs it.'],
+['Ten uczeń już rozwiązał ten quiz. To wynik z pierwszej próby, drugiej nie ma.','This student has already done this quiz. This is the result of the first attempt; there is no second one.'],
+['Ten uczeń już rozwiązał ten test. To wynik z pierwszej próby.','This student has already done this test. This is the result of the first attempt.'],
+['Ta osoba już rozwiązała tę krzyżówkę. To wynik z pierwszej próby.','This person has already solved this crossword. This is the result of the first attempt.'],
+['Ten quiz został już rozwiązany. Oto twój wynik.','This quiz has already been completed. Here is your result.'],['Ten test został już rozwiązany. Oto twój wynik.','This test has already been completed. Here is your result.'],['Ta krzyżówka została już rozwiązana. Oto twój wynik.','This crossword has already been solved. Here is your result.'],
+['Ta krzyżówka nie ma jeszcze układu.','This crossword has no layout yet.'],['Ten zestaw ma za mało słówek.','This set has too few words.'],
+['Ranking całej klasy pojawi się, gdy nauczyciel włączy bazę online. Na razie widzisz tylko swój wynik.','The whole-class ranking will appear when the teacher turns on the online database. For now you only see your own result.'],
+['Ranking odświeża się sam co 20 sekund.','The ranking refreshes itself every 20 seconds.'],['Naciśnij „Odśwież ranking”.','Press “Refresh ranking”.'],['Nie udało się wczytać rankingu klasy','Could not load the class ranking'],
+['Przesuń kartę w prawo (umiem) albo w lewo (nie umiem). Postęp zapisuje się na tym urządzeniu.','Swipe the card right (I know it) or left (I don’t). Progress is saved on this device.'],
+['dotknij, aby odwrócić','tap to flip'],['Zaczniesz od początku na tym urządzeniu.','You will start from the beginning on this device.'],['🔄 Zresetować postęp?','🔄 Reset progress?'],
+['Wpisuj litery w kratki. Gdy hasło jest pełne, zaświeci się na zielono (dobrze) albo na czerwono (źle) i możesz je poprawić.','Type letters into the cells. When a word is full it turns green (correct) or red (wrong) and you can fix it.'],
+['Możesz próbować wiele razy.','You can try as many times as you like.'],
+['Dotknij kratki, żeby zacząć','Tap a cell to start'],['poziomo ➜','across ➜'],['pionowo ↓','down ↓'],
+['Rozwiązane hasła: ','Solved words: '],['Po wysłaniu nie da się już poprawiać.','After submitting you can no longer change them.'],['✅ Zakończyć krzyżówkę?','✅ Finish the crossword?'],['Zakończ i wyślij','Finish and submit'],
+['Poprawnych odpowiedzi jest kilka','There are several correct answers'],['⏰ Czas minął i nie wpisałeś/aś odpowiedzi. To pytanie i tak jest bez punktów.','⏰ Time ran out and you did not write an answer. This question has no points anyway.'],['⏰ Czas minął!','⏰ Time’s up!'],
+['✍️ Odpowiedź zapisana. Za to pytanie nie ma punktów, ale nauczyciel ją przeczyta.','✍️ Answer saved. This question has no points, but the teacher will read it.'],['✍️ Pytanie bez punktów. Twoja odpowiedź nie jest oceniana automatycznie, przeczyta ją nauczyciel.','✍️ A question without points. Your answer is not graded automatically; the teacher will read it.'],
+['◐ Tylko część poprawnych odpowiedzi.','◐ Only some of the correct answers.'],['◐ Poprawne pary: ','◐ Correct pairs: '],['✘ Niestety źle.','✘ Unfortunately, wrong.'],['Poprawna odpowiedź: ','Correct answer: '],
+['(w tym bonus za szybkość +','(including speed bonus +'],['% punktów)','% of points)'],['Quiz: szybko i bez ściągania!','Quiz: fast and no cheating!'],['① Wybór A–D','① Multiple choice A–D'],
+['Świetnie! Teraz pisanie','Great! Now writing'],['Te same ','The same '],[' słówek, ale tym razem wpisujesz tłumaczenie.',' words, but this time you type the translation.'],
+['wybierz poprawne tłumaczenie','choose the correct translation'],['wpisz tłumaczenie','type the translation'],['Opanowane słówka: ','Words mastered: '],['Umiesz ','You know '],[', do powtórki ',', to review '],
+['To była ostatnia seria.','That was the last round.'],['To ostatnia seria!','This is the last round!'],['Zostało jeszcze ','Still to go: '],[' ukończona!',' complete!'],['Seria ','Round '],
+['🔄 Zacznij od nowa','🔄 Start over'],['↺ Zagraj jeszcze raz','↺ Play again'],['↻ Odśwież ranking','↻ Refresh ranking'],['📋 Kopiuj kod','📋 Copy code'],['✕ Zamknij','✕ Close'],
+['🧹 Wyczyść hasło','🧹 Clear word'],['💡 Podpowiedź (litera)','💡 Hint (letter)'],['🔀 Mieszaj','🔀 Shuffle'],['🧠 Ucz się','🧠 Learn'],['🧩 Hasła','🧩 Words'],
+['✅ Sprawdź (tylko raz)','✅ Check (once only)'],['✅ Sprawdź','✅ Check'],['✅ Zakończ','✅ Finish'],[' i wyślij',' and submit'],['Wyślij odpowiedź ➜','Send answer ➜'],
+['📚 Bank słów','📚 Word bank'],['🎨 Bank słów','🎨 Word bank'],['📚 Słowa','📚 Words'],['📌 Polecenie','📌 Instructions'],['🏆 Ranking','🏆 Ranking'],['🏆 Perfekcyjnie!','🏆 Perfect!'],['⭐ Twój wynik:','⭐ Your score:'],
+['Twoje imię i nazwisko','Your full name'],['np. Anna Kowalska','e.g. Anna Smith'],['Twoje odpowiedzi','Your answers'],['Twoja odpowiedź…','Your answer…'],['Wpisz odpowiedź…','Type your answer…'],['Wpisz tłumaczenie…','Type the translation…'],['Napisz swoją odpowiedź…','Write your answer…'],
+['Wynik: ','Score: '],[', wynik: ',', score: '],[', hasła: ',', words: '],[', zdobyłeś/aś ',', you scored '],['Pytanie ','Question '],['Słówko ','Word '],['Hasła ','Words '],
+[' haseł',' words'],[' słówek',' words'],[' pytań',' questions'],['⭐ do ','⭐ up to '],[' pkt',' pts'],[' dobrze',' correct'],[' źle',' wrong'],['(poprawnie: ','(correct: '],['(brak)','(none)'],['(brak odpowiedzi)','(no answer)'],
+['Poproś nauczyciela o nowy link.','Ask your teacher for a new link.'],['Ten link jest uszkodzony','This link is broken'],['Nie udało się wczytać ćwiczenia','Could not load the exercise'],['Otwórz link otrzymany od nauczyciela','Open the link you got from your teacher'],
+['Sprawdź internet i spróbuj ponownie. Jeśli to nie pomoże, poproś nauczyciela o nowy link.','Check your internet connection and try again. If that does not help, ask your teacher for a new link.'],
+['Ta strona to panel nauczyciela. Uczeń otwiera ćwiczenie przez swój link.','This page is the teacher panel. Students open an exercise through their own link.'],['Ćwiczenia z lukami','Gap-fill exercises'],
+['Kratka ','Cell '],['Wpisuj tłumaczenia bez podpowiedzi.','Type the translations without help.'],['Im szybciej odpowiesz poprawnie, tym więcej punktów dostaniesz. Włącz dźwięk 🔊','The faster you answer correctly, the more points you get. Turn the sound on 🔊'],['Uzupełnij luki i kliknij „Sprawdź”.','Fill in the gaps and click “Check”.'],['Sprawdź','Check'],['Resetuj','Reset']];
+const I18_PN=[['Panel nauczyciela','Teacher panel'],['Twórz ćwiczenia z lukami, generuj linki i sprawdzaj wyniki','Create gap-fill exercises, generate links and check results'],['📁 Eksplorator','📁 Explorer'],['Wszystkie','All'],['+ Nowy folder','+ New folder'],['📝 Luki','📝 Gaps'],['🎯 Quiz','🎯 Quiz'],['📚 Słówka','📚 Vocabulary'],['🧩 Krzyżówka','🧩 Crossword'],['⚙️ Baza online','⚙️ Online database'],
+['Daje krótkie linki i automatyczne wyniki uczniów. Wklej adres swojej bazy Firebase.','Gives short links and automatic student results. Paste your Firebase database address.'],['Ten sam adres bazy i ten sam kod wpisz na drugim urządzeniu (telefon, komputer), a zobaczysz tam ten sam panel.','Enter the same database address and code on another device (phone, computer) to see the same panel there.'],['Zapisz i połącz','Save and connect'],['↻ Pobierz z chmury','↻ Download from cloud'],['🔔 Powiadomienia e-mail','🔔 E-mail notifications'],['Gdy uczeń skończy ćwiczenie, dostaniesz e-mail (darmowy serwis Web3Forms).','When a student finishes an exercise you get an e-mail (free Web3Forms service).'],['Zapisz','Save'],['📨 Wyślij próbny e-mail','📨 Send test e-mail'],['🔔 W przeglądarce','🔔 In the browser'],['Po zapisaniu użyj „Zaktualizuj link” przy ćwiczeniach, bo klucz trafia do linku.','After saving, use “Update link” on your exercises, because the key goes into the link.'],
+['Wybierz ćwiczenie z listy albo dodaj nowe przyciskami po lewej. Foldery możesz zagnieżdżać i przeciągać do nich ćwiczenia.','Choose an exercise from the list or add a new one with the buttons on the left. Folders can be nested and you can drag exercises into them.'],['🔍 Szukaj ćwiczenia…','🔍 Search exercises…'],['Kod panelu (hasło), min. 6 znaków','Panel code (password), min. 6 characters'],['Klucz Web3Forms','Web3Forms key'],['✏️ Edycja','✏️ Edit'],['📊 Wyniki','📊 Results'],['Tytuł zestawu','Set title'],['Tytuł quizu','Quiz title'],['Tytuł krzyżówki','Crossword title'],['Tytuł','Title'],['Polecenie dla ucznia','Instructions for the student'],['Polecenie (opcjonalnie)','Instructions (optional)'],['Polecenie (widać na starcie)','Instructions (shown at start)'],['Folder','Folder'],['— brak —','— none —'],
+['🔒 Uczeń może rozwiązać tylko raz','🔒 Student can do it only once'],['Odznacz, a uczeń będzie mógł robić to ćwiczenie wiele razy (każda próba trafi do wyników). Po zmianie kliknij „Zaktualizuj link”.','Untick it and the student can do this exercise many times (every attempt goes to the results). After changing, click “Update link”.'],
+['Zdjęcia (opcjonalnie, pokażą się nad tekstem)','Images (optional, shown above the text)'],['Przeciągnij tu zdjęcie (np. z Google) albo wklej je skrótem Ctrl+V','Drag an image here (e.g. from Google) or paste it with Ctrl+V'],['🖼 Wybierz plik','🖼 Choose file'],['💬 Wyświetl tekst jako dialog (każda linia: Imię: tekst)','💬 Show text as a dialogue (each line: Name: text)'],['✂️ Zrób lukę z zaznaczenia','✂️ Make a gap from selection'],['↩ Cofnij ostatnią lukę','↩ Undo last gap'],['😁 Wstaw emotikonę','😁 Insert emoji'],['✅ Poprawne odpowiedzi','✅ Correct answers'],['Wpisz kilka poprawnych odpowiedzi oddzielając je znakiem |. Bank słów edytujesz osobno poniżej.','Enter several correct answers separated by |. The word bank is edited separately below.'],['🎨 Bank słów','🎨 Word bank'],['Pokaż bank słów uczniom','Show the word bank to students'],['↻ Wygeneruj z odpowiedzi','↻ Generate from answers'],
+['🔗 Generuj link','🔗 Generate link'],['🔄 Zaktualizuj link','🔄 Update link'],['🆕 Nowy link','🆕 New link'],['📄 Kopiuj ćwiczenie','📄 Copy exercise'],['👁 Podgląd pytania','👁 Preview question'],['👁 Podgląd','👁 Preview'],['Usuń tekst','Delete text'],['Usuń quiz','Delete quiz'],['Usuń pytanie','Delete question'],['Usuń krzyżówkę','Delete crossword'],['Usuń','Delete'],['Tworzy osobny, nowy link. Stary przestanie się zmieniać','Creates a separate new link. The old one will stop updating'],
+['Uczeń','Student'],['Dobrze','Correct'],['Źle','Wrong'],['Wynik','Score'],['Data','Date'],['Dodaj wynik ucznia','Add a student result'],['➕ Dodaj wynik','➕ Add result'],['Pokaż odpowiedzi ucznia','Show student answers'],['Brak wyników. Wklej kod wyniku od ucznia poniżej.','No results. Paste the student’s result code below.'],
+['⚙️ Wartości dla nowych pytań','⚙️ Defaults for new questions'],['Czas (s)','Time (s)'],['Punkty','Points'],['Bonus za szybkość (max)','Speed bonus (max)'],['🎵 Muzyka w quizie','🎵 Quiz music'],['🎃 Upiorna','🎃 Spooky'],['🦇 Nietoperze','🦇 Bats'],['🕯️ Spokojna','🕯️ Calm'],['⚡ Napięcie','⚡ Tension'],['🎉 Wesoła','🎉 Cheerful'],['🥁 Marsz','🥁 March'],['🔇 Brak','🔇 None'],['🎵 Wybierz plik','🎵 Choose file'],['▶ Posłuchaj','▶ Listen'],['⏹ Stop','⏹ Stop'],
+['Pytanie ','Question '],['Treść pytania','Question text'],['💬 Dialog do pytania (opcjonalnie)','💬 Dialogue for the question (optional)'],['🖼 Zdjęcie do pytania','🖼 Image for the question'],['Rodzaj pytania','Question type'],['🔘 Wybór odpowiedzi','🔘 Multiple choice'],['⌨️ Wpisz odpowiedź (oceniane)','⌨️ Type the answer (graded)'],['✍️ Odpowiedź własna (bez punktów)','✍️ Free answer (no points)'],['🔗 Dopasowywanie','🔗 Matching'],['Odpowiedzi. Zaznacz ✓ przy poprawnych','Answers. Tick ✓ the correct ones'],['+ Dodaj odpowiedź','+ Add answer'],['+ Dodaj parę','+ Add pair'],['+ Dodaj pytanie','+ Add question'],['+ Dodaj słówko','+ Add word'],['+ Dodaj hasło','+ Add word'],['Bonus za szybkość','Speed bonus'],['Odpowiedź ','Answer '],['poprawna','correct'],['Pasuje do','Matches'],['Lewa ','Left '],
+['📚 Słówka (angielski ↔ polski)','📚 Words (English ↔ Polish)'],['➕ Dodaj z listy','➕ Add from list'],['📇 Fiszki','📇 Flashcards'],['🧠 Ucz się','🧠 Learn'],['🇵🇱→🇬🇧 polski → angielski','🇵🇱→🇬🇧 Polish → English'],['🇬🇧→🇵🇱 angielski → polski','🇬🇧→🇵🇱 English → Polish'],['🔀 mieszane','🔀 mixed'],['wymieszaj fiszki','shuffle flashcards'],
+['🧩 Hasła: pytanie lub zdjęcie → odpowiedź','🧩 Words: question or image → answer'],['🖼 Tło krzyżówki (opcjonalnie)','🖼 Crossword background (optional)'],['🖼 Zdjęcie','🖼 Image'],['🧩 Układ (widok nauczyciela z literami)','🧩 Layout (teacher view with letters)'],['pozwól na podpowiedzi (litera)','allow hints (letter)'],['Wymiary: ','Size: '],['🔀 Mieszaj','🔀 Shuffle'],
+['Wybierz ćwiczenie','Choose an exercise'],['Pusto. Dodaj ćwiczenie poniżej.','Empty. Add an exercise below.'],[' luk',' gaps'],[' pytań',' questions'],[' słówek',' words'],[' haseł',' words'],['Wklej listę','Paste a list'],['Wklej tutaj tekst...','Paste the text here...'],['Wklej tutaj kod wyniku przesłany przez ucznia','Paste the result code sent by the student here'],['Motyw Halloween: włącz lub wyłącz','Halloween theme: on/off']];
+const I18_PN2=[['💬 Dialogi','💬 Dialogues'],['🔤 Zdania','🔤 Sentences'],['Nowy dialog','New dialogue'],['Uzupełnij dialog.','Complete the dialogue.'],['Układanie zdań','Sentence order'],['Ułóż słowa w odpowiedniej kolejności.','Put the words in the correct order.'],
+['Dialog: każda linia w formacie Imię: tekst. Zaznacz słowo i kliknij „Zrób lukę”','Dialogue: each line in the format Name: text. Select a word and click “Make a gap from selection”'],
+['🔤 Zdania do ułożenia','🔤 Sentences to arrange'],['Poprawne zdanie, np. I went to school yesterday.','Correct sentence, e.g. I went to school yesterday.'],['Podpowiedź dla ucznia (opcjonalnie), np. tłumaczenie po polsku','Hint for the student (optional), e.g. the Polish translation'],['+ Dodaj zdanie','+ Add sentence'],['Wklej listę (jedno zdanie w linii)','Paste a list (one sentence per line)'],['Usuń ćwiczenie','Delete exercise'],['Usunąć to ćwiczenie?','Delete this exercise?'],
+['Uczeń dostaje pomieszane słowa i układa je w kolejności (przeciąganie albo dotknięcie). Kropka, wykrzyknik lub znak zapytania na końcu zostaje na stałe. Kilka poprawnych wersji rozdziel znakiem | (np. I am fine.|I\'m fine.).','The student gets scrambled words and arranges them in order (dragging or tapping). A full stop, exclamation or question mark at the end stays fixed. Separate several correct versions with | (e.g. I am fine.|I\'m fine.).'],
+['Ułóż zdanie we właściwej kolejności','Put the sentence in the correct order'],['Przeciągnij albo dotknij słów poniżej…','Drag or tap the words below…'],['↺ Wyczyść','↺ Clear'],['To ćwiczenie nie ma jeszcze zdań.','This exercise has no sentences yet.'],['To ćwiczenie zostało już rozwiązane. Oto twój wynik.','This exercise has already been completed. Here is your result.'],['Ta osoba już rozwiązała to ćwiczenie. To wynik z pierwszej próby.','This person has already done this exercise. This is the result of the first attempt.'],
+['Masz tylko jedną próbę. Układaj słowa w odpowiedniej kolejności.','You have only one attempt. Arrange the words in the correct order.'],['Możesz próbować wiele razy. Układaj słowa w odpowiedniej kolejności.','You can try as many times as you like. Arrange the words in the correct order.'],['Poprawnie: ','Correct: '],['Zagraj jeszcze raz','Play again'],['Wejdź na https://web3forms.com, wpisz swój e-mail w „Create your Access Key”, klucz przyjdzie na maila. Wklej go powyżej.','Go to https://web3forms.com, enter your e-mail under “Create your Access Key”; the key will arrive by e-mail. Paste it above.'],
+['Po zapisaniu użyj „Zaktualizuj link” przy ćwiczeniach, bo klucz trafia do linku. „W przeglądarce” pokazuje też dymek, gdy masz otwarty panel.','After saving, use “Update link” on your exercises, because the key goes into the link. “In the browser” also shows a pop-up while the panel is open.'],
+['Tekst. Wpisz lub wklej, potem zaznacz słowo i kliknij „Zrób lukę”','Text. Type or paste it, then select a word and click “Make a gap from selection”'],['Luka jest zapisana jako','A gap is saved as'],['. Możesz też wpisać ją ręcznie, np.','. You can also type it by hand, e.g.'],['(kilka poprawnych odpowiedzi rozdziela znak |).','(separate several correct answers with |).'],
+['Słowa w banku, po przecinku. Możesz je dowolnie zmieniać, dopisywać i usuwać (np. gdy odpowiedź ma inny czas)','Words in the bank, comma-separated. You can freely change, add and remove them (e.g. when the answer is in a different tense)'],
+['Wklej tutaj tekst...','Paste the text here...'],['Uczeń po sprawdzeniu dostaje kod wyniku, który wysyła Ci (np. na komunikatorze lub mailem). Data i liczba dobrych/złych odpowiedzi są w kodzie.','After checking, the student gets a result code and sends it to you (e.g. by messenger or e-mail). The date and the number of correct/wrong answers are in the code.'],
+['Bonus: uczeń dostaje go proporcjonalnie do pozostałego czasu (odpowiedź w pierwszej sekundzie daje prawie cały bonus). Każde pytanie możesz potem zmienić osobno.','Bonus: the student gets it in proportion to the time left (answering in the first second gives almost the whole bonus). You can change each question separately later.'],
+['Przeciągnij tu własną muzykę (MP3, do 1,5 MB)','Drag your own music here (MP3, up to 1.5 MB)'],['Muzyka gra tylko w quizie, cicho w tle, a uczeń może ją wyłączyć przyciskiem 🔊. Własny plik wymaga bazy online, żeby trafić do ucznia.','Music plays only in the quiz, quietly in the background, and the student can turn it off with the 🔊 button. A custom file needs the online database to reach the student.'],
+['Każda linia w formacie Imię: tekst. Uczeń zobaczy dymki rozmowy.','Each line in the format Name: text. The student will see conversation bubbles.'],['🖼 Zdjęcie możesz też przeciągnąć z komputera na to pytanie albo na wybraną odpowiedź, albo wkleić (Ctrl+V) w polu pytania lub odpowiedzi.','🖼 You can also drag an image from your computer onto this question or onto a chosen answer, or paste it (Ctrl+V) in the question or answer field.'],
+['Poprawne odpowiedzi (kilka oddziel znakiem |). Każda z nich daje pełne punkty','Correct answers (separate several with |). Each of them gives full points'],['Pary: lewa strona ↔ pasująca prawa strona','Pairs: left side ↔ matching right side'],['Uczeń widzi prawą stronę w losowej kolejności. Punkty są proporcjonalne do liczby poprawnych par.','The student sees the right side in random order. Points are proportional to the number of correct pairs.'],
+['✍️ Uczeń wpisuje własną odpowiedź. Nie jest oceniana na punkty, a uczeń dostaje informację, że za to pytanie nie ma punktów. Jego odpowiedź zobaczysz w wynikach.','✍️ The student types their own answer. It is not graded and the student is told that this question has no points. You will see the answer in the results.'],
+['Dodaj zdjęcie do odpowiedzi','Add an image to the answer'],['Usuń zdjęcie','Remove image'],['Kilka znaczeń oddziel znakiem / albo ; (np. „dom / budynek”). Każde z nich uczeń może wpisać jako poprawne.','Separate several meanings with / or ; (e.g. “dom / budynek”). The student may type any of them as correct.'],
+['Wklej listę (jedno słówko w linii: angielski - polski albo angielski-polski)','Paste a list (one word per line: English - Polish or English-Polish)'],['Karty do przesuwania na telefonie. Uczeń zaznacza, które umie, a postęp zapisuje się na jego urządzeniu.','Cards to swipe on a phone. The student marks which ones they know, and progress is saved on their device.'],
+['Seria po kilka słówek: najpierw wybór A–D, potem te same słówka pisemnie. Potem kolejna seria.','Rounds of a few words: first multiple choice A–D, then the same words in writing. Then the next round.'],['Słówek w serii','Words per round'],['Uczeń pisze tłumaczenia wszystkich słówek, dostaje wynik, a ty widzisz go w zakładce Wyniki (jedna próba).','The student writes translations of all words and gets a score, and you see it in the Results tab (one attempt).'],['Usuń zestaw','Delete set'],
+['Wklej listę (jedno hasło w linii: pytanie - odpowiedź albo pytanie-odpowiedź)','Paste a list (one word per line: question - answer or question-answer)'],['Zdjęcie do hasła: kliknij 🖼, przeciągnij plik na hasło albo kliknij w pole hasła i wklej (Ctrl+V). Spacje i myślniki w odpowiedzi są pomijane w kratkach. Układ krzyżówki tworzy się sam.','Image for a word: click 🖼, drag a file onto the word, or click the word field and paste (Ctrl+V). Spaces and hyphens in the answer are skipped in the cells. The crossword layout is created automatically.'],
+['🖼 Wybierz zdjęcie','🖼 Choose image'],['🖼 Zmień zdjęcie','🖼 Change image'],['✕ Usuń tło','✕ Remove background'],['…albo przeciągnij zdjęcie tutaj lub kliknij to pole i wklej (Ctrl+V)','…or drag an image here, or click this field and paste (Ctrl+V)'],['„Mieszaj” losuje inny wzór. Wszyscy uczniowie z linku widzą ten sam układ. Zmiana odpowiedzi tworzy nowy układ.','“Shuffle” picks a different pattern. All students from the link see the same layout. Changing an answer creates a new layout.'],
+['Pytanie / podpowiedź','Question / clue'],['Odpowiedź (słowo lub fraza)','Answer (word or phrase)'],['Nowy quiz','New quiz'],['Nowe ćwiczenie','New exercise'],['Nowe słówka','New vocabulary'],['Nowa krzyżówka','New crossword'],['Bez tytułu','Untitled'],['Uzupełnij luki poprawną formą czasownika.','Fill in the gaps with the correct verb form.'],['Wybierz poprawną odpowiedź, zanim minie czas!','Choose the correct answer before time runs out!'],['🥁 Marsz','🥁 Marching drums'],
+['Słowa','Words'],['Wynik','Score'],['Szukaj','Search'],['Zapisz','Save'],['Zamknij','Close'],['Anuluj','Cancel'],['Usuń','Delete'],['Kopiuj','Copy'],['Zmień nazwę','Rename'],['Nowy folder','New folder'],['Nazwa folderu','Folder name'],['Wyniki','Results'],['Brak','None'],['Edytuj','Edit'],['Kopiuj link','Copy link'],['📋 Kopiuj link','📋 Copy link'],['Zapisuję…','Saving…']];
+const I18_PX=[[/^Zdanie (\d+)\/(\d+)$/,'Sentence $1/$2'],[/^(.*), zdania: (\d+) z (\d+) \((\d+)%\)$/,'$1, sentences: $2 of $3 ($4%)'],[/^🔤 (\d+) zdań$/,'🔤 $1 sentences'],[/^(\d+) zdań$/,'$1 sentences'],[/^✘ Niestety źle\. Poprawnie: (.*)$/,'✘ Unfortunately wrong. Correct: $1'],[/^(\d+) luk$/,'$1 gaps'],[/^(\d+) pytań$/,'$1 questions'],[/^(\d+) słówek$/,'$1 words'],[/^(\d+) haseł$/,'$1 words'],[/^📊 Wyniki \((\d+)\)$/,'📊 Results ($1)'],[/^Pytanie (\d+): (.*)$/,'Question $1: $2'],[/^✅ Poprawne odpowiedzi \((\d+) luk\)$/,'✅ Correct answers ($1 gaps)'],[/^Luka (\d+)$/,'Gap $1'],[/^Odpowiedź (\d+)$/,'Answer $1'],[/^Lewa (\d+)$/,'Left $1'],[/^Prawa (\d+)$/,'Right $1'],[/^Wymiary: (\d+×\d+), umieszczone hasła: (\d+\/\d+)$/,'Size: $1, placed words: $2'],[/^Nie udało się wpisać w układ: (.*)$/,'Could not fit into the layout: $1']];
+const I18_RX=[[/(\d+) z (\d+)/g,'$1 of $2']];
+const I18_MO=[['Masz tylko jedną próbę!','Możesz próbować wiele razy.'],['Masz tylko jedną próbę. ','Możesz próbować wiele razy. '],['Masz tylko jedną próbę.','Możesz próbować wiele razy.'],[' (tylko raz)',''],['To była jedyna próba.','Możesz spróbować ponownie.'],['Masz jedną próbę, ale możesz poprawiać litery do zakończenia.','Możesz próbować wiele razy.']];
+let __i18=null;
+function i18nInit(ex,panel){
+  if(__i18){if(ex&&ex.p&&__i18.setPrev)__i18.setPrev(true);return}
+  const showBtn=!!(panel||(ex&&ex.p));if(!showBtn&&!(ex&&ex.mo))return;
+  let lang='pl';if(showBtn){try{lang=localStorage.getItem('luki_lang')||'pl'}catch(e){}}
+  const store=new WeakMap(),SB=(panel?I18_SB.concat(I18_PN):I18_SB).slice().sort((a,b)=>b[0].length-a[0].length);
+  const mo=!!(ex&&ex.mo);
+  const rw=(t)=>{let r=t;if(mo)I18_MO.forEach(([a,b])=>{if(r.includes(a))r=r.split(a).join(b)});return r};
+  const EXM=new Map();[].concat(I18_EX,I18_SB,I18_PN,I18_PN2).forEach(([a,b])=>{if(!EXM.has(a))EXM.set(a,b)});let prevMode=false;
+  const tr=(t)=>{let r=rw(t);if(lang!=='en')return r;const tt=r.trim();if(!tt)return r;
+    if(EXM.has(tt))return r.replace(tt,EXM.get(tt));
+    for(const [a,b] of I18_PX){if(a.test(tt))return r.replace(tt,tt.replace(a,b))}
+    if(panel&&!prevMode){SB.forEach(([a,b])=>{if(a.length>=18&&r.includes(a))r=r.split(a).join(b)});return r}
+    SB.forEach(([a,b])=>{if(r.includes(a))r=r.split(a).join(b)});I18_RX.forEach(([a,b])=>{r=r.replace(a,b)});return r};
+  let busy=false;
+  const doNode=n=>{
+    if(n.nodeType===3){const p=n.parentNode;if(!p||/^(SCRIPT|STYLE|TEXTAREA)$/.test(p.nodeName)||(p.closest&&p.closest('[data-nt]')))return;
+      const rec=store.get(n);const cur=n.nodeValue;if(rec&&cur===rec.t)return;const base=cur;const t=tr(base);if(t!==base){store.set(n,{o:base,t:t});n.nodeValue=t}else if(rec)store.delete(n)}
+    else if(n.nodeType===1){if(/^(SCRIPT|STYLE)$/.test(n.nodeName)||n.hasAttribute('data-nt'))return;
+      ['placeholder','title','aria-label'].forEach(a=>{const v=n.getAttribute(a);if(!v)return;const key='__o_'+a,key2='__t_'+a;if(n[key2]!==undefined&&v===n[key2])return;const t=tr(v);if(t!==v){n[key]=v;n[key2]=t;n.setAttribute(a,t)}else{delete n[key];delete n[key2]}});
+      if(n.nodeName!=='TEXTAREA')n.childNodes.forEach(doNode)}};
+  const run=()=>{if(busy)return;busy=true;try{doNode(document.body)}finally{busy=false;obs.takeRecords()}};
+  const obs=new MutationObserver(()=>{if(!busy)requestAnimationFrame(run)});
+  const restore=()=>{busy=true;const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;const L=[];while(n=w.nextNode())L.push(n);
+    L.forEach(x=>{const r=store.get(x);if(r&&x.nodeValue===r.t){x.nodeValue=rw(r.o);}});
+    document.querySelectorAll('*').forEach(el=>['placeholder','title','aria-label'].forEach(a=>{const k='__o_'+a;if(el[k]!==undefined){el.setAttribute(a,el[k]);delete el[k];delete el['__t_'+a]}}));busy=false;obs.takeRecords()};
+  const btn=document.createElement('button');if(!showBtn)btn.style.display='none';btn.id='lng';btn.type='button';btn.setAttribute('data-nt','1');
+  const lab=()=>{btn.innerHTML='<span style="font-size:20px;line-height:1">🌐</span><b style="font-size:11px">'+(lang==='en'?'PL':'EN')+'</b>';btn.title=lang==='en'?'Polski':'English';document.documentElement.lang=lang};
+  btn.onclick=()=>{lang=lang==='en'?'pl':'en';try{localStorage.setItem('luki_lang',lang)}catch(e){}lab();if(lang==='en')run();else restore()};
+  lab();if(showBtn)document.body.appendChild(btn);
+  const cf0=window.confirm,al0=window.alert;window.confirm=s=>cf0.call(window,tr(String(s)));window.alert=s=>al0.call(window,tr(String(s)));
+  obs.observe(document.body,{childList:true,subtree:true,characterData:true});
+  __i18={panel:!!panel,run,setPrev(v){if(prevMode!==v){prevMode=v;if(lang==='en')requestAnimationFrame(()=>{restore();run()})}},off(){obs.disconnect();btn.remove();window.confirm=cf0;window.alert=al0;__i18=null}};requestAnimationFrame(run);
+}
+
+function addOnce(){const fo=document.getElementById('fo');if(!fo||document.getElementById('once'))return;const e=S.ex.find(x=>x.id===curE);if(!e)return;
+  fo.insertAdjacentHTML('afterend',`<label class="onc"><input type="checkbox" id="once" ${e.once===false?'':'checked'}><span><b>🔒 Uczeń może rozwiązać tylko raz</b><small>Odznacz, a uczeń będzie mógł robić to ćwiczenie wiele razy (każda próba trafi do wyników). Po zmianie kliknij „Zaktualizuj link”.</small></span></label>`);
+  document.getElementById('once').onchange=ev=>{e.once=ev.target.checked;save()}}
+(function(){const T=teacher;teacher=function(){if(__i18&&__i18.setPrev)__i18.setPrev(false);const r=T.apply(this,arguments);try{if(__i18&&!__i18.panel&&!document.getElementById('cwa')&&!document.querySelector('.qcard,#va,.fcw')&&document.querySelector('.main'))__i18.off()}catch(e){}try{addOnce()}catch(e){}return r}})();
+
 init();
 })();
 </script>
